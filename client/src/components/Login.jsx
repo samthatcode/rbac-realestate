@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
-import { UserContext } from '../UserContext';
-
+import { UserContext } from "../UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -14,6 +13,7 @@ const Login = () => {
   });
   const { email, password } = inputValue;
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // Added loading state
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -36,6 +36,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return; // Prevent multiple clicks while loading
+    setLoading(true); // Start loading state
+
     try {
       const { data } = await axios.post(
         "/api/login",
@@ -46,27 +49,28 @@ const Login = () => {
       );
 
       console.log(data);
-      const { success, message, data: { user } } = data;
+      const { success, message, data: user } = data;
 
       if (success) {
         handleSuccess(message);
         // Set the user in the context
         setUser(user);
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/products");
         }, 2000);
       } else {
         handleError(message);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // End loading state
+      setInputValue({
+        ...inputValue,
+        email: "",
+        password: "",
+      });
     }
-
-    setInputValue({
-      ...inputValue,
-      email: "",
-      password: "",
-    });
   };
 
   const togglePasswordVisibility = () => {
@@ -117,9 +121,14 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 mt-4 mb-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium"
+            className={
+              `w-full px-4 py-2 mt-4 mb-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }` // Disable button and show loading state
+            }
+            disabled={loading} // Disable button
           >
-            Log In
+            {loading ? "Logging in..." : "Log In"}
           </button>
           <span className="block text-center">
             Don't have an account?{" "}

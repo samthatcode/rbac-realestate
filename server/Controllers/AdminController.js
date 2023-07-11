@@ -1,5 +1,36 @@
 const User = require("../Models/UserModel");
 
+// Get list of users
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find().lean();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+// Assign role to a user
+exports.assignRole = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    // Update the user's role
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { role },
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
 
 module.exports.updateUserRole = async (req, res, role) => {
     try {

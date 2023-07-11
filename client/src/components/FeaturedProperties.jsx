@@ -13,7 +13,7 @@ const FeaturedProperties = () => {
       <div className="md:hidden">
         <Carousel showThumbs={false}>
           {properties.map((property, index) => (
-            <div key={index} className="rounded overflow-hidden shadow-xl">
+            <div key={index} className="rounded overflow-hidden shadow-xl hover:scale-90 transition-all">
               <img
                 className="w-full"
                 src={property.image}
@@ -40,7 +40,7 @@ const FeaturedProperties = () => {
       </div>
       <div className="hidden md:grid grid-cols-3 gap-4">
         {properties.map((property, index) => (
-          <div key={index} className="rounded overflow-hidden shadow-xl">
+          <div key={index} className="rounded overflow-hidden shadow-xl hover:scale-90 transition-all">
             <img className="w-full" src={property.image} alt={property.title} />
             <div className="px-6 py-2">
               <div className="text-darkteal font-bold text-xl mb-2">{property.title}</div>

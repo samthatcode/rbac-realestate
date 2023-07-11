@@ -43,12 +43,7 @@ module.exports.grantAccess = function (action, resource) {
 
 module.exports.Signup = async (req, res, next) => {
   try {
-    const { email, password, firstName, lastName, role, createdAt } = req.body;
-
-    // Validate the role
-    if (!["user", "marketer", "admin", "agent", "agency"].includes(role)) {
-      return res.status(400).json({ message: "Invalid role." });
-    }
+    const { email, password, firstName, lastName, createdAt } = req.body;
 
     // Validate input
     const errors = validationResult(req);
@@ -62,13 +57,13 @@ module.exports.Signup = async (req, res, next) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Create the new user
+    // Create the new user with the default role of "user"
     const user = await User.create({
       email,
       password,
       firstName,
       lastName,
-      role,
+      role: "user",
       createdAt
     });
 
@@ -81,10 +76,11 @@ module.exports.Signup = async (req, res, next) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
+
     res.status(201).json({
       message: "User signed up successfully",
       success: true,
-      data: { user },
+      data: user,
     });
   } catch (error) {
     console.error(error);
@@ -130,7 +126,7 @@ module.exports.Login = async (req, res, next) => {
     res.status(200).json({
       message: "User logged in successfully",
       success: true,
-      data: { user },
+      data: user,
     });
   } catch (error) {
     console.error(error);

@@ -10,7 +10,6 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -27,16 +26,15 @@ const Signup = () => {
           password,
           firstName,
           lastName,
-          role,
         },
         withCredentials: true,
       });
 
-      console.log(response.data);   
-      toast(`Hello ${response.data.data.user.firstName}`, {
+      console.log(response.data);
+      toast(`Hello ${response.data.data.firstName}`, {
         position: "top-right",
         autoClose: 2000,
-        onClose: () => navigate("/product"),
+        onClose: () => navigate("/dashboard"),
       });
     } catch (error) {
       console.error(error);
@@ -154,28 +152,13 @@ const Signup = () => {
               </p>
             )}
           </div>
-          <div className="mb-4">
-            <label htmlFor="role" className="block font-medium">
-              Role
-            </label>
-            <select
-              id="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full border border-gray-300 rounded-md py-2 px-3 cursor-pointer"
-              required
-            >
-              <option value="">Select role</option>
-              <option value="user">User</option>
-              <option value="marketer">Marketer</option>
-              <option value="admin">Admin</option>
-              <option value="agent">Agent</option>
-              <option value="agency">Agency</option>
-            </select>
-          </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 mt-4 mb-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            className={
+              `w-full px-4 py-2 mt-4 mb-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }` // Disable button and show loading state
+            }
             disabled={loading}
           >
             {loading ? "Signing up..." : "Sign Up"}
