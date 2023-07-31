@@ -1,26 +1,40 @@
 const Order = require('../Models/OrderModel');
 const Product = require('../Models/ProductModel');
 
+
 // Create a new order
 module.exports.createOrder = async (req, res, next) => {
     try {
-        const { userId, products } = req.body;
+        const { userId, products, shippingAddress, totalPrice } = req.body;
 
-        // Calculate total price
-        let totalPrice = 0;
-        for (let i = 0; i < products.length; i++) {
+         // Ensure all product IDs exist
+         for (let i = 0; i < products.length; i++) {
             const product = await Product.findById(products[i].productId);
             if (!product) {
                 return res.status(400).json({ error: `Product not found for ID: ${products[i].productId}` });
             }
-            totalPrice += product.price * products[i].quantity;
         }
 
+        // Calculate total price
+        // let totalPrice = 0;
+        // for (let i = 0; i < products.length; i++) {
+        //     const product = await Product.findById(products[i].productId);
+        //     if (!product) {
+        //         return res.status(400).json({ error: `Product not found for ID: ${products[i].productId}` });
+        //     }
+        //     totalPrice += product.price * products[i].quantity;
+        // }
+        // // Log the total price
+        // console.log(`Total Price: ${totalPrice}`);
+
         // Create the new order
-        const order = await Order.create({
+        const order = await Order.create({ 
             userId,
             products,
+            shippingAddress,
             totalPrice, // Add the calculated total price to the order
+            status: 'pending', // Set default status
+
         });
 
         res.status(201).json({
@@ -90,15 +104,23 @@ module.exports.updateOrder = async (req, res, next) => {
             return res.status(400).json({ error: 'Cannot update an order that has been shipped, delivered or cancelled' });
         }
 
-        // Calculate total price
-        let totalPrice = 0;
-        for (let i = 0; i < products.length; i++) {
+         // Ensure all product IDs exist
+         for (let i = 0; i < products.length; i++) {
             const product = await Product.findById(products[i].productId);
             if (!product) {
                 return res.status(400).json({ error: `Product not found for ID: ${products[i].productId}` });
             }
-            totalPrice += product.price * products[i].quantity;
         }
+
+        // Calculate total price
+        // let totalPrice = 0;
+        // for (let i = 0; i < products.length; i++) {
+        //     const product = await Product.findById(products[i].productId);
+        //     if (!product) {
+        //         return res.status(400).json({ error: `Product not found for ID: ${products[i].productId}` });
+        //     }
+        //     totalPrice += product.price * products[i].quantity;
+        // }
 
         const updatedOrder = await Order.findByIdAndUpdate(
             orderId,

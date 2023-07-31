@@ -31,6 +31,18 @@ const OrderSchema = new Schema({
         default: 'pending'
     },
     shippingAddress: {
+        name: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        },
+        phone: {
+            type: String,
+            required: true
+        },
         street: {
             type: String,
             required: true
@@ -40,7 +52,8 @@ const OrderSchema = new Schema({
             required: true
         },
         state: {
-            type: String
+            type: String,
+            required: true
         },
         country: {
             type: String,
@@ -55,6 +68,7 @@ const OrderSchema = new Schema({
         type: Number,
         required: true
     }
+
 });
 
 const Order = mongoose.model('Order', OrderSchema);

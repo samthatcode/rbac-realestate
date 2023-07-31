@@ -1,7 +1,9 @@
 const Referral = require('../Models/ReferralModel');
+const Marketer = require('../Models/MarketerModel');
+const Client = require('../Models/ClientModel');
 
 // Create a new referral
-exports.createReferral = async (req, res, next) => {
+module.exports.createReferral = async (req, res, next) => {
   try {
     const { referringMarketerId, referredClientId } = req.body;
 
@@ -33,9 +35,9 @@ exports.createReferral = async (req, res, next) => {
 };
 
 // Get referral information
-exports.getReferral = async (req, res, next) => {
+module.exports.getReferral = async (req, res, next) => {
   try {
-    const referralId = req.params.id;
+    const referralId = req.params.referralId;
     const referral = await Referral.findById(referralId)
       .populate('referringMarketer')
       .populate('referredClient');
@@ -52,7 +54,7 @@ exports.getReferral = async (req, res, next) => {
 };
 
 // Handle referral tracking
-exports.trackReferral = async (req, res, next) => {
+module.exports.trackReferral = async (req, res, next) => {
   try {
     const { referringMarketerId, referredClientId } = req.body;
 
@@ -72,4 +74,29 @@ exports.trackReferral = async (req, res, next) => {
   }
 };
 
-  
+// Get referral statistics
+module.exports.getReferralStats = async (req, res, next) => {
+  try {
+    // Find all referrals
+    const referrals = await Referral.find();
+
+    // Calculate the total number of referrals
+    const referralCount = referrals.length;
+
+    // Assume a fixed commission of \$10 per referral
+    const commissionPerReferral = 10;
+
+    // Calculate the total commission earned
+    const commissionEarned = referralCount * commissionPerReferral;
+
+    res.status(200).json({
+      data: {
+        referralCount,
+        commissionEarned
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};

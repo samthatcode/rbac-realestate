@@ -1,6 +1,38 @@
 const Event = require('../Models/EventModel');
 const Registration = require('../Models/RegistrationModel');
 
+// Create an event
+module.exports.createEvents = async (req, res, next) => {
+  try {
+    const event = await Event.create(req.body);
+
+    res.status(201).json({
+      message: 'Event created successfully',
+      data: event,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+
+// Get event details
+module.exports.getEventDetails = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const event = await Event.findById(id);
+
+    res.status(200).json({
+      data: event,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+
 // Get all events
 module.exports.getEvents = async (req, res, next) => {
   try {

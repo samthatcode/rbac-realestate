@@ -8,6 +8,18 @@ const UserManagement = () => {
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreatingUser, setIsCreatingUser] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+
+  const [newUser, setNewUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    role: "user",
+    // add other user details here
+  });
 
   useEffect(() => {
     fetchUsers();
@@ -15,11 +27,69 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("/api/admin/users");
-      setUsers(response.data);
+      const response = await axios.get("/api/users");
+      setUsers(response.data.data);
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch users");
+    }
+  };
+
+  const createUser = async () => {
+    setIsCreatingUser(true);
+    try {
+      const response = await axios.post("/api/signup", newUser);
+      const createdUser = response.data.data;
+      toast.success("User created successfully");
+      // Update the list of users by adding the created user to the existing list
+      setUsers([...users, createdUser]);
+    } catch (error) {
+      console.error("Failed to create user:", error);
+      toast.error("Failed to create user");
+    } finally {
+      setIsCreatingUser(false);
+      setNewUser({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      });
+    }
+  };
+
+  // When updating a user, fetch the full user object from the users array
+  const updateUser = async (id, updatedUser) => {
+    const userToUpdate = users.find((user) => user._id === id);
+    if (!userToUpdate) {
+      console.error("User not found:", id);
+      toast.error("User not found");
+      return;
+    }
+    try {
+      await axios.put(`/api/users/${id}`, updatedUser);
+      fetchUsers();
+      toast.success("User updated successfully");
+    } catch (error) {
+      console.error("Failed to update user:", error);
+      toast.error("Failed to update user");
+    }
+  };
+
+  const openModal = (user) => {
+    setEditingUser(user);
+    setIsModalOpen(true);
+  };
+
+  const deleteUser = async (id) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await axios.delete(`/api/users/${id}`);
+        fetchUsers();
+        toast.success("User deleted successfully");
+      } catch (error) {
+        console.error("Failed to delete user:", error);
+        toast.error("Failed to delete user");
+      }
     }
   };
 
@@ -28,37 +98,120 @@ const UserManagement = () => {
       toast.error("Please select a user and a role");
       return;
     }
-
     setLoading(true);
-
     try {
       const response = await axios.put(
-        `/api/admin/users/${selectedUser}/assign-role`,
+        `/api/users/${selectedUser}/assign-role`,
         {
           role: selectedRole,
         }
       );
-
       if (response.status === 200) {
         toast.success("Role assigned successfully");
-        // Update the UI, if needed, based on the response data
-        // For example, you can update the user's role in the local state or re-fetch the users list
-        // ...
-      } else {
-        toast.error("Failed to assign role");
+        // Update the user's role in the local state
+        const updatedUsers = users.map((user) =>
+          user._id === selectedUser ? { ...user, role: selectedRole } : user
+        );
+        setUsers(updatedUsers);
       }
-      // You can update the UI accordingly if needed
     } catch (error) {
       console.error(error);
       toast.error("Failed to assign role");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">User Management</h1>
+    <div className="container mx-auto p-4 bg-slate-100">
+      <h2 className="text-2xl font-semibold my-4">User Management</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          createUser();
+        }}
+        className="mb-4 flex flex-wrap"
+      >
+        <input
+          required
+          type="text"
+          placeholder="First name"
+          value={newUser.firstName}
+          onChange={(e) =>
+            setNewUser({ ...newUser, firstName: e.target.value })
+          }
+          className="border p-2 mb-2 w-full md:w-auto rounded-md capitalize"
+        />
+        <input
+          required
+          type="text"
+          placeholder="Last name"
+          value={newUser.lastName}
+          onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
+          className="border p-2 mb-2 w-full md:w-auto rounded-md capitalize"
+        />
+        <input
+          required
+          type="email"
+          placeholder="Email"
+          value={newUser.email}
+          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+          className="border p-2 mb-2 w-full md:w-auto rounded-md"
+        />
+        <input
+          required
+          type="password"
+          placeholder="Password"
+          value={newUser.password}
+          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+          className="border p-2 mb-2 w-full md:w-auto rounded-md"
+        />
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 font-bold text-white p-2 rounded-md ml-auto"
+          disabled={isCreatingUser}
+        >
+          {isCreatingUser ? "Creating User..." : "Create User"}
+        </button>
+      </form>
+
+      <table className="table-auto w-full mb-4">
+        <thead>
+          <tr className="text-teal">
+            <th className="border px-4 py-2">S/N</th>
+            <th className="border px-4 py-2">Name</th>
+            <th className="border px-4 py-2">Email</th>
+            <th className="border px-4 py-2">Roles</th>
+            <th className="border px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, index) => (
+            <tr key={user._id}>
+              <td className="border px-4 py-2">{index + 1}</td>
+              <td className="border px-4 py-2">
+                {user.firstName} {user.lastName}
+              </td>
+              <td className="border px-4 py-2">{user.email}</td>
+              <td className="border px-4 py-2">{user.role}</td>
+              <td className="border px-4 py-2 flex justify-between">
+                <button
+                  onClick={() => openModal(user)}
+                  className="text-blue-500 hover:text-blue-700 font-bold bg-slate-200 px-2 py-1 rounded-md"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => deleteUser(user._id)}
+                  className="text-red-500 hover:text-red-600 font-bold bg-slate-200 px-2 py-1 rounded-md"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       <div className="flex flex-col mb-4">
         <label htmlFor="user" className="font-medium mb-2">
@@ -71,7 +224,7 @@ const UserManagement = () => {
           onChange={(e) => setSelectedUser(e.target.value)}
         >
           <option value="">Select User</option>
-          {users.map((user) => (
+          {users.map((user, index) => (
             <option key={user._id} value={user._id}>
               {user.firstName} {user.lastName}
             </option>
@@ -98,12 +251,130 @@ const UserManagement = () => {
       </div>
 
       <button
-        className="bg-blue-500 text-white py-2 px-4 rounded-md"
+        className={`p-2 py-2 px-4 rounded-md ${
+          loading ? "bg-gray-500" : "bg-green-500"
+        } text-white`}
         onClick={assignRole}
         disabled={!selectedUser || !selectedRole || loading}
       >
         {loading ? "Assigning Role..." : "Assign Role"}
       </button>
+
+      {isModalOpen && (
+        <div className="fixed z-10 inset-0 overflow-y-auto">
+          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div className="fixed inset-0 transition-opacity">
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  updateUser(editingUser._id, editingUser);
+                  setIsModalOpen(false);
+                }}
+                className="bg-slate-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4"
+              >
+                <div className="sm:flex sm:items-start">
+                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                    <h3
+                      className="text-lg leading-6 font-medium text-teal"
+                      id="modal-title"
+                    >
+                      Edit User
+                    </h3>
+                    <div className="mt-2">{/* Your form inputs */}</div>
+                  </div>
+                </div>
+                <label htmlFor="firstName" className="block mb-2">
+                  First Name:
+                  <input
+                    type="text"
+                    id="firstName"
+                    placeholder="First name"
+                    value={editingUser.firstName}
+                    onChange={(e) =>
+                      setEditingUser({
+                        ...editingUser,
+                        firstName: e.target.value,
+                      })
+                    }
+                    className="border p-2 w-full"
+                  />
+                </label>
+                <label htmlFor="lastName" className="block mb-2">
+                  Last Name:
+                  <input
+                    type="text"
+                    id="lastName"
+                    placeholder="Last name"
+                    value={editingUser.lastName}
+                    onChange={(e) =>
+                      setEditingUser({
+                        ...editingUser,
+                        lastName: e.target.value,
+                      })
+                    }
+                    className="border p-2 w-full"
+                  />
+                </label>
+                <label htmlFor="email" className="block mb-2">
+                  Email:
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="Email"
+                    value={editingUser.email}
+                    onChange={(e) =>
+                      setEditingUser({
+                        ...editingUser,
+                        email: e.target.value,
+                      })
+                    }
+                    className="border p-2 w-full"
+                  />
+                </label>
+                <label htmlFor="password" className="block mb-2">
+                  Password:
+                  <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    value={editingUser.password}
+                    onChange={(e) =>
+                      setEditingUser({
+                        ...editingUser,
+                        password: e.target.value,
+                      })
+                    }
+                    className="border p-2 w-full"
+                  />
+                </label>
+
+                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                  <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                    >
+                      Save
+                    </button>
+                  </span>
+                  <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+                    <button
+                      onClick={() => setIsModalOpen(false)}
+                      type="button"
+                      className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                    >
+                      Cancel
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

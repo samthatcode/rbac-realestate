@@ -8,7 +8,7 @@ const {
 } = require('../Controllers/ClientController');
 
 // Create a new client
-router.post('/clients', createClient);
+router.post('/clients/signup', createClient);
 
 // Get client information
 router.get('/clients/:id', getClient);

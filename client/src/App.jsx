@@ -1,57 +1,103 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ToastContainer } from "react-toastify";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import {
   AdminDashboard,
-  CategoryPage,
   UserDashboard,
   MarketerDashboard,
-  OrderPage,
   ProductPage,
-  ProductDetailsPage,
+  ProductDetails,
+  CartListPage,
   UsersPage,
+  CheckoutPage,
+  ConfirmationPage,
+  PaymentForm,
 } from "./pages";
 
-import { Navbar, Login, Signup, Home, CartListPage } from "./components";
+import {
+  Navbar,
+  Login,
+  Signup,
+  Home,
+  ProductForm,
+  UserManagement,
+  ProductManagement,
+  CategoryManagement,
+  RoleManagement,
+  EmailVerification,
+  MarketerRegister,
+  MarketerLogin,
+  ClientSignup,
+} from "./components";
 import { UserProvider } from "./UserContext";
 import { CartProvider } from "./CartContext";
+import { MarketerProvider } from "./MarketerContext";
+import { ReferralProvider } from "./ReferralsContext";
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate("/dashboard");
-  //   } else {
-  //     navigate("/signup");
-  //   }
-  // }, [user, navigate]);mongodb://localhost:27017/rbac-realestate
-
   return (
     <UserProvider>
-      <CartProvider>
-        <div>
-          <ToastContainer />
-          <Navbar />
-          <div className="content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/cart" element={<CartListPage />} />
-              <Route path="/products" element={<ProductPage />} />
-              <Route path="/products/:id" element={<ProductDetailsPage />} />
-              <Route path="/order" element={<OrderPage />} />
-              <Route path="/users" element={<UsersPage />} />
-              <Route path="/marketer" element={<MarketerDashboard />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/dashboard" element={<UserDashboard />} />
-              <Route path="/order" element={<CategoryPage />} />
-            </Routes>
-          </div>
-        </div>
-      </CartProvider>
+      <MarketerProvider>
+        <ReferralProvider>
+          <CartProvider>
+            <div>
+              <ToastContainer />
+              <Navbar />
+              <div className="content">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/cart" element={<CartListPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/paymentform" element={<PaymentForm />} />
+                  <Route path="/confirmation" element={<ConfirmationPage />} />
+                  <Route path="/productform" element={<ProductForm />} />
+                  <Route path="/products" element={<ProductPage />} />
+                  <Route path="/products/:id" element={<ProductDetails />} />
+                  <Route path="/users" element={<UsersPage />} />
+                  <Route path="/manageusers" element={<UserManagement />} />
+                  <Route
+                    path="/manageproducts"
+                    element={<ProductManagement />}
+                  />
+                  <Route
+                    path="/managecategories"
+                    element={<CategoryManagement />}
+                  />
+                  <Route path="/manageroles" element={<RoleManagement />} />
+                  {/* Marketer */}
+                  <Route
+                    path="/marketerdashboard/:marketerId"
+                    element={<MarketerDashboard />}
+                  />
+                  <Route
+                    path="/marketer/signup"
+                    element={<MarketerRegister />}
+                  />
+                  <Route path="/marketer/login" element={<MarketerLogin />} />
+                  {/* Client */}
+                  <Route path="/signup" element={<ClientSignup />} />
+
+
+                  <Route path="/userdashboard" element={<UserDashboard />} />
+
+                  <Route path="/admindashboard" element={<AdminDashboard />} />
+                  <Route path="/create-event" element={<AdminDashboard />} />
+                  <Route path="/eventdetails" element={<AdminDashboard />} />
+                  <Route path="/eventlist" element={<AdminDashboard />} />
+
+                  <Route
+                    path="/verify-email/:token"
+                    element={<EmailVerification />}
+                  />
+                  {/* <Route path="/verify-code" component={CodeVerification} /> */}
+                </Routes>
+              </div>
+            </div>
+          </CartProvider>
+        </ReferralProvider>
+      </MarketerProvider>
     </UserProvider>
   );
 };

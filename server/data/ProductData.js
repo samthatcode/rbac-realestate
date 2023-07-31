@@ -1,7 +1,8 @@
 const products = [
     {
-        id: 1,
+
         name: "House 1",
+        category: "Houses",
         image: "https://images.unsplash.com/photo-1635108201747-976f7d4ba453?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         description: "Modern house with a beautiful garden",
         price: 299000,
@@ -17,8 +18,9 @@ const products = [
         ,
     },
     {
-        id: 2,
+
         name: "House 2",
+        category: "Houses",
         image: "https://images.unsplash.com/photo-1635108201747-976f7d4ba453?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         description: "Cozy cottage with a scenic view",
         price: 189000,
@@ -34,8 +36,9 @@ const products = [
         ,
     },
     {
-        id: 3,
+
         name: "House 3",
+        category: "Houses",
         image: "https://images.unsplash.com/photo-1635108201747-976f7d4ba453?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         description: "Spacious house with a swimming pool",
         price: 425000,
@@ -51,8 +54,9 @@ const products = [
         ,
     },
     {
-        id: 4,
+
         name: "Land 1",
+        category: "Lands",
         image: "https://images.unsplash.com/photo-1635108201747-976f7d4ba453?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         description: "Vast land for sale",
         price: 125000,
@@ -68,8 +72,9 @@ const products = [
         ,
     },
     {
-        id: 5,
+
         name: "Land 2",
+        category: "Lands",
         image: "https://images.unsplash.com/photo-1635108201747-976f7d4ba453?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         description: "Scenic land near the mountains",
         price: 95000,
@@ -85,8 +90,9 @@ const products = [
         ,
     },
     {
-        id: 6,
-        name: "House 1",
+
+        name: "House 4",
+        category: "Houses",
         image: "https://images.unsplash.com/photo-1635108201747-976f7d4ba453?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         description: "Modern house with a beautiful garden",
         price: 299000,
@@ -102,8 +108,9 @@ const products = [
         ,
     },
     {
-        id: 7,
-        name: "House 2",
+
+        name: "House 5",
+        category: "Houses",
         image: "https://images.unsplash.com/photo-1635108201747-976f7d4ba453?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         description: "Cozy cottage with a scenic view",
         price: 189000,
@@ -119,8 +126,9 @@ const products = [
         ,
     },
     {
-        id: 8,
-        name: "House 3",
+
+        name: "House 6",
+        category: "Houses",
         image: "https://images.unsplash.com/photo-1635108201747-976f7d4ba453?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         description: "Spacious house with a swimming pool",
         price: 425000,
@@ -136,8 +144,9 @@ const products = [
         ,
     },
     {
-        id: 9,
-        name: "Land 1",
+
+        name: "Land 3",
+        category: "Lands",
         image: "https://images.unsplash.com/photo-1635108201747-976f7d4ba453?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         description: "Vast land for sale",
         price: 125000,
@@ -155,4 +164,4 @@ const products = [
 
 ];
 
-export default products;
+module.exports = products;

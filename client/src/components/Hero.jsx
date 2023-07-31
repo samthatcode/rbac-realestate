@@ -28,7 +28,7 @@ const Hero = () => {
                 {/* Add your call-to-action buttons here */}
                 <div className="flex space-x-4 mt-4 md:mt-0 z-20">
                   <Link to="/users" className="px-4 py-2 bg-blue-500 text-white rounded">Buyer</Link>
-                  <Link to="/marketer" className="px-4 py-2 bg-green-500 text-white rounded">Marketer</Link>
+                  <Link to="/marketer/signup" className="px-4 py-2 bg-green-500 text-white rounded">Marketer</Link>
                   <Link to="/login" className="px-4 py-2 bg-red-500 text-white rounded">Login/Register</Link>
                 </div>
               </div>

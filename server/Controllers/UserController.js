@@ -3,9 +3,26 @@ const User = require('../Models/UserModel');
 const { createSecretToken } = require("../util/SecretToken");
 const tokenBlacklist = new Set(); // Create the token blacklist set
 const bcrypt = require('bcryptjs');
+const Token = require('../Models/TokenModel');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const { roles } = require('../roles');
 const ac = require('../roles').roles;
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    type: 'OAuth2',
+    user: process.env.EMAIL_VERIFY,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN,
+    accessToken: process.env.ACCESS_TOKEN
+  }
+});
 
 
 module.exports.grantAccess = function (action, resource) {
@@ -43,7 +60,19 @@ module.exports.grantAccess = function (action, resource) {
 
 module.exports.Signup = async (req, res, next) => {
   try {
-    const { email, password, firstName, lastName, createdAt } = req.body;
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      phoneNumber,
+      address,
+      stateProvince,
+      country,
+      profession,
+      discoverySource,
+      referral: referral_id,
+      createdAt } = req.body;
 
     // Validate input
     const errors = validationResult(req);
@@ -63,8 +92,45 @@ module.exports.Signup = async (req, res, next) => {
       password,
       firstName,
       lastName,
+      phoneNumber,
+      address,
+      stateProvince,
+      country,
+      profession,
+      discoverySource,
+      referral_id,
       role: "user",
       createdAt
+    });
+
+    // Create the verification token
+    const verificationToken = new Token({
+      _userId: user._id,
+      token: crypto.randomBytes(16).toString('hex')
+    });
+
+    // Save the verification token
+    await verificationToken.save();
+    console.log(verificationToken);
+
+
+    // Send the verification email
+    const verificationLink = `http://${req.headers.host}/api/verify-email?token=${verificationToken.token}`;
+    transporter.sendMail({
+      from: process.env.EMAIL_VERIFY,
+      to: email,
+      subject: "Account Verification",
+      text: `Click the link to verify your account: ${verificationLink}`,
+      html: `<div>
+              <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, corrupti.</p>
+              <a href=${verificationLink}>Click here to activate your account</a>         
+        </div>` // mail body
+    }, (error, info) => {
+      if (error) {
+        console.log('Error occurred while sending email:', error);
+      } else {
+        console.log('Email sent successfully:', info.response);
+      }
     });
 
     const token = createSecretToken(user._id);
@@ -80,7 +146,13 @@ module.exports.Signup = async (req, res, next) => {
     res.status(201).json({
       message: "User signed up successfully",
       success: true,
-      data: user,
+      data: { // only send necessary data
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     console.error(error);
@@ -102,7 +174,7 @@ module.exports.Login = async (req, res, next) => {
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Incorrect password or email" });
+      return res.status(400).json({ message: "Incorrect email" });
     }
 
     // Validate the password
@@ -180,13 +252,6 @@ module.exports.updateUser = async (req, res, next) => {
   try {
     const updates = req.body;
     const userId = req.params.userId;
-
-    // Check if the user is trying to update the role
-    if (updates.role && !roles[req.user.role].canAssign(updates.role)) {
-      return res.status(401).json({
-        error: "You don't have permission to assign this role"
-      });
-    }
 
     // Update the user
     await User.findByIdAndUpdate(userId, updates);

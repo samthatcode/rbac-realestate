@@ -1,21 +1,23 @@
 const Client = require('../Models/ClientModel');
+const Marketer = require('../Models/MarketerModel');
+
 
 // Create a new client
 module.exports.createClient = async (req, res, next) => {
   try {
-    const { name, email, associatedMarketerId, referralCode } = req.body;
+    const { name, email, referralLink } = req.body;
 
-    // Check if the referral code is unique before creating the client
-    const existingClient = await Client.findOne({ referralCode });
-    if (existingClient) {
-      return res.status(400).json({ error: 'Referral code already exists' });
+    // Find the marketer who has this referral link
+    const associatedMarketer = await Marketer.findOne({ referralLink });
+
+    if (!associatedMarketer) {
+      return res.status(404).json({ error: 'Referral link not found' });
     }
 
     const client = await Client.create({
       name,
       email,
-      associatedMarketer: associatedMarketerId,
-      referralCode
+      associatedMarketer: associatedMarketer._id,
     });
 
     res.status(201).json({
@@ -28,10 +30,11 @@ module.exports.createClient = async (req, res, next) => {
   }
 };
 
+
 // Get client information
 module.exports.getClient = async (req, res, next) => {
   try {
-    const clientId = req.params.id;
+    const clientId = req.params.clientId;
     const client = await Client.findById(clientId);
 
     if (!client) {
@@ -48,7 +51,7 @@ module.exports.getClient = async (req, res, next) => {
 // Update client details
 module.exports.updateClient = async (req, res, next) => {
   try {
-    const clientId = req.params.id;
+    const clientId = req.params.clientId;
     const { name, email } = req.body;
 
     const updatedClient = await Client.findByIdAndUpdate(

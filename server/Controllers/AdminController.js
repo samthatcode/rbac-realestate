@@ -1,4 +1,60 @@
-const User = require("../Models/UserModel");
+const { validationResult } = require('express-validator');
+const User = require('../Models/UserModel');
+const { createSecretToken } = require("../util/SecretToken");
+
+module.exports.CreateAdmin = async (req, res, next) => {
+  // Only proceed if the user is an admin
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: "Only admins can create other admins" });
+  }
+
+  try {
+    const { email, password, firstName, lastName, createdAt } = req.body;
+
+    // Validate input
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    // Create the new user with the role of "admin"
+    const user = await User.create({
+      email,
+      password,
+      firstName,
+      lastName,
+      role: "admin",
+      createdAt
+    });
+
+    const token = createSecretToken(user._id);
+    console.log("Generated Token:", token); // Log the generated token
+
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    res.status(201).json({
+      message: "Admin user created successfully",
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error); // Pass the error to the error-handling middleware
+  }
+};
+
+
 
 // Get list of users
 exports.getUsers = async (req, res, next) => {

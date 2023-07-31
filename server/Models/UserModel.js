@@ -22,6 +22,30 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "Your last name is required"],
   },
+  phoneNumber: {
+    type: Number,
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
+  },
+  stateProvince: {
+    type: String,
+    required: true
+  },
+  country: {
+    type: String,
+    required: true
+  },
+  profession: {
+    type: String,
+    required: true
+  },
+  discoverySource: {
+    type: String,
+    required: true
+  },
   profilePicture: {
     type: String,
     default: "", // default value can be a URL to a default profile picture
@@ -45,9 +69,16 @@ const UserSchema = new Schema({
   role: {
     type: String,
     default: 'user',
-    enum: ["admin", "marketer", "user", "agent", "agency"]
+    enum: ["admin", "marketer", "user", "client"]
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
   },
   token: {
+    type: String
+  },
+  referral_id: {
     type: String
   }
 });

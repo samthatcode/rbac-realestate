@@ -16,11 +16,6 @@ const ClientSchema = new Schema({
     ref: 'Marketer',
     required: true
   },
-  referralCode: {
-    type: String,
-    required: true,
-    unique: true
-  },
   // Other fields as needed
 });
 

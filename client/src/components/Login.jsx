@@ -55,9 +55,15 @@ const Login = () => {
         handleSuccess(message);
         // Set the user in the context
         setUser(user);
-        setTimeout(() => {
-          navigate("/products");
-        }, 2000);
+        if (user.role === "admin") {
+          setTimeout(() => {
+            navigate("/admindashboard");
+          }, 2000); // Navigate to the 'AdminDashboard' component if the user is an admin
+        } else {
+          setTimeout(() => {
+            navigate("/products");
+          }, 2000); // Navigate to the 'ProductsPage' component if the user is not an admin
+        }
       } else {
         handleError(message);
       }

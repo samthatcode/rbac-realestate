@@ -25,13 +25,13 @@ router.post('/login', Login);
 router.post('/logout', Logout);
 
 // authRoute
-router.get('/user/:userId', verifyTokenAndUser, allowIfLoggedin, grantAccess('readOwn', 'profile'), getUserById);
+router.get('/users/:userId', verifyTokenAndUser, allowIfLoggedin, grantAccess('readOwn', 'profile'), getUserById);
 
-router.get('/user', verifyTokenAndUser, allowIfLoggedin, grantAccess('readAny', 'profile'), getUsers);
+router.get('/users', verifyTokenAndUser, allowIfLoggedin, grantAccess('readAny', 'profile'), getUsers);
 
-router.put('/user/:userId', verifyTokenAndUser, allowIfLoggedin, grantAccess('updateAny', 'profile'), updateUser);
+router.put('/users/:userId', verifyTokenAndUser, allowIfLoggedin, grantAccess('updateAny', 'profile'), updateUser);
 
-router.delete('/user/:userId', verifyTokenAndUser, allowIfLoggedin, grantAccess('deleteAny', 'profile'), deleteUser);
+router.delete('/users/:userId', verifyTokenAndUser, allowIfLoggedin, grantAccess('deleteAny', 'profile'), deleteUser);
 
 // router.put('/user/:userId/profile', verifyTokenAndUser, allowIfLoggedin, grantAccess('updateOwn', 'profile'), updateUser);
 
