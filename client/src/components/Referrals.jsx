@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ReferralContext } from "../ReferralsContext";
-import { useParams } from "react-router-dom";
 
-const Referrals = () => {
+const Referrals = ({ referralId }) => {
   const [referralData, setReferralData] = useContext(ReferralContext);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { referral } = useParams();
 
-   const referringMarketerId = referral; // Use the referral parameter directly
+  const referringMarketerId = referralId;
 
   if (!referringMarketerId) {
     console.log("No referring marketer id found in the URL");

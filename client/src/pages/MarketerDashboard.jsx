@@ -98,7 +98,6 @@ const MarketerDashboard = () => {
                 Referrals
               </Link>
             )}
-
             <Link
               to="/stats"
               className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
@@ -140,9 +139,8 @@ const MarketerDashboard = () => {
           </button>
         </header>
       </div>
-      {/* <RegistrationForm /> */}
-      <Referrals />
-      <ReferralStats />
+      {/* <RegistrationForm /> */}     
+      {referralId && <Referrals referralId={referralId} />}
       <Footer />
     </div>
   );
