@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const { verifyEmail, verifyCode } = require('../Controllers/VerifyEmailController');
+const { verifyUserEmail, verifyMarketerEmail, verifyCode } = require('../Controllers/VerifyEmailController');
+const { forgotPassword, resetPassword } = require('../Controllers/UserController');
 
 const {
     allowIfAdmin,
@@ -9,7 +10,11 @@ const {
     allowIfLoggedin
 } = require("../Middlewares/AuthMiddleware");
 
-router.get('/verify-email', verifyEmail);
-router.post('/verify-code', verifyTokenAndUser, verifyCode);
+router.get('/verify-user-email-token', verifyUserEmail);
+router.get('/verify-marketer-email-token', verifyMarketerEmail);
+
+router.post('/forgot-password', forgotPassword);
+router.post('/reset/:resetToken', resetPassword);
+// router.post('/verify-code', verifyTokenAndUser, verifyCode);
 
 module.exports = router;

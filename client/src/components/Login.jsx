@@ -84,8 +84,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-4 bg-slate-100 rounded-md shadow-xl">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+      <div className="w-full max-w-md p-4 bg-whiterounded-md shadow-xl">
         <h2 className="md:text-left text-center text-xl font-bold text-slate-500">
           Log In
         </h2>
@@ -136,12 +136,20 @@ const Login = () => {
           >
             {loading ? "Logging in..." : "Log In"}
           </button>
-          <span className="block text-center">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-blue-500">
-              Sign Up
-            </Link>
-          </span>
+          <div className="flex items-center justify-between text-center gap-4">
+            <span className="block ">
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-blue-500">
+                Sign Up
+              </Link>
+            </span>
+            <span className="block ">
+              Forgot your password?{" "}
+              <Link to="/forgot-password" className="text-blue-500">
+                Reset it
+              </Link>
+            </span>
+          </div>
         </form>
       </div>
     </div>

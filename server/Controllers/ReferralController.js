@@ -1,38 +1,5 @@
 const Referral = require('../Models/ReferralModel');
-const Marketer = require('../Models/MarketerModel');
-const Client = require('../Models/ClientModel');
-
-// Create a new referral
-module.exports.createReferral = async (req, res, next) => {
-  try {
-    const { referringMarketerId, referredClientId } = req.body;
-
-    // Check if the referring marketer or referred client exists
-    const referringMarketer = await Marketer.findById(referringMarketerId);
-    const referredClient = await Client.findById(referredClientId);
-
-    if (!referringMarketer) {
-      return res.status(404).json({ error: 'Referring marketer not found' });
-    }
-
-    if (!referredClient) {
-      return res.status(404).json({ error: 'Referred client not found' });
-    }
-
-    const referral = await Referral.create({
-      referringMarketer: referringMarketerId,
-      referredClient: referredClientId
-    });
-
-    res.status(201).json({
-      message: 'Referral created successfully',
-      data: referral
-    });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-};
+const mongoose = require('mongoose');
 
 // Get referral information
 module.exports.getReferral = async (req, res, next) => {
@@ -52,6 +19,41 @@ module.exports.getReferral = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get all referrals
+module.exports.getReferrals = async (req, res, next) => {
+  try {
+    let referringMarketerId = req.query.referringMarketerId;
+    let query = {};
+
+    if (!referringMarketerId) {
+      console.log('No referring marketer id provided');
+      return res.status(400).json({ message: 'No referring marketer id provided' });
+    }
+
+    // Convert referringMarketerId to ObjectId
+    referringMarketerId = mongoose.Types.ObjectId(referringMarketerId);
+    query.referringMarketer = referringMarketerId;
+
+    console.log('Referring marketer ID:', referringMarketerId);  
+    console.log('Query object:', query);  
+
+    const referrals = await Referral.find(query)
+      .populate('referringMarketer')
+      .populate('referredClient');
+    console.log('Fetched referrals:', referrals);  
+    res.status(200).json({
+      message: 'Referrals fetched successfully',
+      data: referrals
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+
+
 
 // Handle referral tracking
 module.exports.trackReferral = async (req, res, next) => {
@@ -76,9 +78,15 @@ module.exports.trackReferral = async (req, res, next) => {
 
 // Get referral statistics
 module.exports.getReferralStats = async (req, res, next) => {
+  console.log('getReferralStats called');
   try {
+    const marketerId = req.query.marketerId;
+
+    if (!marketerId) {
+      return res.status(400).json({ error: 'marketerId is required' });
+    }
     // Find all referrals
-    const referrals = await Referral.find();
+    const referrals = await Referral.find({ referringMarketer: req.query.marketerId });
 
     // Calculate the total number of referrals
     const referralCount = referrals.length;

@@ -4,8 +4,26 @@ const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const tokenBlacklist = new Set(); // Create the token blacklist set
+const Token = require('../Models/TokenModel');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
+dotenv.config();
+
 const { roles } = require('../roles');
 const ac = require('../roles').roles;
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        type: 'OAuth2',
+        user: process.env.EMAIL_VERIFY,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: process.env.ACCESS_TOKEN
+    }
+});
 
 
 const generateRandomString = (characters, length) => {
@@ -18,7 +36,114 @@ const generateRandomString = (characters, length) => {
 };
 
 const generateReferralCode = () => generateRandomString('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 8);
-const generateUniqueReferralLink = () => generateRandomString('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 24);
+const generateUniqueReferralLink = () => generateRandomString('0123456789abcdef', 24);
+
+// Create a new marketer
+module.exports.createMarketer = async (req, res, next) => {
+    try {
+        const {
+            email,
+            password,
+            firstName,
+            lastName,
+            phoneNumber,
+            address,
+            stateProvince,
+            country,
+            profession,
+            discoverySource, createdAt, referralLink, referralCode } = req.body;
+
+        let generatedReferralCode = referralCode;
+        let generatedRefferalLink = referralLink;
+
+        if (!referralCode) {
+            // Generate a unique referral code
+            generatedReferralCode = generateReferralCode();
+        }
+
+        if (!referralLink) {
+            generatedRefferalLink = generateUniqueReferralLink();
+        }
+
+        // Check if the referral code or referral link is unique before creating the marketer
+        const existingMarketer = await Marketer.findOne({
+            $or: [{ referralCode: generatedReferralCode }, { referralLink: generatedRefferalLink }]
+        });
+        if (existingMarketer) {
+            return res.status(400).json({ error: 'Referral code or link already exists' });
+        }
+
+        const marketer = await Marketer.create({
+            email,
+            password,
+            firstName,
+            lastName,
+            phoneNumber,
+            address,
+            stateProvince,
+            country,
+            profession,
+            discoverySource,
+            role: "marketer",
+            createdAt,
+            referralLink: generatedRefferalLink,
+            referralCode: generatedReferralCode
+        });
+        console.log(marketer);
+
+        // Create the verification token
+        const verificationToken = new Token({
+            _userId: marketer._id, // Add this line
+            _marketerId: marketer._id,
+            token: crypto.randomBytes(16).toString('hex')
+        });
+
+
+
+        // Save the verification token
+        await verificationToken.save();
+        console.log(verificationToken);
+
+
+        // Send the verification email
+        const verificationLink = `http://${req.headers.host}/api/verify-marketer-email-token?token=${verificationToken.token}`;
+        transporter.sendMail({
+            from: process.env.EMAIL_VERIFY,
+            to: email,
+            subject: "Account Verification",
+            text: `Click the link to verify your account: ${verificationLink}`,
+            html: `<div>
+                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, corrupti.</p>
+                <a href=${verificationLink}>Click here to verify your account</a>         
+          </div>` // mail body
+        }, (error, info) => {
+            if (error) {
+                console.log('Error occurred while sending email:', error);
+            } else {
+                console.log('Email sent successfully:', info.response);
+            }
+        });
+
+        const token = createSecretToken(marketer._id);
+        console.log("Generated Token:", token); // Log the generated token
+
+        res.cookie("token", token, {
+            withCredentials: true,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+        });
+
+        res.status(201).json({
+            message: 'Marketer created successfully',
+            data: marketer
+        });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
 
 
 module.exports.grantAccess = function (action, resource) {
@@ -109,76 +234,13 @@ module.exports.Logout = (req, res) => {
     res.clearCookie("token").json({ message: "Logged out successfully" });
 };
 
-// Create a new marketer
-module.exports.createMarketer = async (req, res, next) => {
-    try {
-        const {
-            email,
-            password,
-            firstName,
-            lastName,
-            phoneNumber,
-            address,
-            stateProvince,
-            country,
-            profession,
-            discoverySource, createdAt, referralLink, referralCode } = req.body;
-
-        let generatedReferralCode = referralCode;
-        let generatedRefferalLink = referralLink;
-
-        if (!referralCode) {
-            // Generate a unique referral code
-            generatedReferralCode = generateReferralCode();
-        }
-
-        if (!referralLink) {
-            generatedRefferalLink = generateUniqueReferralLink();
-        }
-
-        // Check if the referral code or referral link is unique before creating the marketer
-        const existingMarketer = await Marketer.findOne({
-            $or: [{ referralCode: generatedReferralCode }, { referralLink: generatedRefferalLink }]
-        });
-        if (existingMarketer) {
-            return res.status(400).json({ error: 'Referral code or link already exists' });
-        }
-
-        const marketer = await Marketer.create({
-            email,
-            password,
-            firstName,
-            lastName,
-            phoneNumber,
-            address,
-            stateProvince,
-            country,
-            profession,
-            discoverySource,
-            role: "marketer",
-            createdAt,
-            referralLink: generatedRefferalLink,
-            referralCode: generatedReferralCode
-        });
-        console.log(marketer);
-        res.status(201).json({
-            message: 'Marketer created successfully',
-            data: marketer
-        });
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
-};
-
-
 // Get marketer information
 module.exports.getMarketer = async (req, res, next) => {
-    try {    
+    try {
         const marketerId = req.params.marketerId;
         // console.log(`Marketer ID: ${marketerId}`);
         const marketer = await Marketer.findById(marketerId);
-      
+
         if (!marketer) {
             return res.status(404).json({ error: 'Marketer not found' });
         }

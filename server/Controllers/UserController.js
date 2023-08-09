@@ -1,5 +1,8 @@
+const mongoose = require('mongoose');
 const { validationResult } = require('express-validator');
 const User = require('../Models/UserModel');
+const Client = require('../Models/ClientModel');
+const Referral = require('../Models/ReferralModel');
 const { createSecretToken } = require("../util/SecretToken");
 const tokenBlacklist = new Set(); // Create the token blacklist set
 const bcrypt = require('bcryptjs');
@@ -71,7 +74,7 @@ module.exports.Signup = async (req, res, next) => {
       country,
       profession,
       discoverySource,
-      referral: referral_id,
+      referralId: referral_id,
       createdAt } = req.body;
 
     // Validate input
@@ -103,9 +106,27 @@ module.exports.Signup = async (req, res, next) => {
       createdAt
     });
 
+    // Convert the referral_id to a valid ObjectId
+    const objectIdReferralId = new mongoose.Types.ObjectId(referral_id);
+    const client = await Client.create({
+      name: firstName + ' ' + lastName,
+      email,
+      associatedMarketer: objectIdReferralId,
+    });
+
+    // If a referral_id was provided, create a new Referral
+    if (referral_id) {
+      await Referral.create({
+        referringMarketer: objectIdReferralId,
+        referredClient: client._id,
+      });
+    }
+
+
     // Create the verification token
     const verificationToken = new Token({
       _userId: user._id,
+      _marketerId: user._id,
       token: crypto.randomBytes(16).toString('hex')
     });
 
@@ -115,7 +136,7 @@ module.exports.Signup = async (req, res, next) => {
 
 
     // Send the verification email
-    const verificationLink = `http://${req.headers.host}/api/verify-email?token=${verificationToken.token}`;
+    const verificationLink = `http://${req.headers.host}/api/verify-user-email-token?token=${verificationToken.token}`;
     transporter.sendMail({
       from: process.env.EMAIL_VERIFY,
       to: email,
@@ -123,7 +144,7 @@ module.exports.Signup = async (req, res, next) => {
       text: `Click the link to verify your account: ${verificationLink}`,
       html: `<div>
               <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, corrupti.</p>
-              <a href=${verificationLink}>Click here to activate your account</a>         
+              <a href=${verificationLink}>Click here to verify your account</a>         
         </div>` // mail body
     }, (error, info) => {
       if (error) {
@@ -283,3 +304,68 @@ module.exports.deleteUser = async (req, res, next) => {
   }
 };
 
+
+module.exports.forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "No account with that email address exists." });
+    }
+
+    // Generate and set password reset token
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+    await user.save();
+
+    const clientHost = 'localhost:5173';
+    const mailOptions = {
+      to: user.email,
+      from: process.env.EMAIL_VERIFY,
+      subject: 'Password Reset',
+      text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\nhttp://${clientHost}/reset/${resetToken}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    next(error);
+  }
+};
+
+module.exports.resetPassword = async (req, res, next) => {
+  try {
+    const { resetToken, newPassword } = req.body;
+
+    // Find the user by reset token
+    const user = await User.findOne({ resetPasswordToken: resetToken });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired reset token." });
+    }
+
+    // Check if the token has expired
+    if (Date.now() > user.resetPasswordExpires) {
+      return res.status(400).json({ message: "Reset token has expired." });
+    }
+
+    // Hash the new password and save it
+    user.password = newPassword; // Make sure to hash the password before saving it
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    res.status(200).json({ message: "Password has been reset." });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    next(error);
+  }
+};

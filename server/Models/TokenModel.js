@@ -7,6 +7,11 @@ const TokenSchema = new Schema({
         required: true,
         ref: 'User'
     },
+    _marketerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Marketer'
+    },
     token: {
         type: String,
         required: true

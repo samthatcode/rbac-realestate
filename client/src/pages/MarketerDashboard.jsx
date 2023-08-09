@@ -18,26 +18,35 @@ const MarketerDashboard = () => {
   const [copied, setCopied] = useState(false); // State to track if the link is copied
   const { marketerId } = useParams(); // Get the marketerId from the route parameter
   const navigate = useNavigate();
+  const [referralId, setReferralId] = useState(null);
 
   useEffect(() => {
     const fetchMarketer = async () => {
       const response = await axios.get(`/api/marketers/${marketerId}`);
       const marketerData = response.data.data;
-  
+
       // Get the current URL without the pathname
       const baseUrl = window.location.protocol + "//" + window.location.host;
-  
+
       // Construct the full URL
       const fullUrl = `${baseUrl}/signup?referral=${marketerData.referralLink}`;
-  
+
       // Update the referralLink in the marketer's data
       marketerData.referralLink = fullUrl;
-  
+
       setIsMarketer(marketerData);
+      setMarketer(marketerData); // Update the marketer in your context
+
+      // Extract the referral ID from the referralLink
+      const referralId = new URL(marketerData.referralLink).searchParams.get(
+        "referral"
+      );
+
+      // Set the referralId in the state
+      setReferralId(referralId);
     };
     fetchMarketer();
-  }, [marketerId]);
-  
+  }, [marketerId, setMarketer]);
 
   const handleLogout = async () => {
     try {
@@ -76,28 +85,25 @@ const MarketerDashboard = () => {
               <span className="text-4xl">&times;</span>
             </button>
             <Link
-              to=""
+              to="/registration"
               className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
             >
-              Manage Products
+              Registration Form
             </Link>
+            {ismarketer && referralId && (
+              <Link
+                to={`/referrals/${referralId}`}
+                className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
+              >
+                Referrals
+              </Link>
+            )}
+
             <Link
-              to=""
+              to="/stats"
               className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
             >
-              Manage Users
-            </Link>
-            <Link
-              to=""
-              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
-            >
-              Manage Roles
-            </Link>
-            <Link
-              to=""
-              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
-            >
-              Manage Categories
+              Referral Stats
             </Link>
           </nav>
         </Drawer>
@@ -107,12 +113,14 @@ const MarketerDashboard = () => {
             <div>
               {ismarketer && (
                 <>
-                  <p className="text-sm text-white">Click to Copy your Referral Link</p>
+                  <p className="text-sm text-white">
+                    Click to Copy your Referral Link
+                  </p>
                   <CopyToClipboard
                     text={ismarketer.referralLink}
                     onCopy={handleCopy}
                   >
-                    <button className="font-medium py-2 px-4 rounded bg-blue-300 hover:bg-blue-400">
+                    <button className="font-medium py-2 px-4 rounded bg-white text-blue-500 hover:text-blue-400">
                       {copied ? "Copied!" : "Copy Link"}
                     </button>
                   </CopyToClipboard>
@@ -121,7 +129,7 @@ const MarketerDashboard = () => {
             </div>
             <button
               onClick={handleLogout}
-              className="font-medium py-2 px-4 rounded bg-blue-300  hover:bg-blue-400"
+              className="font-medium px-4 rounded bg-white text-blue-500 hover:text-blue-400"
             >
               Logout
             </button>
@@ -132,7 +140,7 @@ const MarketerDashboard = () => {
           </button>
         </header>
       </div>
-      <RegistrationForm />
+      {/* <RegistrationForm /> */}
       <Referrals />
       <ReferralStats />
       <Footer />

@@ -13,7 +13,6 @@ import {
   ConfirmationPage,
   PaymentForm,
 } from "./pages";
-
 import {
   Navbar,
   Login,
@@ -24,10 +23,16 @@ import {
   ProductManagement,
   CategoryManagement,
   RoleManagement,
-  EmailVerification,
+  UserEmailVerification,
   MarketerRegister,
   MarketerLogin,
   ClientSignup,
+  ForgotPassword,
+  ResetPassword,
+  MarketerEmailVerification,
+  ReferralStats,
+  RegistrationForm,
+  Referrals,
 } from "./components";
 import { UserProvider } from "./UserContext";
 import { CartProvider } from "./CartContext";
@@ -76,22 +81,27 @@ const App = () => {
                     element={<MarketerRegister />}
                   />
                   <Route path="/marketer/login" element={<MarketerLogin />} />
+                  <Route path="/registration" element={<RegistrationForm />} />
+                  <Route path="/referrals/:referral" element={<Referrals />} />
+                  <Route path="/stats" element={<ReferralStats />} />
                   {/* Client */}
                   <Route path="/signup" element={<ClientSignup />} />
-
-
                   <Route path="/userdashboard" element={<UserDashboard />} />
-
                   <Route path="/admindashboard" element={<AdminDashboard />} />
                   <Route path="/create-event" element={<AdminDashboard />} />
                   <Route path="/eventdetails" element={<AdminDashboard />} />
                   <Route path="/eventlist" element={<AdminDashboard />} />
-
                   <Route
-                    path="/verify-email/:token"
-                    element={<EmailVerification />}
+                     path="/verify-user-email/:token"
+                    element={<UserEmailVerification />}
                   />
-                  {/* <Route path="/verify-code" component={CodeVerification} /> */}
+                     <Route
+                     path="/verify-marketer-email/:token"
+                    element={<MarketerEmailVerification />}
+                  />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />    
+                  <Route path="/reset/:resetToken" element={<ResetPassword />} />             
+                  {/* <Route path="/verify-code" element={CodeVerification} /> */}
                 </Routes>
               </div>
             </div>

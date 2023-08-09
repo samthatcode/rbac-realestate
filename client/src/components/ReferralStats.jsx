@@ -6,16 +6,28 @@ const ReferralStats = () => {
   const [referralData] = useContext(ReferralContext);
   const [referralCount, setReferralCount] = useState(0);
   const [commissionEarned, setCommissionEarned] = useState(0);
-  
+
+ // Check if referralData is undefined or null before proceeding
+ if (referralData === undefined || referralData === null) {
+  throw new Error('ReferralStats must be used within a ReferralContext.Provider');
+ }
 
   useEffect(() => {
     const fetchReferralStats = async () => {
       try {
         const response = await axios.get("/api/referrals/stats");
+        console.log("API response:", response.data);
+         if (!response.data.referralCount || !response.data.commissionEarned) {
+          throw new Error('Invalid response from the API');
+        }
         setReferralCount(response.data.referralCount);
         setCommissionEarned(response.data.commissionEarned);
       } catch (error) {
-        console.error("Error:", error);
+        if (error.response && error.response.status === 404) {
+          console.error("Referral not found");
+        } else {
+          console.error("Error:", error);
+        }
       }
     };
 

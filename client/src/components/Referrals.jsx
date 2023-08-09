@@ -1,102 +1,96 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ReferralContext } from "../ReferralsContext";
-import { MarketerContext } from "../MarketerContext";
+import { useParams } from "react-router-dom";
+
 const Referrals = () => {
-  const [marketerId, setMarketerId] = useState("");
-  const [clientId, setClientId] = useState("");
-  const [referralId, setReferralId] = useState("");
   const [referralData, setReferralData] = useContext(ReferralContext);
-  // const { marketer } = useContext(MarketerContext);
-  // const referringMarketerId = marketer._id;
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { referral } = useParams();
 
-  const createReferral = async () => {
+   const referringMarketerId = referral; // Use the referral parameter directly
+
+  if (!referringMarketerId) {
+    console.log("No referring marketer id found in the URL");
+  } else {
+    console.log("Referring marketer's ID is: ", referringMarketerId);
+  }
+
+  const fetchReferrals = async () => {
+    console.log("Fetching referrals for marketer ID:", referringMarketerId);
+    setIsLoading(true);
     try {
-      const response = await axios.post("/api/referrals", {
-        referringMarketerId: marketerId,
-        referredClientId: clientId,
+      const response = await axios.get("/api/referrals", {
+        params: {
+          referringMarketerId: referringMarketerId,
+        },
       });
-      setReferralData(response.data);
+      console.log("Response from server:", response);
+      if (response.data && Array.isArray(response.data.data)) {
+        console.log("Referral data received:", response.data.data);
+        setReferralData(response.data);
+      } else {
+        console.log("Unexpected data structure:", response.data);
+      }
     } catch (error) {
-      console.error("Error:", error);
+      const errorMessage = "Error: " + error;
+      console.error(errorMessage);
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const getReferral = async () => {
-    try {
-      const response = await axios.get(`/api/referrals/${referralId}`);
-      setReferralData(response.data);
-    } catch (error) {
-      console.error("Error:", error);
+  useEffect(() => {
+    if (referringMarketerId) {
+      console.log("Current referring marketer id:", referringMarketerId);
+      fetchReferrals();
     }
-  };
+  }, [referringMarketerId]); // Empty dependency array means this effect will only run once, when the component mounts
 
-  const trackReferral = async () => {
-    try {
-      const response = await axios.post("/api/track-referrals", {
-        referringMarketerId: marketerId,
-        referredClientId: clientId,
-      });
-      setReferralData(response.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  console.log("isLoading:", isLoading);
+  console.log("error:", error);
+  console.log("referralData:", referralData);
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-8 text-gray-600">Referrals</h1>
-      <h1 className="text-xl font-bold text-teal mb-4">Create Referrals</h1>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <input
-          type="text"
-          placeholder="Marketer ID"
-          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          onChange={(e) => setMarketerId(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Client ID"
-          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          onChange={(e) => setClientId(e.target.value)}
-        />
-      </div>
-      <button
-        className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600"
-        onClick={createReferral}
-      >
-        Create Referral
-      </button>
-
-      <div className="">
-        <h1 className="text-xl font-bold text-darkteal mt-20">Get Referrals</h1>
-        <div className="grid grid-cols-2 gap-4 my-4">
-          <input
-            type="text"
-            placeholder="Referral ID"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-            onChange={(e) => setReferralId(e.target.value)}
-          />
-        </div>
-        <div className="flex justify-between">
-          <button
-            className="px-4 py-2 bg-green-500 text-white rounded-md shadow hover:bg-green-600"
-            onClick={getReferral}
-          >
-            Get Referral
-          </button>
-          <button
-            className="px-4 py-2 bg-yellow-500 text-white rounded-md shadow hover:bg-yellow-600"
-            onClick={trackReferral}
-          >
-            Track Referral
-          </button>
-        </div>
-      </div>
-
-      {referralData && (
-        <div className="mt-4">
-          Referral Data: {JSON.stringify(referralData)}
+      {isLoading && <div>Loading...</div>}
+      {error && <div className="text-red-500">{error}</div>}
+      {referralData && Array.isArray(referralData.data) && (
+        <div className="mt-10 bg-slate-100 shadow-xl p-5 rounded-lg">
+          <h2 className="text-center text-2xl text-teal mb-2">Referral Data</h2>
+          <table className="w-full table-auto mb-4 rounded-md">
+            <thead>
+              <tr className="bg-gray-700 text-white uppercase text-sm leading-normal">
+                <th className="border px-4 py-2">No.</th>
+                <th className="border px-4 py-2">Referral ID</th>
+                <th className="border px-4 py-2">Referring Marketer ID</th>
+                <th className="border px-4 py-2">Referred Client ID</th>
+                <th className="border px-4 py-2">Referral Date</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-600 text-sm font-light">
+              {referralData.data.map((item, index) => (
+                <tr
+                  className="border-b border-gray-300 hover:bg-gray-200 cursor-pointer"
+                  key={index}
+                >
+                  <td className="border px-4 py-2">{index + 1}</td>
+                  <td className="border px-4 py-2">{item._id}</td>
+                  <td className="border px-4 py-2">
+                    {item.referredClient.associatedMarketer}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {item.referredClient.email}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {new Date(item.referralDate).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

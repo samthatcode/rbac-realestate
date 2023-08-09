@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function RegistrationForm() {
+const RegistrationForm = () => {
   const [eventId, setEventId] = useState("");
   const [referringMarketerId, setReferringMarketerId] = useState("");
 

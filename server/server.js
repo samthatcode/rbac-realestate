@@ -75,6 +75,12 @@ mongoose.connect(MONGODB_URI, {
           firstName: "Admin",
           lastName: "User",
           role: "admin",
+          discoverySource: "seed", 
+          profession: "admin", 
+          country: "admin", 
+          stateProvince: "admin", 
+          address: "123 Admin St", 
+          phoneNumber: "1234567890", 
         });
 
         await adminUser.save();
