@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { verifyUserEmail, verifyMarketerEmail, verifyCode } = require('../Controllers/VerifyEmailController');
 const { forgotPassword, resetPassword } = require('../Controllers/UserController');
+const { marketerForgotPassword, marketerResetPassword } = require('../Controllers/MarketerController');
 
 const {
     allowIfAdmin,
@@ -15,6 +16,9 @@ router.get('/verify-marketer-email-token', verifyMarketerEmail);
 
 router.post('/forgot-password', forgotPassword);
 router.post('/reset/:resetToken', resetPassword);
+
+router.post('/marketer-forgot-password', marketerForgotPassword);
+router.post('/marketer-reset/:resetToken', marketerResetPassword);
 // router.post('/verify-code', verifyTokenAndUser, verifyCode);
 
 module.exports = router;

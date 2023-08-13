@@ -25,7 +25,7 @@ export const CartProvider = ({ children }) => {
       updateQuantity(existingProduct.id, existingProduct.quantity + 1);
     } else {
       // add new product to the cart
-      setCartItems([...cartItems, { ...product, id: product._id, quantity: 1 }]);
+      setCartItems([...cartItems, { ...product, id: product._id, quantity: 1, price: product.price, title: product.title }]);
     }
   };
 

@@ -18,12 +18,21 @@ const OrderSchema = new Schema({
             type: Number,
             required: true,
             min: [1, 'Quantity can not be less then 1.']
+        },
+        price: {
+            type: Number,
+        },
+        title: {
+            type: String,
         }
     }],
     orderDate: {
         type: Date,
         // default: Date.now
         default: new Date(),
+    },
+    paymentReference: {
+        type: Number,
     },
     status: {
         type: String,

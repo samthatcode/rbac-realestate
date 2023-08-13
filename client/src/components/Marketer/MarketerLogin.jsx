@@ -138,7 +138,7 @@ const Login = () => {
             </span>
             <span className="block">
               Forgot your password?{" "}
-              <Link to="/forgot-password" className="text-blue-500">
+              <Link to="/marketer-forgot-password" className="text-blue-500">
                 Reset it
               </Link>
             </span>

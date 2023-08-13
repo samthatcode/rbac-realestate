@@ -9,12 +9,20 @@ const CartListPage = () => {
   const navigate = useNavigate();
 
   const handleCheckout = () => {
-    navigate("/checkout");
+    navigate("/paystackcheckout");
   };
 
   return (
     <div className="container mx-auto py-8">
-      <h2 className="text-3xl font-bold mb-6">Your Cart</h2>
+      <div className="flex justify-between mb-6 items-center">
+        <h2 className="text-2xl font-bold text-white px-5 py-2 rounded-md bg-gray-800">Your Cart</h2>
+        <Link
+          to="/products"
+          className="text-lg font-semibold text-white px-5 py-2 rounded-md bg-gray-800 hover:bg-steelblue"
+        >
+          Add more products
+        </Link>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {cartItems.map((product) => {
           const {
@@ -35,7 +43,7 @@ const CartListPage = () => {
                 <div>
                   <h3 className="text-lg font-semibold">{title}</h3>
                   <p className="text-gray-600">{description}</p>
-                  <p className="text-gray-600">${price}</p>
+                  <p className="text-gray-600">&#x20A6;{price}</p>
                   <p className="text-gray-600">Amenities: {amenities}</p>
                   <p className="text-gray-600">
                     Square Footage: {squareFootage}
@@ -100,7 +108,7 @@ const CartListPage = () => {
       {cartItems.length > 0 && (
         <div className="mt-8">
           <h3 className="text-xl font-bold">
-            Total Price: ${totalPrice} {/* Use totalPrice from the context */}
+            Total Price:  &#x20A6;{totalPrice} {/* Use totalPrice from the context */}
           </h3>
 
           <button

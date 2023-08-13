@@ -1,41 +1,112 @@
 const Order = require('../Models/OrderModel');
 const Product = require('../Models/ProductModel');
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        type: 'OAuth2',
+        user: process.env.EMAIL_VERIFY,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: process.env.ACCESS_TOKEN
+    }
+});
 
 
 // Create a new order
 module.exports.createOrder = async (req, res, next) => {
     try {
-        const { userId, products, shippingAddress, totalPrice } = req.body;
+        const { userId, products, shippingAddress, totalPrice, paymentReference } = req.body;
 
-         // Ensure all product IDs exist
-         for (let i = 0; i < products.length; i++) {
+        // Ensure all product IDs exist
+        for (let i = 0; i < products.length; i++) {
             const product = await Product.findById(products[i].productId);
             if (!product) {
                 return res.status(400).json({ error: `Product not found for ID: ${products[i].productId}` });
             }
         }
-
-        // Calculate total price
-        // let totalPrice = 0;
-        // for (let i = 0; i < products.length; i++) {
-        //     const product = await Product.findById(products[i].productId);
-        //     if (!product) {
-        //         return res.status(400).json({ error: `Product not found for ID: ${products[i].productId}` });
-        //     }
-        //     totalPrice += product.price * products[i].quantity;
-        // }
-        // // Log the total price
-        // console.log(`Total Price: ${totalPrice}`);
-
+       
         // Create the new order
-        const order = await Order.create({ 
+        const order = await Order.create({
             userId,
             products,
             shippingAddress,
             totalPrice, // Add the calculated total price to the order
+            paymentReference,
             status: 'pending', // Set default status
+        });        
 
+        const productsList = order.products.map((product) => {
+            return `<li>${product.title} - ${product.quantity} x ${product.price}</li>`;
+        }).join("");
+
+        const adminEmail = process.env.ADMIN_EMAIL; // Replace with the actual admin email
+        const mailOptions = {
+            from: process.env.EMAIL_VERIFY,
+            to: adminEmail,
+            subject: "New Order Created",
+            text: `A new order has been created. Order ID: ${order._id}`,
+            html: `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Order Notification</title>
+            </head>
+            <body style="font-family: Arial, sans-serif; background-color: #f7f7f7; margin: 0; padding: 0;">
+          
+              <div style="background-color: #003366; padding: 20px 0; text-align: center; color: white;">
+                <img src="path-to-your-logo.png" alt="Business Logo" style="width: 150px;">
+              </div>
+          
+              <div style="background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); margin: 20px auto; max-width: 600px;">
+                <h2 style="color: #003366;">Order Notification</h2>
+                <p>Dear Admin,</p>
+          
+                <p>We would like to inform you that an order has been placed successfully:</p>
+          
+                <ul>
+                  <li><strong>Name:</strong> ${order.shippingAddress.name}</li>
+                  <li><strong>Email:</strong> ${order.shippingAddress.email}</li>
+                  <li><strong>Shipping Address:</strong> ${order.shippingAddress.street}</li>
+                  <li><strong>Date of Purchase:</strong> ${order.orderDate}</li>                  
+                  <li><strong>Order ID:</strong> ${order._id}</li>
+                  <li><strong>Phone Number:</strong> ${order.shippingAddress.phone}</li>
+                  <li><strong>Payment Reference:</strong> ${order.paymentReference}</li>
+                </ul>
+          
+                <h3>Ordered Products:</h3>
+                <ul>
+                ${productsList}
+              </ul>
+          
+                <p><strong>Total Price:</strong> &#x20A6;${totalPrice}</p>
+               
+          
+                <p>Thank you for your attention.</p>
+          
+                <p style="color: #999; font-size: 12px;">This is an automated message. Please do not reply to this email.</p>
+              </div>
+          
+              <div style="text-align: center; margin-top: 20px;">
+                <p style="color: #999; font-size: 12px;">&copy; 2023 SureFinders. All rights reserved.</p>
+              </div>
+          
+            </body>
+            </html>`
+
+        };
+
+        await transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log('Error occurred while sending email:', error);
+            } else {
+                console.log('Email sent successfully:', info.response);
+            }
         });
+
 
         res.status(201).json({
             message: 'Order created successfully',
@@ -91,7 +162,7 @@ module.exports.getOrderById = async (req, res, next) => {
 module.exports.updateOrder = async (req, res, next) => {
     try {
         const orderId = req.params.orderId;
-        const { userId, products } = req.body;
+        const { userId, products, status } = req.body;
 
         // Retrieve the order
         const order = await Order.findById(orderId);
@@ -104,36 +175,49 @@ module.exports.updateOrder = async (req, res, next) => {
             return res.status(400).json({ error: 'Cannot update an order that has been shipped, delivered or cancelled' });
         }
 
-         // Ensure all product IDs exist
-         for (let i = 0; i < products.length; i++) {
+        // Ensure all product IDs exist
+        for (let i = 0; i < products.length; i++) {
             const product = await Product.findById(products[i].productId);
             if (!product) {
                 return res.status(400).json({ error: `Product not found for ID: ${products[i].productId}` });
             }
         }
 
-        // Calculate total price
-        // let totalPrice = 0;
-        // for (let i = 0; i < products.length; i++) {
-        //     const product = await Product.findById(products[i].productId);
-        //     if (!product) {
-        //         return res.status(400).json({ error: `Product not found for ID: ${products[i].productId}` });
-        //     }
-        //     totalPrice += product.price * products[i].quantity;
-        // }
+        // Get the old status before updating
+        const oldStatus = order.status;
 
         const updatedOrder = await Order.findByIdAndUpdate(
             orderId,
             {
                 userId,
                 products,
-                totalPrice, // Update the total price of the order
+                status, // Update the status of the order
             },
             { new: true } // Return the updated order
         );
 
         if (!updatedOrder) {
             return res.status(404).json({ error: 'Order not found' });
+        }
+
+        // Check if the status has changed
+        if (oldStatus !== updatedOrder.status) {
+            const adminEmail = process.env.ADMIN_EMAIL;
+            const mailOptions = {
+                from: process.env.EMAIL_VERIFY,
+                to: adminEmail,
+                subject: 'Order Status Changed',
+                text: `The status of order ${updatedOrder._id} has changed to ${updatedOrder.status}.`
+            };
+
+            // Send email and wait for it to complete using async/await
+            await transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log('Error occurred while sending email:', error);
+                } else {
+                    console.log('Email sent successfully:', info.response);
+                }
+            });
         }
 
         res.status(200).json({
@@ -150,6 +234,7 @@ module.exports.updateOrder = async (req, res, next) => {
         }
     }
 };
+
 
 // Delete an order
 module.exports.deleteOrder = async (req, res, next) => {

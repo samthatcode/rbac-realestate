@@ -25,7 +25,7 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(false);
 
   // Get cart contents from CartListPage
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, paymentReference } = useContext(CartContext);
 
   const userContext = useContext(UserContext);
   console.log(userContext.user.email);
@@ -53,17 +53,20 @@ const CheckoutPage = () => {
         products: cartItems.map((item) => ({
           productId: item.id,
           quantity: item.quantity,
+          price: item.price,
+          title: item.title,
         })),
         shippingAddress: formData.shippingAddress,
         totalPrice: cartItems.reduce(
           (total, item) => total + item.price * item.quantity,
           0
         ),
+        paymentReference: paymentReference, // Add the payment reference
       });
       console.log(response.data);
       setTimeout(() => {
         setLoading(false);
-        navigate("/paystackcheckout");
+        navigate("/confirm");
       }, 2000);
     } catch (error) {
       console.error("Error:", error);
@@ -189,7 +192,8 @@ const CheckoutPage = () => {
                 name="country"
                 value={formData.country}
                 onChange={handleInputChange}
-                placeholder="Your your country"
+                placeholder="Your country"
+                required
               />
             </div>
             <div className="mb-4">
@@ -203,6 +207,7 @@ const CheckoutPage = () => {
                 value={formData.postalCode}
                 onChange={handleInputChange}
                 placeholder="Your postal address"
+                required
               />
             </div>
           </div>
@@ -219,8 +224,8 @@ const CheckoutPage = () => {
         <div className="overlay">
           <ColorRing
             visible={true}
-            height="80"
-            width="80"
+            height="70"
+            width="70"
             ariaLabel="blocks-loading"
             wrapperStyle={{}}
             wrapperClass="blocks-wrapper"

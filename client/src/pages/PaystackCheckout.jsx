@@ -37,7 +37,7 @@ const PaystackCheckout = () => {
     if (reference.status === "success") {
       // Save the payment reference to the context
       setPaymentReference(reference.reference);
-      navigateTo("/confirm");
+      navigateTo("/checkout");
     }
   };
 

@@ -26,7 +26,6 @@ import {
   UserEmailVerification,
   MarketerRegister,
   MarketerLogin,
-  ClientSignup,
   ForgotPassword,
   ResetPassword,
   MarketerEmailVerification,
@@ -35,6 +34,8 @@ import {
   CreateEventForm,
   EventDetails,
   EventList,
+  MarketerForgotPassword,
+  MarketerResetPassword,
 } from "./components";
 import { UserProvider } from "./contexts/UserContext";
 import { CartProvider } from "./contexts/CartContext";
@@ -88,8 +89,15 @@ const App = () => {
                   <Route path="/marketer/login" element={<MarketerLogin />} />
                   <Route path="/registration" element={<RegistrationForm />} />
                   <Route path="/referrals/:referral" element={<Referrals />} />
-                  {/* Client */}
-                  <Route path="/signup" element={<ClientSignup />} />
+                  <Route
+                    path="/verify-marketer-email/:token"
+                    element={<MarketerEmailVerification />}
+                  />
+                  <Route path="/marketer-forgot-password" element={<MarketerForgotPassword />} />
+                  <Route
+                    path="/marketer-reset/:resetToken"
+                    element={<MarketerResetPassword />}
+                  />             
                   <Route path="/userdashboard" element={<UserDashboard />} />
                   <Route path="/admindashboard" element={<AdminDashboard />} />
                   {/* Events */}
@@ -99,11 +107,7 @@ const App = () => {
                   <Route
                     path="/verify-user-email/:token"
                     element={<UserEmailVerification />}
-                  />
-                  <Route
-                    path="/verify-marketer-email/:token"
-                    element={<MarketerEmailVerification />}
-                  />
+                  />              
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route
                     path="/reset/:resetToken"

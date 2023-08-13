@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import MessageModal from "./Marketer/MessageModal";
+import MessageModal from "./MessageModal";
 
-
-const ForgotPassword = () => {
+const MarketerForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [serverMessage, setServerMessage] = useState(""); // State for server response message
@@ -24,7 +23,9 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("/api/forgot-password", { email });
+      const { data } = await axios.post("/api/marketer-forgot-password", {
+        email,
+      });
       if (data.message) {
         setServerMessage(data.message);
         setShowModal(true); // Show the modal with server response message
@@ -72,7 +73,7 @@ const ForgotPassword = () => {
           </button>
           <span className="block text-center">
             Remembered your password?{" "}
-            <Link to="/login" className="text-blue-500">
+            <Link to="/marketer/login" className="text-blue-500">
               Log In
             </Link>
           </span>
@@ -85,4 +86,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default MarketerForgotPassword;

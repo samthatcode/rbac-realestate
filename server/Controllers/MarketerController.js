@@ -376,3 +376,70 @@ module.exports.deleteMarketer = async (req, res, next) => {
         next(error);
     }
 };
+
+
+module.exports.marketerForgotPassword = async (req, res, next) => {
+    try {
+      const { email } = req.body;
+  
+      // Find the user by email
+      const marketer = await Marketer.findOne({ email });
+      if (!marketer) {
+        return res.status(400).json({ message: "No account with that email address exists." });
+      }
+  
+      // Generate and set password reset token
+      const resetToken = crypto.randomBytes(32).toString('hex');
+      marketer.resetPasswordToken = resetToken;
+      marketer.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+  
+      await marketer.save();
+  
+      const clientHost = 'localhost:5173';
+      const mailOptions = {
+        to: marketer.email,
+        from: process.env.EMAIL_VERIFY,
+        subject: 'Password Reset',
+        text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\nhttp://${clientHost}/marketer-reset/${resetToken}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
+      };
+  
+      await transporter.sendMail(mailOptions);
+  
+      res.status(200).json({ message: 'An e-mail has been sent to ' + marketer.email + ' with further instructions.' });
+  
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+      next(error);
+    }
+  };
+  
+  module.exports.marketerResetPassword = async (req, res, next) => {
+    try {
+      const { resetToken, newPassword } = req.body;
+  
+      // Find the user by reset token
+      const marketer = await Marketer.findOne({ resetPasswordToken: resetToken });
+      if (!marketer) {
+        return res.status(400).json({ message: "Invalid or expired reset token." });
+      }
+  
+      // Check if the token has expired
+      if (Date.now() > marketer.resetPasswordExpires) {
+        return res.status(400).json({ message: "Reset token has expired." });
+      }
+  
+      // Hash the new password and save it
+      marketer.password = newPassword; // Make sure to hash the password before saving it
+      marketer.resetPasswordToken = undefined;
+      marketer.resetPasswordExpires = undefined;
+  
+      await marketer.save();
+  
+      res.status(200).json({ message: "Password has been reset." });
+  
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+      next(error);
+    }
+  };
+  
