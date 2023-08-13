@@ -104,7 +104,7 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();   
+    e.preventDefault();
 
     if (password !== confirmPassword) {
       toast.error("Passwords do not match.", {
@@ -128,7 +128,7 @@ const Signup = () => {
           stateProvince,
           country,
           profession,
-          discoverySource,       
+          discoverySource,
         },
         withCredentials: true,
       });
@@ -206,7 +206,9 @@ const Signup = () => {
       <div className="w-full max-w-xl p-4 bg-white rounded-md shadow-xl">
         <div className="md:text-left text-center mb-7">
           <h2 className="text-xl font-bold text-slate-500">Sign Up</h2>
-          <p className="text-sm text-blue-900">Welcome to SureFinders</p>
+          <p className="text-sm text-blue-900">
+            Refer others to buy on Surefinder and earn amazing commission
+          </p>
         </div>
         <form onSubmit={handleSubmit}>
           {step === 1 && (
@@ -430,7 +432,7 @@ const Signup = () => {
                     (step === 2 && !isStepTwoValid()) ||
                     (step === 3 && !isStepThreeValid())
                       ? "opacity-50 cursor-not-allowed"
-                      : "text-blue-500 hover:text-blue-700"
+                      : "px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium"
                   } mr-4`}
                   disabled={
                     (step === 1 && !isStepOneValid()) ||

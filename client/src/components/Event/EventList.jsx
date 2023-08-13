@@ -5,10 +5,18 @@ const EventList = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/events')
-      .then(response => setEvents(response.data.data))
-      .catch(error => console.error(error));
+    const fetchEventsData = async () => {
+      try {
+        const response = await axios.get('/api/events');
+        setEvents(response.data.data);
+      } catch (error) {
+        console.error("Error fetching events data:", error);
+      }
+    };
+  
+    fetchEventsData();
   }, []);
+  
 
   return (
     <div className="p-4">

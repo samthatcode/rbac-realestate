@@ -11,7 +11,7 @@ import {
   UsersPage,
   CheckoutPage,
   ConfirmationPage,
-  PaymentForm,
+  PaystackCheckout,
 } from "./pages";
 import {
   Navbar,
@@ -30,14 +30,16 @@ import {
   ForgotPassword,
   ResetPassword,
   MarketerEmailVerification,
-  ReferralStats,
   RegistrationForm,
   Referrals,
+  CreateEventForm,
+  EventDetails,
+  EventList,
 } from "./components";
-import { UserProvider } from "./UserContext";
-import { CartProvider } from "./CartContext";
-import { MarketerProvider } from "./MarketerContext";
-import { ReferralProvider } from "./ReferralsContext";
+import { UserProvider } from "./contexts/UserContext";
+import { CartProvider } from "./contexts/CartContext";
+import { MarketerProvider } from "./contexts/MarketerContext";
+import { ReferralProvider } from "./contexts/ReferralsContext";
 
 const App = () => {
   return (
@@ -48,15 +50,18 @@ const App = () => {
             <div>
               <ToastContainer />
               <Navbar />
-              <div className="content">
+              <div className="content font-poppins">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/cart" element={<CartListPage />} />
                   <Route path="/checkout" element={<CheckoutPage />} />
-                  <Route path="/paymentform" element={<PaymentForm />} />
-                  <Route path="/confirmation" element={<ConfirmationPage />} />
+                  <Route
+                    path="/paystackcheckout"
+                    element={<PaystackCheckout />}
+                  />
+                  <Route path="/confirm" element={<ConfirmationPage />} />
                   <Route path="/productform" element={<ProductForm />} />
                   <Route path="/products" element={<ProductPage />} />
                   <Route path="/products/:id" element={<ProductDetails />} />
@@ -83,24 +88,27 @@ const App = () => {
                   <Route path="/marketer/login" element={<MarketerLogin />} />
                   <Route path="/registration" element={<RegistrationForm />} />
                   <Route path="/referrals/:referral" element={<Referrals />} />
-                  <Route path="/stats" element={<ReferralStats />} />
                   {/* Client */}
                   <Route path="/signup" element={<ClientSignup />} />
                   <Route path="/userdashboard" element={<UserDashboard />} />
                   <Route path="/admindashboard" element={<AdminDashboard />} />
-                  <Route path="/create-event" element={<AdminDashboard />} />
-                  <Route path="/eventdetails" element={<AdminDashboard />} />
-                  <Route path="/eventlist" element={<AdminDashboard />} />
+                  {/* Events */}
+                  <Route path="/create-event" element={<CreateEventForm />} />
+                  <Route path="/eventdetails" element={<EventDetails />} />
+                  <Route path="/eventlist" element={<EventList />} />
                   <Route
-                     path="/verify-user-email/:token"
+                    path="/verify-user-email/:token"
                     element={<UserEmailVerification />}
                   />
-                     <Route
-                     path="/verify-marketer-email/:token"
+                  <Route
+                    path="/verify-marketer-email/:token"
                     element={<MarketerEmailVerification />}
                   />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />    
-                  <Route path="/reset/:resetToken" element={<ResetPassword />} />             
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route
+                    path="/reset/:resetToken"
+                    element={<ResetPassword />}
+                  />
                   {/* <Route path="/verify-code" element={CodeVerification} /> */}
                 </Routes>
               </div>

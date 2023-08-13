@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { CartContext } from "../CartContext";
-import { UserContext } from "../UserContext";
+import { CartContext } from "../contexts/CartContext";
+import { UserContext } from "../contexts/UserContext";
+import { ColorRing } from "react-loader-spinner";
 
 const CheckoutPage = () => {
   const [formData, setFormData] = useState({
@@ -21,12 +22,13 @@ const CheckoutPage = () => {
     totalPrice: 0,
   });
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // Get cart contents from CartListPage
   const { cartItems } = useContext(CartContext);
 
   const userContext = useContext(UserContext);
-  console.log(userContext.user);
+  console.log(userContext.user.email);
 
   const handleInputChange = (event) => {
     setFormData({
@@ -40,6 +42,7 @@ const CheckoutPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const userId = userContext.user._id;
     console.log(userId);
     console.log(cartItems);
@@ -58,25 +61,46 @@ const CheckoutPage = () => {
         ),
       });
       console.log(response.data);
-      // Navigate to confirmation page
-      navigate("/paymentform");
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/paystackcheckout");
+      }, 2000);
     } catch (error) {
       console.error("Error:", error);
+      setLoading(false);
     }
   };
 
-  // Rest of the component...
+  // Get all number input fields
+  const numberInputs = document.querySelectorAll('input[type="number"]');
+  // Add event listeners to number input fields
+  numberInputs.forEach((input) => {
+    input.addEventListener("keydown", (e) => {
+      // Allow only numbers, backspace, and delete key
+      if (
+        !(
+          (e.key >= "0" && e.key <= "9") ||
+          e.key === "Backspace" ||
+          e.key === "Delete"
+        )
+      ) {
+        e.preventDefault();
+      }
+    });
+  });
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-2xl font-bold mb-4">Billing Address</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="w-full max-w-xl p-4 bg-white rounded-md shadow-xl">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label>
-              Name
+            <div className="mb-4">
+              <label htmlFor="name" className="block">
+                Name
+              </label>
               <input
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full p-2 border rounded-md capitalize"
                 type="text"
                 name="name"
                 value={formData.name}
@@ -84,11 +108,13 @@ const CheckoutPage = () => {
                 placeholder="Your name"
                 required
               />
-            </label>
-            <label>
-              Email
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block">
+                Email
+              </label>
               <input
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full p-2 border rounded-md "
                 type="email"
                 name="email"
                 value={formData.email}
@@ -96,11 +122,13 @@ const CheckoutPage = () => {
                 placeholder="Your email"
                 required
               />
-            </label>
-            <label>
-              Phone Number
+            </div>
+            <div className="mb-4">
+              <label htmlFor="phone" className="block">
+                Phone Number
+              </label>
               <input
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full p-2 border rounded-md capitalize"
                 type="number"
                 name="phone"
                 value={formData.phone}
@@ -108,11 +136,13 @@ const CheckoutPage = () => {
                 placeholder="Phone number"
                 required
               />
-            </label>
-            <label>
-              Street Address
+            </div>
+            <div className="mb-4">
+              <label htmlFor="street" className="block">
+                Street Address
+              </label>
               <input
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600 capitalize"
+                className="w-full p-2 border rounded-md capitalize"
                 type="text"
                 name="street"
                 value={formData.street}
@@ -120,11 +150,13 @@ const CheckoutPage = () => {
                 placeholder="Street your address"
                 required
               />
-            </label>
-            <label>
-              City
+            </div>
+            <div className="mb-4">
+              <label htmlFor="city" className="block">
+                City
+              </label>
               <input
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600 capitalize"
+                className="w-full p-2 border rounded-md capitalize"
                 type="text"
                 name="city"
                 value={formData.city}
@@ -132,11 +164,13 @@ const CheckoutPage = () => {
                 placeholder="Enter your city"
                 required
               />
-            </label>
-            <label>
-              State
+            </div>
+            <div className="mb-4">
+              <label htmlFor="state" className="block">
+                State
+              </label>
               <input
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600 capitalize"
+                className="w-full p-2 border rounded-md capitalize"
                 type="text"
                 name="state"
                 value={formData.state}
@@ -144,37 +178,56 @@ const CheckoutPage = () => {
                 placeholder="Enter your state"
                 required
               />
-            </label>
-            <label>
-              Country
+            </div>
+            <div className="mb-4">
+              <label htmlFor="country" className="block">
+                Country
+              </label>
               <input
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600 capitalize"
+                className="w-full p-2 border rounded-md  capitalize"
                 type="text"
                 name="country"
                 value={formData.country}
                 onChange={handleInputChange}
                 placeholder="Your your country"
               />
-            </label>
-            <label>
-              Postal Code
+            </div>
+            <div className="mb-4">
+              <label htmlFor="postalCode" className="block">
+                Postal Code
+              </label>
               <input
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600"
-                type="text"
+                className="w-full p-2 border rounded-md "
+                type="number"
                 name="postalCode"
                 value={formData.postalCode}
                 onChange={handleInputChange}
                 placeholder="Your postal address"
               />
-            </label>
+            </div>
           </div>
+
           <input
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 hover:text-slate-100 bg-slate-400 text-lg font-bold focus:ring-indigo-600 cursor-pointer"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 hover:text-slate-100 bg-teal text-lg font-bold focus:ring-indigo-600 cursor-pointer"
             type="submit"
             value="- Checkout -"
+            disabled={loading}
           />
         </form>
       </div>
+      {loading && (
+        <div className="overlay">
+          <ColorRing
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+            colors={["#b8c480", "#B2A3B5", "#F4442E", "#51E5FF", "#429EA6"]}
+          />
+        </div>
+      )}
     </div>
   );
 };

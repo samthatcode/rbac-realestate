@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const ResetPassword = () => {
   const { resetToken } = useParams();
@@ -68,10 +68,10 @@ const ResetPassword = () => {
             />
             <button
               type="button"
-              className="absolute right-3 top-2 text-gray-500"
+              className="absolute right-3 top-3 text-gray-500"
               onClick={togglePasswordVisibility}
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
         </div>

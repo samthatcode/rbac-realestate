@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  Footer,
-  ReferralStats,
+  Footer, 
   Referrals,
   RegistrationForm,
 } from "../components";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import axios from "axios";
-import { MarketerContext } from "../MarketerContext";
+import { MarketerContext } from "../contexts/MarketerContext";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const MarketerDashboard = () => {
@@ -90,56 +89,45 @@ const MarketerDashboard = () => {
             >
               Registration Form
             </Link>
-            {ismarketer && referralId && (
-              <Link
-                to={`/referrals/${referralId}`}
-                className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
-              >
-                Referrals
-              </Link>
-            )}
             <Link
-              to="/stats"
+              to={`/referrals/${referralId}`}
               className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
             >
-              Referral Stats
+              Referrals
             </Link>
           </nav>
         </Drawer>
-        <header className="col-span-12 p-4 bg-blue-500 text-white">
-          <div className="flex justify-between">
-            <h1 className="text-xl font-bold">Marketer Dashboard</h1>
-            <div>
-              {ismarketer && (
-                <>
-                  <p className="text-sm text-white">
-                    Click to Copy your Referral Link
-                  </p>
-                  <CopyToClipboard
-                    text={ismarketer.referralLink}
-                    onCopy={handleCopy}
-                  >
-                    <button className="font-medium py-2 px-4 rounded bg-white text-blue-500 hover:text-blue-400">
-                      {copied ? "Copied!" : "Copy Link"}
-                    </button>
-                  </CopyToClipboard>
-                </>
-              )}
-            </div>
+
+        <header className="col-span-12 flex justify-between items-center p-4 bg-blue-500 text-white">
+          <div className="flex items-center">
+            <button onClick={() => setIsDrawerOpen(true)} className="text-4xl">
+              &#9776;
+            </button>
+            <h1 className="ml-4 text-xl font-bold">Marketer Dashboard</h1>
+          </div>
+          <div className="flex justify-between gap-6">
+            {ismarketer && (
+              <>
+                <CopyToClipboard
+                  text={ismarketer.referralLink}
+                  onCopy={handleCopy}
+                >
+                  <button className="font-medium py-2 px-4 rounded bg-white text-blue-500 hover:text-blue-400">
+                    {copied ? "Copied!" : "Copy Referral Link"}
+                  </button>
+                </CopyToClipboard>
+              </>
+            )}
             <button
               onClick={handleLogout}
-              className="font-medium px-4 rounded bg-white text-blue-500 hover:text-blue-400"
+              className="ml-4 font-medium px-4 rounded bg-white text-blue-500 hover:text-blue-400"
             >
               Logout
             </button>
           </div>
-
-          <button onClick={() => setIsDrawerOpen(true)}>
-            <span className="text-4xl">&#9776;</span>
-          </button>
         </header>
       </div>
-      {/* <RegistrationForm /> */}     
+      {/* <RegistrationForm /> */}
       {referralId && <Referrals referralId={referralId} />}
       <Footer />
     </div>

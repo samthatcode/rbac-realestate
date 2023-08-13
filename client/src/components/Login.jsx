@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../contexts/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const { setUser } = useContext(UserContext);
@@ -101,6 +102,7 @@ const Login = () => {
               placeholder="Enter your email"
               onChange={handleOnChange}
               className="w-full p-2 border rounded-md"
+              required
             />
           </div>
           <div className="mb-4">
@@ -115,13 +117,14 @@ const Login = () => {
                 placeholder="Enter your password"
                 onChange={handleOnChange}
                 className="w-full p-2 border rounded-md"
+                required
               />
               <button
                 type="button"
-                className="absolute right-3 top-2 text-gray-500"
+                className="absolute right-3 top-3 text-gray-500"
                 onClick={togglePasswordVisibility}
               >
-                {showPassword ? "Hide" : "Show"}
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
           </div>

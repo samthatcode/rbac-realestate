@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaShoppingBasket } from "react-icons/fa";
-import { CartContext } from "../CartContext";
+import { CartContext } from "../contexts/CartContext";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
@@ -19,7 +19,7 @@ const Cart = () => {
         <span className="absolute -top-2 -right-2 px-1 text-xs font-semibold bg-red-500 text-white rounded-full">
           {cartItemsCount}
         </span>
-      )}      
+      )}
     </div>
   );
 };

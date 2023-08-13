@@ -14,32 +14,50 @@ const data = [
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const AdminDashboard = () => {
-  const [totalProducts, setTotalProducts] = useState(0);
-  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalProductsCount, setTotalProductsCount] = useState(0);
+  const [totalUsersCount, setTotalUsersCount] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProducts = async () => {
       try {
         const productsResponse = await fetch("/api/products");
         const productsData = await productsResponse.json();
-        setTotalProducts(productsData.count);
-
-        const usersResponse = await fetch("/api/users");
-        const usersData = await usersResponse.json();
-        setTotalUsers(usersData.count);
-
-        const salesResponse = await fetch("/api/sales/total");
-        const salesData = await salesResponse.json();
-        setTotalSales(salesData.total);
+        console.log('productsData', productsData)
+        setTotalProductsCount(productsData.data.length);
       } catch (error) {
-        console.error("Error fetching data:", error);
-        setError("Failed to fetch data. Please try again later.");
+        console.error("Error fetching products:", error);
+        setError("Failed to fetch products. Please try again later.");
       }
     };
 
-    fetchData();
+    const fetchUsers = async () => {
+      try {
+        const usersResponse = await fetch("/api/users");
+        const usersData = await usersResponse.json();
+        console.log('usersData', usersData)
+        setTotalUsersCount(usersData.data.length);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        setError("Failed to fetch users. Please try again later.");
+      }
+    };
+
+    // const fetchSales = async () => {
+    //   try {
+    //     const salesResponse = await fetch("/api/sales/total");
+    //     const salesData = await salesResponse.json();
+    //     setTotalSales(salesData.total);
+    //   } catch (error) {
+    //     console.error("Error fetching sales:", error);
+    //     setError("Failed to fetch sales. Please try again later.");
+    //   }
+    // };
+
+    fetchProducts();
+    fetchUsers();
+    // fetchSales();
   }, []);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -83,10 +101,7 @@ const AdminDashboard = () => {
               Manage Categories
             </Link>
             <div className="relative block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium cursor-pointer">
-              <button
-                onClick={toggleDropdown}
-                className=""
-              >
+              <button onClick={toggleDropdown} className="">
                 Manage Events
               </button>
               {isDropdownOpen && (
@@ -133,11 +148,11 @@ const AdminDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="p-4 bg-white shadow rounded">
                 <h2 className="font-bold text-lg mb-2">Total Products</h2>
-                <p>{totalProducts}</p>
+                <p className="text-purple-500">{totalProductsCount}</p>
               </div>
               <div className="p-4 bg-white shadow rounded">
                 <h2 className="font-bold text-lg mb-2">Total Users</h2>
-                <p>{totalUsers}</p>
+                <p className="text-purple-500">{totalUsersCount}</p>
               </div>
               <div className="p-4 bg-white shadow rounded">
                 <h2 className="font-bold text-lg mb-2">Total Sales</h2>
@@ -145,7 +160,7 @@ const AdminDashboard = () => {
               </div>
             </div>
           )}
-          <div className="mt-8">
+          <div className="mt-">
             <PieChart width={400} height={400}>
               <Pie
                 data={data}

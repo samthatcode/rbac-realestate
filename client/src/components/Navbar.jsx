@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { UserContext } from "../UserContext";
-import { CartContext } from "../CartContext";
+import { UserContext } from "../contexts/UserContext";
+import { CartContext } from "../contexts/CartContext";
 
 import { Link, useNavigate } from "react-router-dom";
 import Cart from "./Cart";
@@ -9,15 +9,20 @@ import Cart from "./Cart";
 const Navbar = () => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, clearCart } = useContext(CartContext);
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post("/api/logout", {}, {
-        withCredentials: true, // Include credentials (cookies)
-      });
+      const response = await axios.post(
+        "/api/logout",
+        {},
+        {
+          withCredentials: true, // Include credentials (cookies)
+        }
+      );
       if (response.data.message === "Logged out successfully") {
-        setUser(null);        
+        setUser(null);
+        clearCart();
         navigate("/");
         console.log("User Logged Out");
       }
@@ -25,7 +30,6 @@ const Navbar = () => {
       console.error(err);
     }
   };
-  
 
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -33,8 +37,6 @@ const Navbar = () => {
   const [isEventsOpen, setIsEventsOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
 
- 
-  
   return (
     <nav className="bg-blue-200 text-black top-0 fixed md:w-full w-full z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

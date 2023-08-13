@@ -5,11 +5,18 @@ function EventDetails({ match }) {
   const [event, setEvent] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`/api/events/${match.params.id}`)
-      .then((response) => setEvent(response.data.data))
-      .catch((error) => console.error(error));
+    const fetchEventData = async () => {
+      try {
+        const response = await axios.get(`/api/events/${match.params.id}`);
+        setEvent(response.data.data);
+      } catch (error) {
+        console.error("Error fetching event data:", error);
+      }
+    };
+  
+    fetchEventData();
   }, [match.params.id]);
+  
 
   return event ? (
     <div className="p-4">

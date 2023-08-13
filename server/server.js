@@ -13,8 +13,8 @@ const fs = require('fs');
 const path = require('path');
 const dir = path.join(__dirname, 'public/images'); // use absolute paths
 
-if (!fs.existsSync(dir)){
-    fs.mkdirSync(dir, { recursive: true });
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, { recursive: true });
 }
 
 const storage = multer.diskStorage({
@@ -75,12 +75,12 @@ mongoose.connect(MONGODB_URI, {
           firstName: "Admin",
           lastName: "User",
           role: "admin",
-          discoverySource: "seed", 
-          profession: "admin", 
-          country: "admin", 
-          stateProvince: "admin", 
-          address: "123 Admin St", 
-          phoneNumber: "1234567890", 
+          discoverySource: "seed",
+          profession: "admin",
+          country: "admin",
+          stateProvince: "admin",
+          address: "123 Admin St",
+          phoneNumber: "1234567890",
         });
 
         await adminUser.save();
@@ -110,27 +110,7 @@ app.use(
   })
 );
 
-// Paystack payment integration
-app.post('/api/charge', async (req, res) => {
-  try {
-    const { email, amount } = req.body; // Paystack requires email and amount
 
-    const response = await axios.post('https://api.paystack.co/transaction/initialize', {
-      email,
-      amount: amount * 100, // convert to kobo
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.PAYSTACK_TEST_SECRET_KEY}`
-      }
-    });
-
-    console.log(response.data);
-    res.json({ message: 'Payment initialized!', data: response.data.data });
-  } catch (error) {
-    console.log(error);
-    res.json({ message: 'Payment failed.' });
-  }
-});
 
 // Parse request bodies as JSON: app.use(express.json());
 app.use(express.json());

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../CartContext";
+import { CartContext } from "../contexts/CartContext";
 import axios from "axios";
 
 const ProductPage = () => {
@@ -51,7 +51,9 @@ const ProductPage = () => {
                     <p className="text-lg text-teal font-bold mb-4">
                       Price: ${product.price}
                     </p>
-                    <p className="text-sm mb-4 text-zinc-500">Amenities: {product.amenities}</p>
+                    <p className="text-sm mb-4 text-zinc-500">
+                      Amenities: {product.amenities}
+                    </p>
                     <ul className="list-disc pl-6">
                       <li className="text-[12px] text-darkslategray">
                         Square Footage: {product.squareFootage}
@@ -76,8 +78,8 @@ const ProductPage = () => {
             </div>
           ))
         ) : (
-          <div className="flex justify-center items-center text-2xl">          
-           Oops!!😞  No products available.
+          <div className="flex justify-center items-center text-2xl">
+            Oops!!😞 No products available.
           </div> // Handle the case when products is not an array or empty
         )}
       </div>

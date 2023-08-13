@@ -6,6 +6,8 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [deliveryDate, setDeliveryDate] = useState("");
+  const [paymentReference, setPaymentReference] = useState("");
+
 
   useEffect(() => {
     console.log("Updated cartItems:", cartItems);
@@ -16,7 +18,15 @@ export const CartProvider = ({ children }) => {
   const addToCart = (product) => {
     console.log("Product object:", product);
     console.log(product._id);
-    setCartItems([...cartItems, { ...product, id: product._id, quantity: 1 }]);
+    const existingProduct = cartItems.find(item => item.id === product._id);
+  
+    if (existingProduct) {
+      // update quantity of the existing product
+      updateQuantity(existingProduct.id, existingProduct.quantity + 1);
+    } else {
+      // add new product to the cart
+      setCartItems([...cartItems, { ...product, id: product._id, quantity: 1 }]);
+    }
   };
 
   const removeFromCart = (productId) => {
@@ -29,6 +39,9 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateQuantity = (productId, quantity) => {
+    if (quantity < 1) {
+      return;
+    }
     setCartItems((prevCartItems) =>
       prevCartItems.map((item) =>
         item.id === productId ? { ...item, quantity } : item
@@ -36,13 +49,14 @@ export const CartProvider = ({ children }) => {
     );
     console.log("Cart items after quantity update:", cartItems);
   };
+  
 
   const calculateTotalPrice = () => {
     let total = 0;
     cartItems.forEach((item) => {
       total += item.price * item.quantity;
     });
-    setTotalPrice(total.toFixed(2));
+    setTotalPrice(total);
   };
 
   const calculateDeliveryDate = () => {
@@ -63,6 +77,8 @@ export const CartProvider = ({ children }) => {
         updateQuantity,
         totalPrice,
         deliveryDate,
+        paymentReference, 
+        setPaymentReference 
       }}
     >
       {children}

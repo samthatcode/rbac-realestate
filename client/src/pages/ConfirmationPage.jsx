@@ -1,8 +1,17 @@
-import React, { useContext, useEffect } from "react";
-import { CartContext } from "../CartContext";
+import React, { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmationPage = () => {
-  const { cartItems, totalPrice, deliveryDate } = useContext(CartContext);
+  const { cartItems, totalPrice, deliveryDate, clearCart, paymentReference } =
+    useContext(CartContext);
+  const navigate = useNavigate();
+ 
+
+  const handleCloseButtonClick = () => {
+    clearCart();
+    navigate("/products");
+  };
 
   return (
     <div className="flex items-center justify-center h-screen bg-slate-400">
@@ -32,13 +41,24 @@ const ConfirmationPage = () => {
         <p className="mt-1 text-gray-800">
           Estimated delivery date: {deliveryDate}
         </p>
+        <p className="mt-4 text-gray-800">
+          Payment Reference: <span className="font-semibold">{paymentReference}</span>
+        </p>
 
-        <button
-          onClick={() => window.print()}
-          className="p-3 mt-6 bg-indigo-500 hover:bg-indigo-700 text-white font-medium rounded-md shadow-md"
-        >
-          Print Order Summary
-        </button>
+        <div className="flex justify-between mt-6">
+          <button
+            onClick={() => window.print()}
+            className="p-3 bg-indigo-500 hover:bg-indigo-700 text-white font-medium rounded-md shadow-md"
+          >
+            Print Order Summary
+          </button>
+          <button
+            onClick={handleCloseButtonClick}
+            className="p-3 bg-red-500 hover:bg-red-700 text-white font-medium rounded-md shadow-md"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );

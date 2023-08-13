@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../UserContext";
-import { CartContext } from "../CartContext";
+import { UserContext } from "../contexts/UserContext";
+import { CartContext } from "../contexts/CartContext";
 import { toast } from "react-toastify";
 
 const ProductDetails = () => {
@@ -56,7 +56,7 @@ const ProductDetails = () => {
         autoClose: 2000,
         onClose: () => navigate("/login"),
       });
-     
+
       console.log("User not logged in");
     }
   };
