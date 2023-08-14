@@ -18,13 +18,14 @@ const AdminDashboard = () => {
   const [totalUsersCount, setTotalUsersCount] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
   const [error, setError] = useState("");
+  const [inactiveMarketers, setInactiveMarketers] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const productsResponse = await fetch("/api/products");
         const productsData = await productsResponse.json();
-        console.log('productsData', productsData)
+        console.log("productsData", productsData);
         setTotalProductsCount(productsData.data.length);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -36,11 +37,23 @@ const AdminDashboard = () => {
       try {
         const usersResponse = await fetch("/api/users");
         const usersData = await usersResponse.json();
-        console.log('usersData', usersData)
+        console.log("usersData", usersData);
         setTotalUsersCount(usersData.data.length);
       } catch (error) {
         console.error("Error fetching users:", error);
         setError("Failed to fetch users. Please try again later.");
+      }
+    };
+
+    const fetchInactiveMarketers = async () => {
+      try {
+        const response = await fetch("/api/marketers/inactive");
+        const data = await response.json();
+        console.log(data);
+        setInactiveMarketers(data);
+      } catch (error) {
+        console.error("Error fetching inactive marketers:", error);
+        setError("Failed to fetch inactive marketers. Please try again later.");
       }
     };
 
@@ -57,6 +70,7 @@ const AdminDashboard = () => {
 
     fetchProducts();
     fetchUsers();
+    fetchInactiveMarketers();
     // fetchSales();
   }, []);
 
@@ -65,6 +79,23 @@ const AdminDashboard = () => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
+  };
+
+  const approveMarketer = async (marketerId) => {
+    try {
+      const response = await fetch(`/api/marketers/${marketerId}/approve`, {
+        method: "POST",
+      });
+      const data = await response.json();
+      if (data.success) {
+        setInactiveMarketers(
+          inactiveMarketers.filter((marketer) => marketer._id !== id)
+        );
+      }
+    } catch (error) {
+      console.error("Error approving marketer:", error);
+      setError("Failed to approve marketer. Please try again later.");
+    }
   };
 
   return (
@@ -160,6 +191,16 @@ const AdminDashboard = () => {
               </div>
             </div>
           )}
+          <h2 className="font-bold text-lg mb-2">Inactive Marketers</h2>
+          {Array.isArray(inactiveMarketers) &&
+            inactiveMarketers.map((marketer) => (
+              <div key={marketer._id}>
+                <p>{marketer.email}</p>
+                <button onClick={() => approveMarketer(marketer._id)}>
+                  Approve
+                </button>
+              </div>
+            ))}
           <div className="mt-">
             <PieChart width={400} height={400}>
               <Pie

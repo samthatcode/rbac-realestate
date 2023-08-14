@@ -58,7 +58,7 @@ const Login = () => {
         setUser(user);
         if (user.role === "admin") {
           setTimeout(() => {
-            navigate("/admindashboard");
+            navigate("/admin/dashboard");
           }, 2000); // Navigate to the 'AdminDashboard' component if the user is an admin
         } else {
           setTimeout(() => {

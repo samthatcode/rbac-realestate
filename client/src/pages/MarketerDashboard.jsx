@@ -1,9 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Footer, 
-  Referrals,
-  RegistrationForm,
-} from "../components";
+import { Footer, Referrals, RegistrationForm } from "../components";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import axios from "axios";
@@ -33,7 +29,11 @@ const MarketerDashboard = () => {
       // Update the referralLink in the marketer's data
       marketerData.referralLink = fullUrl;
 
-      setIsMarketer(marketerData);
+      setIsMarketer({
+        ...marketerData,
+        isActive: marketerData.isActive,
+      });
+
       setMarketer(marketerData); // Update the marketer in your context
 
       // Extract the referral ID from the referralLink
@@ -45,6 +45,12 @@ const MarketerDashboard = () => {
       setReferralId(referralId);
     };
     fetchMarketer();
+
+    // Fetch marketer's data every 5 minutes
+    const intervalId = setInterval(fetchMarketer, 5 * 60 * 1000); // 5 * 60 * 1000 ms = 5 minutes
+
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
   }, [marketerId, setMarketer]);
 
   const handleLogout = async () => {
@@ -95,6 +101,12 @@ const MarketerDashboard = () => {
             >
               Referrals
             </Link>
+            <Link
+              to="/marketer/profile"
+              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
+            >
+              Edit Profile
+            </Link>
           </nav>
         </Drawer>
 
@@ -105,7 +117,18 @@ const MarketerDashboard = () => {
             </button>
             <h1 className="ml-4 text-xl font-bold">Marketer Dashboard</h1>
           </div>
-          <div className="flex justify-between gap-6">
+          <div className="flex justify-between items-center gap-3">
+            {ismarketer && !ismarketer.isActive && (
+              <p className="flex text-red-500 bg-red-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
+                Inactive
+              </p>
+            )}
+            {ismarketer && ismarketer.isActive && (
+              <p className="flex text-green-500 bg-green-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
+                Active
+              </p>
+            )}
+
             {ismarketer && (
               <>
                 <CopyToClipboard
@@ -120,7 +143,7 @@ const MarketerDashboard = () => {
             )}
             <button
               onClick={handleLogout}
-              className="ml-4 font-medium px-4 rounded bg-white text-blue-500 hover:text-blue-400"
+              className="ml-4 font-medium px-4 py-2 rounded bg-white text-blue-500 hover:text-blue-400"
             >
               Logout
             </button>

@@ -23,7 +23,8 @@ module.exports.verifyTokenAndUser = async (req, res, next) => {
         const decoded = jwt.verify(token, secretToken);
         const user = await User.findById(decoded.id);
         if (!user) {
-            throw new Error('User not found');
+            res.status(404).json({ message: 'User not found' });
+            return;
         }
 
         // Check if user is verified
@@ -111,7 +112,8 @@ module.exports.verifyTokenAndMarketer = async (req, res, next) => {
         const decoded = jwt.verify(token, secretToken);
         const marketer = await Marketer.findById(decoded.id);
         if (!marketer) {
-            throw new Error('Marketer not found');
+            res.status(404).json({ message: 'Marketer not found' });
+            return;
         }
 
         // Check if marketer is verified

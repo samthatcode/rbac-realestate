@@ -224,8 +224,8 @@ const CheckoutPage = () => {
         <div className="overlay">
           <ColorRing
             visible={true}
-            height="70"
-            width="70"
+            height="50"
+            width="50"
             ariaLabel="blocks-loading"
             wrapperStyle={{}}
             wrapperClass="blocks-wrapper"

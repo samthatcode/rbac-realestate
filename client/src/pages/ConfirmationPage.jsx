@@ -6,7 +6,6 @@ const ConfirmationPage = () => {
   const { cartItems, totalPrice, deliveryDate, clearCart, paymentReference } =
     useContext(CartContext);
   const navigate = useNavigate();
- 
 
   const handleCloseButtonClick = () => {
     clearCart();
@@ -19,7 +18,7 @@ const ConfirmationPage = () => {
         <h2 className="text-3xl font-bold text-gray-800 mb-4">
           Thank you for your purchase!
         </h2>
-        <p className="text-gray-600 mb-4">
+        <p className="text-green-600 mb-4">
           Your order has been placed successfully. We'll send you an email
           confirmation shortly.
         </p>
@@ -30,19 +29,20 @@ const ConfirmationPage = () => {
         <ul className="list-disc pl-6 mt-2 text-gray-700">
           {cartItems.map((item) => (
             <li key={item.id} className="mb-2">
-              <span className="font-semibold">{item.name}</span> - ${item.price}{" "}
-              x {item.quantity}
+              <span className="font-semibold">{item.name}</span> - &#x20A6;
+              {item.price} x {item.quantity}
             </li>
           ))}
         </ul>
         <p className="mt-4 text-gray-800">
-          Total: <span className="font-semibold">${totalPrice}</span>
+          Total: <span className="font-semibold">&#x20A6;{totalPrice}</span>
         </p>
         <p className="mt-1 text-gray-800">
           Estimated delivery date: {deliveryDate}
         </p>
         <p className="mt-4 text-gray-800">
-          Payment Reference: <span className="font-semibold">{paymentReference}</span>
+          Payment Reference:{" "}
+          <span className="font-semibold">{paymentReference}</span>
         </p>
 
         <div className="flex justify-between mt-6">

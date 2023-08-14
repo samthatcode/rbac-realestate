@@ -36,6 +36,7 @@ import {
   EventList,
   MarketerForgotPassword,
   MarketerResetPassword,
+  MarketerProfile,
 } from "./components";
 import { UserProvider } from "./contexts/UserContext";
 import { CartProvider } from "./contexts/CartContext";
@@ -86,6 +87,10 @@ const App = () => {
                     path="/marketer/signup"
                     element={<MarketerRegister />}
                   />
+                  <Route
+                    path="/marketer/profile"
+                    element={<MarketerProfile />}
+                  />
                   <Route path="/marketer/login" element={<MarketerLogin />} />
                   <Route path="/registration" element={<RegistrationForm />} />
                   <Route path="/referrals/:referral" element={<Referrals />} />
@@ -99,7 +104,7 @@ const App = () => {
                     element={<MarketerResetPassword />}
                   />             
                   <Route path="/userdashboard" element={<UserDashboard />} />
-                  <Route path="/admindashboard" element={<AdminDashboard />} />
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
                   {/* Events */}
                   <Route path="/create-event" element={<CreateEventForm />} />
                   <Route path="/eventdetails" element={<EventDetails />} />
