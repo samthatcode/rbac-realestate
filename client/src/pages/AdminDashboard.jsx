@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell, Label } from "recharts";
 import { Footer } from "../components";
-
-const data = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 },
-];
+import StyledTable from "./StyledTable";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -20,7 +14,23 @@ const AdminDashboard = () => {
   const [error, setError] = useState("");
   const [inactiveMarketers, setInactiveMarketers] = useState([]);
 
+  const data = [
+    { name: "Total Products", value: totalProductsCount },
+    { name: "Total Users", value: totalUsersCount },
+  ];
+
   useEffect(() => {
+    // const fetchSales = async () => {
+    //   try {
+    //     const salesResponse = await fetch("/api/sales/total");
+    //     const salesData = await salesResponse.json();
+    //     setTotalSales(salesData.total);
+    //   } catch (error) {
+    //     console.error("Error fetching sales:", error);
+    //     setError("Failed to fetch sales. Please try again later.");
+    //   }
+    // };
+
     const fetchProducts = async () => {
       try {
         const productsResponse = await fetch("/api/products");
@@ -47,26 +57,22 @@ const AdminDashboard = () => {
 
     const fetchInactiveMarketers = async () => {
       try {
-        const response = await fetch("/api/marketers/inactive");
+        const response = await fetch("/api/marketers");
+        // console.log("Response status:", response.status);
         const data = await response.json();
-        console.log(data);
-        setInactiveMarketers(data);
+        // console.log(data);
+
+        // Filter inactive marketers
+        const inactiveMarketers = data.data.filter(
+          (marketer) => marketer.isActive === false
+        );
+        // console.log("Inactive marketers:", inactiveMarketers);
+        setInactiveMarketers(inactiveMarketers);
       } catch (error) {
         console.error("Error fetching inactive marketers:", error);
         setError("Failed to fetch inactive marketers. Please try again later.");
       }
     };
-
-    // const fetchSales = async () => {
-    //   try {
-    //     const salesResponse = await fetch("/api/sales/total");
-    //     const salesData = await salesResponse.json();
-    //     setTotalSales(salesData.total);
-    //   } catch (error) {
-    //     console.error("Error fetching sales:", error);
-    //     setError("Failed to fetch sales. Please try again later.");
-    //   }
-    // };
 
     fetchProducts();
     fetchUsers();
@@ -89,7 +95,7 @@ const AdminDashboard = () => {
       const data = await response.json();
       if (data.success) {
         setInactiveMarketers(
-          inactiveMarketers.filter((marketer) => marketer._id !== id)
+          inactiveMarketers.filter((marketer) => marketer._id !== marketerId)
         );
       }
     } catch (error) {
@@ -162,14 +168,18 @@ const AdminDashboard = () => {
             {/* Add more links as needed */}
           </nav>
         </Drawer>
-        <header className="col-span-12 p-4 bg-blue-500 text-white">
-          <h1 className="text-xl font-bold">Admin Dashboard</h1>
-          <button onClick={() => setIsDrawerOpen(true)}>
-            <span className="text-4xl">&#9776;</span>
-          </button>
+        <header className="col-span-12 flex justify-between items-center p-4 bg-blue-500 text-white">
+          <div className="flex items-center">
+            <button onClick={() => setIsDrawerOpen(true)}>
+              <span className="text-4xl">&#9776;</span>
+            </button>
+            <h1 className="ml-4 text-xl font-bold">Admin Dashboard</h1>
+          </div>
         </header>
-        <main className="col-span-12 lg:col-span-9 p-4">
-          <h1 className="text-2xl font-bold mb-4">Welcome, Admin!</h1>
+        <main className="col-span-12 lg:col-span-9 p-6 bg-slate-200 m-4 shadow-xl rounded-lg">
+          <h1 className="text-2xl font-bold mb-4 text-steelteal">
+            Welcome, Admin!
+          </h1>
           {/* Dashboard content goes here */}
           {error ? (
             <div className="p-4 bg-red-500 text-white rounded">
@@ -178,31 +188,32 @@ const AdminDashboard = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="p-4 bg-white shadow rounded">
-                <h2 className="font-bold text-lg mb-2">Total Products</h2>
+                <h2 className="font-bold text-lg mb-2 text-steelteal">
+                  Total Products
+                </h2>
                 <p className="text-purple-500">{totalProductsCount}</p>
               </div>
               <div className="p-4 bg-white shadow rounded">
-                <h2 className="font-bold text-lg mb-2">Total Users</h2>
+                <h2 className="font-bold text-lg mb-2 text-steelteal">
+                  Total Users
+                </h2>
                 <p className="text-purple-500">{totalUsersCount}</p>
               </div>
               <div className="p-4 bg-white shadow rounded">
-                <h2 className="font-bold text-lg mb-2">Total Sales</h2>
-                <p>${totalSales}</p>
-              </div>
+                <h2 className="font-bold text-lg mb-2 text-steelteal">
+                  Total Sales
+                </h2>
+                <p>&#x20A6;{totalSales}</p>
+              </div>         
             </div>
           )}
-          <h2 className="font-bold text-lg mb-2">Inactive Marketers</h2>
-          {Array.isArray(inactiveMarketers) &&
-            inactiveMarketers.map((marketer) => (
-              <div key={marketer._id}>
-                <p>{marketer.email}</p>
-                <button onClick={() => approveMarketer(marketer._id)}>
-                  Approve
-                </button>
-              </div>
-            ))}
-          <div className="mt-">
-            <PieChart width={400} height={400}>
+          <StyledTable
+            data={inactiveMarketers}
+            approveMarketer={approveMarketer}
+          />          
+        </main>
+        <div className="mt-4 shadow rounded">
+            <PieChart width={300} height={300}>
               <Pie
                 data={data}
                 cx={200}
@@ -211,6 +222,32 @@ const AdminDashboard = () => {
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
+                label={({
+                  cx,
+                  cy,
+                  midAngle,
+                  innerRadius,
+                  outerRadius,
+                  percent,
+                }) => {
+                  const RADIAN = Math.PI / 180;
+                  const radius =
+                    innerRadius + (outerRadius - innerRadius) * 0.5;
+                  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+                  return (
+                    <text
+                      x={x}
+                      y={y}
+                      fill="white"
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                    >
+                      {`${(percent * 100).toFixed(2)}%`}
+                    </text>
+                  );
+                }}
               >
                 {data.map((entry, index) => (
                   <Cell
@@ -221,7 +258,6 @@ const AdminDashboard = () => {
               </Pie>
             </PieChart>
           </div>
-        </main>
       </div>
       <Footer />
     </>

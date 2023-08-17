@@ -3,6 +3,7 @@ export { default as UserDashboard } from './UserDashboard';
 export { default as ProductPage } from './ProductPage';
 export { default as ProductDetails } from './ProductDetails';
 export { default as AdminDashboard } from './AdminDashboard';
+export { default as StyledTable } from './StyledTable';
 export { default as MarketerDashboard } from './MarketerDashboard';
 export { default as UsersPage } from './UsersPage';
 export { default as CartListPage } from './CartListPage';

@@ -3,6 +3,7 @@ import { MarketerContext } from "../../contexts/MarketerContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const { setMarketer } = useContext(MarketerContext);
@@ -111,10 +112,10 @@ const Login = () => {
               />
               <button
                 type="button"
-                className="absolute right-3 top-2 text-gray-500"
+                className="absolute right-3 top-3 text-gray-500"
                 onClick={togglePasswordVisibility}
               >
-                {showPassword ? "Hide" : "Show"}
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
           </div>

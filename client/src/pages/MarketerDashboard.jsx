@@ -1,19 +1,38 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Footer, Referrals, RegistrationForm } from "../components";
+import {
+  Footer,
+  MarketerProfile,
+  Referrals,
+  RegistrationForm,
+} from "../components";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import axios from "axios";
 import { MarketerContext } from "../contexts/MarketerContext";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import Modal from "react-modal";
+import { FaChevronDown } from "react-icons/fa";
 
 const MarketerDashboard = () => {
-  const { setMarketer } = useContext(MarketerContext);
+  const { marketer, setMarketer } = useContext(MarketerContext);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [ismarketer, setIsMarketer] = useState(null);
   const [copied, setCopied] = useState(false); // State to track if the link is copied
   const { marketerId } = useParams(); // Get the marketerId from the route parameter
   const navigate = useNavigate();
   const [referralId, setReferralId] = useState(null);
+  const [showOptions, setShowOptions] = useState(false);
+
+  // State to control the modal visibility
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  const handleProfileModalOpen = () => {
+    setIsProfileModalOpen(true);
+  };
+
+  const handleProfileModalClose = () => {
+    setIsProfileModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchMarketer = async () => {
@@ -101,12 +120,6 @@ const MarketerDashboard = () => {
             >
               Referrals
             </Link>
-            <Link
-              to="/marketer/profile"
-              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
-            >
-              Edit Profile
-            </Link>
           </nav>
         </Drawer>
 
@@ -117,7 +130,7 @@ const MarketerDashboard = () => {
             </button>
             <h1 className="ml-4 text-xl font-bold">Marketer Dashboard</h1>
           </div>
-          <div className="flex justify-between items-center gap-3">
+          <div className="flex justify-between items-center relative gap-3">
             {ismarketer && !ismarketer.isActive && (
               <p className="flex text-red-500 bg-red-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
                 Inactive
@@ -128,28 +141,66 @@ const MarketerDashboard = () => {
                 Active
               </p>
             )}
-
-            {ismarketer && (
-              <>
-                <CopyToClipboard
-                  text={ismarketer.referralLink}
-                  onCopy={handleCopy}
-                >
-                  <button className="font-medium py-2 px-4 rounded bg-white text-blue-500 hover:text-blue-400">
-                    {copied ? "Copied!" : "Copy Referral Link"}
-                  </button>
-                </CopyToClipboard>
-              </>
-            )}
+            <p className="capitalize text-blue-500 bg-blue-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
+              Welcome {marketer.firstName}
+            </p>
             <button
-              onClick={handleLogout}
-              className="ml-4 font-medium px-4 py-2 rounded bg-white text-blue-500 hover:text-blue-400"
+              onClick={() => setShowOptions(!showOptions)}
+              className="font-medium py-2 px-4 rounded bg-white text-blue-500 hover:text-blue-400 flex justify-between items-center gap-4"
             >
-              Logout
+              <img
+                src={marketer.profilePicture}
+                alt=""
+                className="inline-block w-5 h-5 rounded-full"
+              />
+              <FaChevronDown className="text-[#1A1619] h-4 w-4" />
             </button>
+            {showOptions && (
+              <div className="absolute right-0 left-7 top-14 mt-2 py-2slate-100 p-3 rounded shadow-lg flex flex-col bg-slate-200">
+                {ismarketer && (
+                  <>
+                    <CopyToClipboard
+                      text={ismarketer.referralLink}
+                      onCopy={handleCopy}
+                    >
+                      <button className="font-medium py-2 px-4 rounded text-blue-500 hover:text-blue-400  hover:bg-white">
+                        {copied ? "Copied!" : "Copy Referral Link"}
+                      </button>
+                    </CopyToClipboard>
+                  </>
+                )}
+                <button
+                  className="font-medium py-2 px-4 rounded text-blue-500 hover:text-blue-400  hover:bg-white"
+                  onClick={handleProfileModalOpen}
+                >
+                  Edit Profile
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="font-medium px-4 py-2 rounded text-blue-500 hover:text-blue-400  hover:bg-white"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </header>
       </div>
+      <Modal
+        isOpen={isProfileModalOpen}
+        onRequestClose={handleProfileModalClose}
+        contentLabel="Edit Profile Modal"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-md w-full max-w-md"
+        overlayClassName="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50"
+      >
+        <button
+          onClick={handleProfileModalClose}
+          className="absolute top-0 right-0 m-3 text-white px-2 py-2 rounded p-2 bg-blue-500 hover:bg-blue-400 text-xl"
+        >
+          &#x2715;
+        </button>
+        <MarketerProfile />
+      </Modal>
       {/* <RegistrationForm /> */}
       {referralId && <Referrals referralId={referralId} />}
       <Footer />
@@ -158,3 +209,9 @@ const MarketerDashboard = () => {
 };
 
 export default MarketerDashboard;
+
+{
+  /*
+
+*/
+}

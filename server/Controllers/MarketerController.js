@@ -145,7 +145,6 @@ module.exports.createMarketer = async (req, res, next) => {
 };
 
 
-
 module.exports.grantAccess = function (action, resource) {
     return async (req, res, next) => {
         try {
@@ -236,7 +235,6 @@ module.exports.Logout = (req, res) => {
 
 // Get marketer information
 module.exports.getMarketer = async (req, res, next) => {
-    console.log(req.params.marketerId);
     try {
         const marketerId = req.params.marketerId;
         // console.log(`Marketer ID: ${marketerId}`);
@@ -274,13 +272,17 @@ module.exports.getMarketers = async (req, res, next) => {
 // Update marketer details
 module.exports.updateMarketer = async (req, res, next) => {
     try {
-        const updates = req.body; // Changed to use updates object directly
-        const marketerId = req.params.id; // Changed to match the "id" parameter
+        const updates = req.body;
+        const marketerId = req.params.marketerId;
 
-        // Update the marketer
+        // If the password field is in the updates, hash the new password
+        // if (updates.password) {
+        //     updates.password = await bcrypt.hash(updates.password, 12);
+        // }
+
         const updatedMarketer = await Marketer.findByIdAndUpdate(
             marketerId,
-            updates, // Using the updates object directly
+            updates,
             { new: true }
         );
 
@@ -297,6 +299,7 @@ module.exports.updateMarketer = async (req, res, next) => {
         next(error);
     }
 };
+
 
 // Marketer Dashboard
 module.exports.getMarketerDashboard = async (req, res, next) => {
@@ -444,19 +447,11 @@ module.exports.marketerResetPassword = async (req, res, next) => {
     }
 };
 
-module.exports.getInactiveMarketers = async (req, res, next) => {
-    try {
-        const inactiveMarketers = await Marketer.find({ isActive: false });
-        res.status(200).json(inactiveMarketers);
-    } catch (error) {
-        console.error("Error fetching inactive marketers:", error);
-        res.status(500).json({ message: "Failed to fetch inactive marketers. Please try again later." });
-        next(error);
-    }
-};
-
+  
 module.exports.approveMarketer = async (req, res, next) => {
     const marketerId = req.params.marketerId;
+    // console.log('Marketer ID:', marketerId);
+
     try {
         const marketer = await Marketer.findById(marketerId);
         if (!marketer) {
@@ -471,5 +466,3 @@ module.exports.approveMarketer = async (req, res, next) => {
         next(error);
     }
 };
-
-
