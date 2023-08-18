@@ -10,7 +10,6 @@ import Drawer from "@mui/material/Drawer";
 import axios from "axios";
 import { MarketerContext } from "../contexts/MarketerContext";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import Modal from "react-modal";
 import { FaChevronDown } from "react-icons/fa";
 
 const MarketerDashboard = () => {
@@ -186,21 +185,21 @@ const MarketerDashboard = () => {
           </div>
         </header>
       </div>
-      <Modal
-        isOpen={isProfileModalOpen}
-        onRequestClose={handleProfileModalClose}
-        contentLabel="Edit Profile Modal"
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-md w-full max-w-md"
-        overlayClassName="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50"
-      >
-        <button
-          onClick={handleProfileModalClose}
-          className="absolute top-0 right-0 m-3 text-white px-2 py-2 rounded p-2 bg-blue-500 hover:bg-blue-400 text-xl"
-        >
-          &#x2715;
-        </button>
-        <MarketerProfile />
-      </Modal>
+      {isProfileModalOpen && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50 overflow-y-auto">
+          <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl relative">
+            <button
+              onClick={handleProfileModalClose}
+              className="absolute top-0 right-0 m-3 text-white px-2 py-1 rounded p-2 bg-blue-500 hover:bg-blue-400 text-xl"
+            >
+              &#x2715;
+            </button>
+            <div className="">
+              <MarketerProfile />
+            </div>
+          </div>
+        </div>
+      )}
       {/* <RegistrationForm /> */}
       {referralId && <Referrals referralId={referralId} />}
       <Footer />

@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer();
+
 
 const {
     Login,
@@ -40,7 +43,7 @@ router.get('/marketers',  getMarketers);
 router.get('/marketers/:marketerId', verifyTokenAndMarketer, allowIfMarketer, grantAccess('readOwn', 'profile'), getMarketer);
 
 // Update marketer details
-router.put('/marketers/:marketerId', verifyTokenAndMarketer, allowIfMarketer, grantAccess('updateOwn', 'profile'), updateMarketer);
+router.put('/marketers/:marketerId', verifyTokenAndMarketer, allowIfMarketer, grantAccess('updateOwn', 'profile'), upload.single('profilePicture'), updateMarketer);
 
 router.delete('/marketers/:marketerId', verifyTokenAndMarketer, allowIfMarketer, grantAccess('deleteAny', 'profile'), deleteMarketer);
 

@@ -251,6 +251,7 @@ module.exports.getMarketer = async (req, res, next) => {
     }
 };
 
+// Update Marketer
 module.exports.getMarketers = async (req, res, next) => {
     const page = req.query.page || 1;
     const limit = req.query.limit || 10;
@@ -272,27 +273,29 @@ module.exports.getMarketers = async (req, res, next) => {
 // Update marketer details
 module.exports.updateMarketer = async (req, res, next) => {
     try {
-        const updates = req.body;
-        const marketerId = req.params.marketerId;
+        const updates = Object.keys(req.body);
+        const allowedUpdates = ['firstName', 'lastName', 'password', 'profilePicture', 'profession', 'address'];
+        const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
-        // If the password field is in the updates, hash the new password
-        // if (updates.password) {
-        //     updates.password = await bcrypt.hash(updates.password, 12);
-        // }
+        if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' });
 
-        const updatedMarketer = await Marketer.findByIdAndUpdate(
-            marketerId,
-            updates,
-            { new: true }
-        );
+        const marketer = await Marketer.findOne({ _id: req.params.marketerId });
 
-        if (!updatedMarketer) {
-            return res.status(404).json({ error: 'Marketer not found' });
-        }
+        if (!marketer) return res.status(404).send();
+
+        for (const update of updates) {
+            if (update === 'profilePicture' && req.file) {
+                marketer[update] = req.file.path;
+            } else {
+                marketer[update] = req.body[update];
+            }
+        }        
+
+        const updateMarketer = await marketer.save();
 
         res.status(200).json({
             message: 'Marketer updated successfully',
-            data: updatedMarketer
+            data: updateMarketer
         });
     } catch (error) {
         console.error(error);
@@ -447,7 +450,7 @@ module.exports.marketerResetPassword = async (req, res, next) => {
     }
 };
 
-  
+
 module.exports.approveMarketer = async (req, res, next) => {
     const marketerId = req.params.marketerId;
     // console.log('Marketer ID:', marketerId);
