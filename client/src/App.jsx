@@ -86,11 +86,7 @@ const App = () => {
                   <Route
                     path="/marketer/signup"
                     element={<MarketerRegister />}
-                  />
-                  {/* <Route
-                    path="/marketer/profile/:marketerId"
-                    element={<MarketerProfile />}
-                  /> */}
+                  />                  
                   <Route path="/marketer/login" element={<MarketerLogin />} />
                   <Route path="/registration" element={<RegistrationForm />} />
                   <Route path="/referrals/:referral" element={<Referrals />} />

@@ -13,7 +13,11 @@ const modalStyles = {
   },
 };
 
+const ITEMS_PER_PAGE = 5; // Number of items per page
+
 const ProductManagement = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+
   const [products, setProducts] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -78,6 +82,14 @@ const ProductManagement = () => {
     fetchCategories();
   }, []);
 
+  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
+
+  const getPageData = () => {
+    const startIndex = currentPage * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return products.slice(startIndex, endIndex);
+  };
+
   // Handle input changes
   const handleInputChange = (e) => {
     // Inside handleInputChange function
@@ -140,6 +152,7 @@ const ProductManagement = () => {
       const createdProduct = response.data.data;
       toast.success("Product created successfully");
       setProducts([...products, createdProduct]);
+      setFiles([]);
       // Reset the form
       setFormData({
         title: "",
@@ -420,14 +433,14 @@ const ProductManagement = () => {
               value={formData.images}
               className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
             />
-            {/* <div>
+            <div>
               Selected files:
               <ul>
                 {files.map((fileObject, index) => (
                   <li key={index}>{fileObject.name}</li>
                 ))}
               </ul>
-            </div> */}
+            </div>
           </div>
           <div className="mb-4">
             <label
@@ -440,9 +453,9 @@ const ProductManagement = () => {
               id="categoryId"
               name="categoryId"
               onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 bg-white"
             >
-              <option value="">Select a category</option>
+              <option className="bg-white">Select a category</option>
               {categories.map((categoryId) => (
                 <option key={categoryId._id} value={categoryId._id}>
                   {categoryId.name}
@@ -470,28 +483,22 @@ const ProductManagement = () => {
               <th className="px-4 py-2">Title</th>
               <th className="px-4 py-2">Price</th>
               <th className="px-4 py-2">Description</th>
-              <th className="px-4 py-2">Images</th>
               <th className="px-4 py-2">Category</th>
               <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
+            {getPageData().map((product, index) => (
               <tr key={product._id}>
-                <td className="border px-4 py-2">{index + 1}</td>
+                <td className="border px-4 py-2">
+                  {currentPage * ITEMS_PER_PAGE + index + 1}
+                </td>
                 <td className="border px-4 py-2 capitalize">{product.title}</td>
                 <td className="border px-4 py-2 text-green-500 font-semibold ">
-                  ${product.price}
+                  &#x20A6;{product.price}
                 </td>
                 <td className="border px-4 py-2 capitalize">
                   {product.description}
-                </td>
-                <td>
-                  <img
-                    src={product.images}
-                    alt={product.title}
-                    className="h-32 w-full object-cover mb-2 rounded-md capitalize"
-                  />
                 </td>
                 <td className="border px-4 py-2">{product.categoryId}</td>
                 <td className="border px-4 py-2 flex justify-between gap-4">
@@ -512,6 +519,41 @@ const ProductManagement = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="flex items-center justify-between mt-4">
+        <button
+          onClick={() => setCurrentPage(0)}
+          disabled={currentPage === 0}
+          className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 font-bold"
+        >
+          {"<<"}
+        </button>
+        <button
+          onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+          disabled={currentPage === 0}
+          className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 font-bold"
+        >
+          {"<"}
+        </button>
+        <span className="text-gray-700">
+          Page {currentPage + 1} of {totalPages}
+        </span>
+        <button
+          onClick={() =>
+            setCurrentPage(Math.min(totalPages - 1, currentPage + 1))
+          }
+          disabled={currentPage === totalPages - 1}
+          className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 font-bold"
+        >
+          {">"}
+        </button>
+        <button
+          onClick={() => setCurrentPage(totalPages - 1)}
+          disabled={currentPage === totalPages - 1}
+          className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 font-bold"
+        >
+          {">>"}
+        </button>
       </div>
       <Modal
         isOpen={modalIsOpen}
