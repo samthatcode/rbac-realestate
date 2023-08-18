@@ -44,7 +44,7 @@ const StyledTable = ({ data, approveMarketer }) => {
                 className="py-1 px-2 border-b flex justify-between items-center"
               >
                 <td className="py-1 px-2">
-                  <span className="font-bold">{index + 1}.</span>
+                  {currentPage * ITEMS_PER_PAGE + index + 1}
                 </td>
                 <td className="py-1 px-2 text-orange-600 bg-orange-100 rounded-lg p-1 text-xs font-semibold inline-block last:mr-0 mr-1 text-[14px]">
                   {marketer.email}

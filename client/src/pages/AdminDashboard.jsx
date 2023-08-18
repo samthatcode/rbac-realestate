@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
-import { PieChart, Pie, Cell, Label } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import { Footer } from "../components";
 import StyledTable from "./StyledTable";
 
@@ -207,12 +207,7 @@ const AdminDashboard = () => {
               </div>         
             </div>
           )}
-          <StyledTable
-            data={inactiveMarketers}
-            approveMarketer={approveMarketer}
-          />          
-        </main>
-        <div className="mt-4 shadow rounded">
+        <div className=" shadow rounded">
             <PieChart width={300} height={300}>
               <Pie
                 data={data}
@@ -258,6 +253,12 @@ const AdminDashboard = () => {
               </Pie>
             </PieChart>
           </div>
+          <StyledTable
+            data={inactiveMarketers}
+            approveMarketer={approveMarketer}
+          /> 
+                
+        </main>
       </div>
       <Footer />
     </>

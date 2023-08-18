@@ -36,12 +36,12 @@ import {
   EventList,
   MarketerForgotPassword,
   MarketerResetPassword,
-  MarketerProfile,
 } from "./components";
 import { UserProvider } from "./contexts/UserContext";
 import { CartProvider } from "./contexts/CartContext";
 import { MarketerProvider } from "./contexts/MarketerContext";
 import { ReferralProvider } from "./contexts/ReferralsContext";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   return (
@@ -79,14 +79,19 @@ const App = () => {
                   />
                   <Route path="/manageroles" element={<RoleManagement />} />
                   {/* Marketer */}
+
                   <Route
                     path="/marketerdashboard/:marketerId"
-                    element={<MarketerDashboard />}
+                    element={
+                      <ProtectedRoute roles={["marketer"]}>
+                        <MarketerDashboard />
+                      </ProtectedRoute>
+                    }
                   />
                   <Route
                     path="/marketer/signup"
                     element={<MarketerRegister />}
-                  />                  
+                  />
                   <Route path="/marketer/login" element={<MarketerLogin />} />
                   <Route path="/registration" element={<RegistrationForm />} />
                   <Route path="/referrals/:referral" element={<Referrals />} />
@@ -94,13 +99,25 @@ const App = () => {
                     path="/verify-marketer-email/:token"
                     element={<MarketerEmailVerification />}
                   />
-                  <Route path="/marketer-forgot-password" element={<MarketerForgotPassword />} />
+                  <Route
+                    path="/marketer-forgot-password"
+                    element={<MarketerForgotPassword />}
+                  />
                   <Route
                     path="/marketer-reset/:resetToken"
                     element={<MarketerResetPassword />}
-                  />             
+                  />
                   <Route path="/userdashboard" element={<UserDashboard />} />
-                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+                  <Route
+                    path="/admin/dashboard"
+                    element={
+                      <ProtectedRoute roles={["admin"]}>
+                        <AdminDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+
                   {/* Events */}
                   <Route path="/create-event" element={<CreateEventForm />} />
                   <Route path="/eventdetails" element={<EventDetails />} />
@@ -108,12 +125,13 @@ const App = () => {
                   <Route
                     path="/verify-user-email/:token"
                     element={<UserEmailVerification />}
-                  />              
+                  />
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route
                     path="/reset/:resetToken"
                     element={<ResetPassword />}
                   />
+
                   {/* <Route path="/verify-code" element={CodeVerification} /> */}
                 </Routes>
               </div>

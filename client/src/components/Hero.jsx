@@ -9,6 +9,19 @@ import {
   AiOutlineEnvironment,
 } from "react-icons/ai";
 
+<style jsx>
+{`
+  @media (max-width: 768px) {
+    .inset-y-0 {
+      left: 1/3 !important;
+    }
+    .right-3 {
+      right: 1/3 !important;
+    }
+  }
+`}
+</style>
+
 const Hero = () => {
   return (
     <div className="">
@@ -42,25 +55,23 @@ const Hero = () => {
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
                         <AiOutlineHome className="text-gray-400" />
                       </div>
-                      <div className="flex">
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-red-400 px-6 py-2 rounded">
-                          <span className="text-sm">Search</span>
-                          <AiOutlineSearch className="text-gray-400" />
-                        </div>
+                      <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 flex items-center">
+                        <AiOutlineEnvironment className="text-gray-400 mr-2" />
+                        <span className="text-sm text-gray-400">
+                          Location., e.g Lagos, Abuja...
+                        </span>
                       </div>
-                      <div className="">
-                        <div className="absolute right-[380px] top-1/2 transform -translate-y-1/2">
-                          <span className="text-sm text-gray-400">
-                            Location., e.g Lagos, Abuja...
-                          </span>
-                          <AiOutlineEnvironment className="text-gray-400" />
-                        </div>
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-red-600 px-5 p-3 rounded">
+                        <AiOutlineSearch className="text-gray-400 mr-5" />
+                        <span className="text-sm text-gray-400 uppercase">
+                          Search
+                        </span>
                       </div>
                     </div>
                   )}
                 </div>
               </div>
-            </div>   
+            </div>
             <div className="flex justify-between items-center gap-7 mt-80 z-20">
               <Link
                 to="/signup"
@@ -72,7 +83,7 @@ const Hero = () => {
                 to="/marketer/signup"
                 className="px-4 py-2 bg-green-500 text-white rounded"
               >
-               Get Started as a Marketer
+                Get Started as a Marketer
               </Link>
               <Link
                 to="/login"
@@ -80,10 +91,10 @@ const Hero = () => {
               >
                 Login
               </Link>
-            </div>      
-          </div>          
+            </div>
+          </div>
         ))}
-      </Carousel>      
+      </Carousel>
     </div>
   );
 };
