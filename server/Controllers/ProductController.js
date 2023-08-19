@@ -1,7 +1,7 @@
 // const mongoose = require('mongoose');
 const Product = require('../Models/ProductModel');
 const Category = require('../Models/CategoryModel');
-const { dir } = require('../server');
+const { dir } = require('../api/index');
 const path = require('path');
 
 // Abstract category validation into a separate function
