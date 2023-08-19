@@ -61,9 +61,9 @@ const Hero = () => {
                           Location., e.g Lagos, Abuja...
                         </span>
                       </div>
-                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-red-600 px-5 p-3 rounded">
-                        <AiOutlineSearch className="text-gray-400 mr-5" />
-                        <span className="text-sm text-gray-400 uppercase">
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-red-600 text-white px-5 p-3 rounded">
+                        <AiOutlineSearch className=" mr-5" />
+                        <span className="text-sm uppercase">
                           Search
                         </span>
                       </div>
