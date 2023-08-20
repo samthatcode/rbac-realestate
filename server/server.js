@@ -11,7 +11,7 @@ const axios = require('axios');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const dir = path.join(__dirname, 'public/images'); // use absolute paths
+const dir = path.join(__dirname, 'public/images'); // use absolute paths/
 
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir, { recursive: true });
