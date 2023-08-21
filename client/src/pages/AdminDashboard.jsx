@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes, useMatch } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import { PieChart, Pie, Cell } from "recharts";
-import { Footer } from "../components";
+import {
+  CategoryManagement,
+  CreateEventForm,
+  EventDetails,
+  EventList,
+  Footer,
+  ProductManagement,
+  RoleManagement,
+  UserManagement,
+} from "../components";
 import StyledTable from "./StyledTable";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -13,6 +22,7 @@ const AdminDashboard = () => {
   const [totalSales, setTotalSales] = useState(0);
   const [error, setError] = useState("");
   const [inactiveMarketers, setInactiveMarketers] = useState([]);
+  let { path, url } = useMatch();
 
   const data = [
     { name: "Total Products", value: totalProductsCount },
@@ -114,25 +124,25 @@ const AdminDashboard = () => {
               <span className="text-4xl">&times;</span>
             </button>
             <Link
-              to="/manageproducts"
+              to={`${url}/manageproducts`}
               className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
             >
               Manage Products
             </Link>
             <Link
-              to="/manageusers"
+              to={`${url}/manageusers`}
               className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
             >
               Manage Users
             </Link>
             <Link
-              to="/manageroles"
+              to={`${url}/manageroles`}
               className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
             >
               Manage Roles
             </Link>
             <Link
-              to="/managecategories"
+              to={`${url}/managecategories`}
               className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
             >
               Manage Categories
@@ -144,19 +154,19 @@ const AdminDashboard = () => {
               {isDropdownOpen && (
                 <div className="absolute top-full left-0 bg-gray-200 p-2 rounded shadow">
                   <Link
-                    to="/create-event"
+                    to={`${url}/create-event`}
                     className="block px-2 py-1 text-blue-600 hover:text-blue-800"
                   >
                     Create Event
                   </Link>
                   <Link
-                    to="/eventdetails"
+                    to={`${url}/eventdetails`}
                     className="block px-2 py-1 text-blue-600 hover:text-blue-800"
                   >
                     Event Details
                   </Link>
                   <Link
-                    to="/eventlist"
+                    to={`${url}/eventdetails`}
                     className="block px-2 py-1 text-blue-600 hover:text-blue-800"
                   >
                     Event List
@@ -204,10 +214,21 @@ const AdminDashboard = () => {
                   Total Sales
                 </h2>
                 <p>&#x20A6;{totalSales}</p>
-              </div>         
+              </div>
             </div>
           )}
-        <div className=" shadow rounded">
+          {/* Use Route for nested routing */}
+          <Routes>
+            <Route path="manageproducts" element={<ProductManagement />} />
+            <Route path="manageusers" element={<UserManagement />} />
+            <Route path="manageroles" element={<RoleManagement />} />
+            <Route path="managecategories" element={<CategoryManagement />} />
+            <Route path="create-event" element={<CreateEventForm />} />
+            <Route path="eventdetails" element={<EventDetails />} />
+            <Route path="eventlist" element={<EventList />} />
+          </Routes>
+
+          <div className=" shadow rounded">
             <PieChart width={300} height={300}>
               <Pie
                 data={data}
@@ -256,8 +277,7 @@ const AdminDashboard = () => {
           <StyledTable
             data={inactiveMarketers}
             approveMarketer={approveMarketer}
-          /> 
-                
+          />
         </main>
       </div>
       <Footer />

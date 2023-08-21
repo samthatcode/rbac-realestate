@@ -10,17 +10,17 @@ import {
 } from "react-icons/ai";
 
 <style jsx>
-{`
-  @media (max-width: 768px) {
-    .inset-y-0 {
-      left: 1/3 !important;
+  {`
+    @media (max-width: 768px) {
+      .inset-y-0 {
+        left: 1/3 !important;
+      }
+      .right-3 {
+        right: 1/3 !important;
+      }
     }
-    .right-3 {
-      right: 1/3 !important;
-    }
-  }
-`}
-</style>
+  `}
+</style>;
 
 const Hero = () => {
   return (
@@ -46,28 +46,39 @@ const Hero = () => {
                     {item.text1}
                   </p>
                   {item.inputPlaceholder && (
-                    <div className="relative mt-2">
-                      <input
-                        type="text"
-                        placeholder={item.inputPlaceholder}
-                        className="w-full px-3 py-5 text-sm bg-slate-800 border rounded pl-10"
-                      />
-                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                        <AiOutlineHome className="text-gray-400" />
+                    <>
+                      <div className="relative mt-2">
+                        <input
+                          type="text"
+                          placeholder={item.inputPlaceholder}
+                          className="w-full px-3 py-5 text-sm bg-slate-800 border rounded pl-10"
+                        />
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                          <AiOutlineHome className="text-gray-400" />
+                        </div>
+                        <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 flex items-center">
+                          <AiOutlineEnvironment className="text-gray-400 mr-2" />
+                          <span className="text-sm text-gray-400">
+                            Location., e.g Lagos, Abuja...
+                          </span>
+                        </div>
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-red-600 text-white px-5 p-3 rounded">
+                          <AiOutlineSearch className=" mr-5" />
+                          <span className="text-sm uppercase">Search</span>
+                        </div>
                       </div>
-                      <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 flex items-center">
-                        <AiOutlineEnvironment className="text-gray-400 mr-2" />
-                        <span className="text-sm text-gray-400">
-                          Location., e.g Lagos, Abuja...
-                        </span>
+                      <div className="flex justify-between items-center mx-80 mt-5 bg-gray-600 text-white p-3 rounded capitalize text-sm">
+                        <div className="flex justify-center items-center">
+                          <AiOutlineEnvironment className="text-gray-400 mr-2" />
+                          land
+                        </div>
+                        <div className="flex justify-center items-center">
+                          <AiOutlineHome className="text-gray-400 mr-2" />
+                          housing
+                        </div>
+                        <div className="">shortlet</div>
                       </div>
-                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-red-600 text-white px-5 p-3 rounded">
-                        <AiOutlineSearch className=" mr-5" />
-                        <span className="text-sm uppercase">
-                          Search
-                        </span>
-                      </div>
-                    </div>
+                    </>
                   )}
                 </div>
               </div>

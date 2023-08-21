@@ -4,27 +4,31 @@ const Schema = mongoose.Schema;
 const EventSchema = new Schema({
   name: {
     type: String,
-    // required: true,
+    required: true,
   },
   date: {
     type: Date,
-    // required: true,
+    required: true,
   },
   time: {
     type: String,
-    // required: true,
+    required: true,
   },
   location: {
     type: String,
-    // required: true,
+    required: true,
   },
   description: {
     type: String,
-    // required: true,
+    required: true,
   },
-  imageUrl: {
+  eventImage: {
     type: String,
-    // required: true,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   },
   // Other fields...
 });

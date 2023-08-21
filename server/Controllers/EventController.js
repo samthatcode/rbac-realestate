@@ -4,7 +4,15 @@ const Registration = require('../Models/RegistrationModel');
 // Create an event
 module.exports.createEvents = async (req, res, next) => {
   try {
-    const event = await Event.create(req.body);
+    const { name, date, time, location, description } = req.body;
+
+    let eventImagePath = req.file.path; // Get the path of the uploaded image
+    imagePath = imagePath.replace(/\\/g, '/'); // Replace backslashes with forward slashes if you are on Windows
+
+    const event = await Event.create({
+      name, date, time, location, description,
+      eventImage: eventImagePath, // Save the path of the uploaded image
+    });
 
     res.status(201).json({
       message: 'Event created successfully',

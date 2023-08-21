@@ -68,7 +68,7 @@ const App = () => {
                   <Route path="/products" element={<ProductPage />} />
                   <Route path="/products/:id" element={<ProductDetails />} />
                   <Route path="/users" element={<UsersPage />} />
-                  <Route path="/manageusers" element={<UserManagement />} />
+                  {/* <Route path="/manageusers" element={<UserManagement />} />
                   <Route
                     path="/manageproducts"
                     element={<ProductManagement />}
@@ -77,7 +77,7 @@ const App = () => {
                     path="/managecategories"
                     element={<CategoryManagement />}
                   />
-                  <Route path="/manageroles" element={<RoleManagement />} />
+                  <Route path="/manageroles" element={<RoleManagement />} /> */}
                   {/* Marketer */}
 
                   <Route
@@ -119,9 +119,9 @@ const App = () => {
                   />
 
                   {/* Events */}
-                  <Route path="/create-event" element={<CreateEventForm />} />
-                  <Route path="/eventdetails" element={<EventDetails />} />
-                  <Route path="/eventlist" element={<EventList />} />
+                  {/* <Route path="/create-event" element={<CreateEventForm />} /> */}
+                  {/* <Route path="/eventdetails" element={<EventDetails />} /> */}
+                  {/* <Route path="/eventlist" element={<EventList />} /> */}
                   <Route
                     path="/verify-user-email/:token"
                     element={<UserEmailVerification />}
