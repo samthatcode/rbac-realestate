@@ -42,7 +42,7 @@ const Login = () => {
 
     try {
       const { data } = await axios.post(
-        "/api/login",
+        "https://surefinders-backend.onrender.com/api/login",
         {
           ...inputValue,
         },
