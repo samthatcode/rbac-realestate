@@ -322,7 +322,7 @@ module.exports.forgotPassword = async (req, res, next) => {
 
     await user.save();
 
-    const clientHost = 'localhost:5173';
+    const clientHost = 'https://rbac-realestate-client.vercel.app';
     const mailOptions = {
       to: user.email,
       from: process.env.EMAIL_VERIFY,

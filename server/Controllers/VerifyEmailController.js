@@ -32,7 +32,7 @@ module.exports.verifyUserEmail = async (req, res) => {
         await Token.findByIdAndRemove(verificationToken._id);
 
         // Redirect to the frontend route with the token as a parameter
-        res.redirect(`http://localhost:5173/verify-user-email/${token}`);
+        res.redirect(`https://rbac-realestate-client.vercel.app/verify-user-email/${token}`);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
@@ -68,7 +68,7 @@ module.exports.verifyMarketerEmail = async (req, res) => {
         await Token.findByIdAndRemove(verificationToken._id);
 
         // Redirect to the frontend route with the token as a parameter
-        res.redirect(`http://localhost:5173/verify-marketer-email/${token}`);
+        res.redirect(`https://rbac-realestate-client.vercel.app/verify-marketer-email/${token}`);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

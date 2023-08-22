@@ -51,7 +51,7 @@ const Hero = () => {
                         <input
                           type="text"
                           placeholder={item.inputPlaceholder}
-                          className="w-full px-3 py-5 text-sm bg-slate-800 border rounded pl-10"
+                          className="w-full px-3 py-5 text-sm text-white bg-slate-800 border rounded pl-10"
                         />
                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
                           <AiOutlineHome className="text-gray-400" />
