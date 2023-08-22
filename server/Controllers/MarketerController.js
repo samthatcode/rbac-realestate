@@ -402,7 +402,7 @@ module.exports.marketerForgotPassword = async (req, res, next) => {
 
         await marketer.save();
 
-        const clientHost = 'https://rbac-realestate-client.vercel.app';
+        const clientHost = 'https://surefinders-frontend.onrender.com';
         const mailOptions = {
             to: marketer.email,
             from: process.env.EMAIL_VERIFY,
