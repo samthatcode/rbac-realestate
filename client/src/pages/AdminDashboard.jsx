@@ -196,7 +196,7 @@ const AdminDashboard = () => {
           <h1 className="text-2xl font-bold mb-4 text-steelteal">
             Welcome, Admin!
           </h1>
-          {/* Dashboard content goes here */}
+          {/* Dashboard content goes here. */}
           {error ? (
             <div className="p-4 bg-red-500 text-white rounded">
               <p>{error}</p>
