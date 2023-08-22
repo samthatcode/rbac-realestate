@@ -32,7 +32,7 @@ module.exports = { dir, upload };
 
 app.use('/public/images', express.static(dir));
 
-
+const User = require('./Models/UserModel');
 
 const authRoute = require('./Routes/AuthRoute');
 const orderRoute = require('./Routes/OrderRoute');
@@ -53,7 +53,6 @@ const categoryRoute = require('./Routes/CategoryRoute');
 const verificationRoute = require('./Routes/VerificationRoute');
 
 const ErrorHandler = require('./Middlewares/ErrorHandler');
-const User = require('./Models/UserModel');
 
 const MONGODB_URI = process.env.MONGODB_URI;
 // const PORT = process.env.PORT || 5175;
@@ -104,7 +103,7 @@ mongoose.connect(MONGODB_URI, {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["https://rbac-realestate-client.vercel.app", "http://localhost:5174"],
+    origin: ["https://rbac-realestate-client.vercel.app"],
     // origin: ["http://localhost:5175", "http://localhost:5174"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,

@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'https://surefinders-backend.onrender.com',
+      // '/api': 'https://surefinders-backend.onrender.com',
       // '/api': 'http://localhost:5175',
     },
   },
