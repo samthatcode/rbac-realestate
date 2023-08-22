@@ -16,7 +16,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`/api/products/${id}`);
+        const response = await axios.get(`https://surefinders-backend.onrender.com/api/products/${id}`);
         setProduct(response.data.data);
         setCurrentImage(response.data.data.images[0]); // set the first image as current
       } catch (error) {

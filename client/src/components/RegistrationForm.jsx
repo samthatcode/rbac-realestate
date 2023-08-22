@@ -9,7 +9,7 @@ const RegistrationForm = () => {
     event.preventDefault();
 
     axios
-      .post(`/api/events/${eventId}/registrations`, { referringMarketerId })
+      .post(`https://surefinders-backend.onrender.com/api/events/${eventId}/registrations`, { referringMarketerId })
       .then((response) => console.log(response.data))
       .catch((error) => console.error(error));
   };

@@ -48,7 +48,7 @@ const CheckoutPage = () => {
     console.log(cartItems);
     // Send checkout request
     try {
-      const response = await axios.post("/api/orders", {
+      const response = await axios.post("https://surefinders-backend.onrender.com/api/orders", {
         userId: userId,
         products: cartItems.map((item) => ({
           productId: item.id,

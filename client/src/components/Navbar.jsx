@@ -14,7 +14,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        "/api/logout",
+        "https://surefinders-backend.onrender.com/api/logout",
         {},
         {
           withCredentials: true, // Include credentials (cookies)

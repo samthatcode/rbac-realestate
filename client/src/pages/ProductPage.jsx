@@ -13,7 +13,7 @@ const ProductPage = () => {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get("/api/products");
+        const response = await axios.get("https://surefinders-backend.onrender.com/api/products");
         console.log(response.data);
         setProducts(response.data.data);
       } catch (error) {
@@ -63,7 +63,7 @@ const ProductPage = () => {
                     </h1>
                     {product.images.length > 0 && (
                       <img
-                        src={`http://localhost:5175/public/images/${product.images[0]}`}
+                        src={`https://surefinders-backend.onrender.com/public/images/${product.images[0]}`}
                         alt={product.title}
                         className="w-full mb-4 capitalize"
                       />

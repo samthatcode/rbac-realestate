@@ -32,7 +32,7 @@ const CategoryManagement = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("/api/categories");
+      const response = await axios.get("https://surefinders-backend.onrender.com/api/categories");
       setCategories(response.data.data);
     } catch (error) {
       console.error(error);
@@ -43,7 +43,7 @@ const CategoryManagement = () => {
   const createCategory = async () => {
     setIsCreatingCategory(true);
     try {
-      const response = await axios.post("/api/categories", newCategory);
+      const response = await axios.post("https://surefinders-backend.onrender.com/api/categories", newCategory);
       const createdCategory = response.data.data;
       toast.success("Category created successfully");
       setCategories([...categories, createdCategory]);
@@ -67,7 +67,7 @@ const CategoryManagement = () => {
       return;
     }
     try {
-      await axios.put(`/api/categories/${id}`, updatedCategory);
+      await axios.put(`https://surefinders-backend.onrender.com/api/categories/${id}`, updatedCategory);
       fetchCategories();
       toast.success("Category updated successfully");
       setIsFormSubmitted(true);
@@ -86,7 +86,7 @@ const CategoryManagement = () => {
   const deleteCategory = async (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
-        await axios.delete(`/api/categories/${id}`);
+        await axios.delete(`https://surefinders-backend.onrender.com/api/categories/${id}`);
         fetchCategories();
         toast.success("Category deleted successfully");
       } catch (error) {

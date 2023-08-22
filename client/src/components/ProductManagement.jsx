@@ -61,7 +61,7 @@ const ProductManagement = () => {
   // fetch products
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("/api/products");
+      const response = await axios.get("https://surefinders-backend.onrender.com/api/products");
       setProducts(response.data.data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -72,7 +72,7 @@ const ProductManagement = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("/api/categories");
+        const response = await axios.get("https://surefinders-backend.onrender.com/api/categories");
         setCategories(response.data.data);
       } catch (error) {
         console.error("Failed to fetch categories", error);
@@ -148,7 +148,7 @@ const ProductManagement = () => {
         console.log(pair[0] + ", " + pair[1]);
       }
 
-      const response = await axios.post("/api/products", formDataToSend);
+      const response = await axios.post("https://surefinders-backend.onrender.com/api/products", formDataToSend);
       const createdProduct = response.data.data;
       toast.success("Product created successfully");
       setProducts([...products, createdProduct]);
@@ -197,7 +197,7 @@ const ProductManagement = () => {
         }
       }
       // Send the formData with the PUT request
-      await axios.put(`/api/products/${id}`, formData);
+      await axios.put(`https://surefinders-backend.onrender.com/api/products/${id}`, formData);
 
       fetchProducts();
       toast.success("Product updated successfully");
@@ -223,7 +223,7 @@ const ProductManagement = () => {
   const deleteProduct = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await axios.delete(`/api/products/${id}`);
+        await axios.delete(`https://surefinders-backend.onrender.com/api/products/${id}`);
         fetchProducts();
         toast.success("Product deleted successfully");
       } catch (error) {

@@ -49,7 +49,7 @@ const AdminDashboard = () => {
 
     const fetchProducts = async () => {
       try {
-        const productsResponse = await fetch("/api/products");
+        const productsResponse = await fetch("https://surefinders-backend.onrender.com/api/products");
         const productsData = await productsResponse.json();
         console.log("productsData", productsData);
         setTotalProductsCount(productsData.data.length);
@@ -61,7 +61,7 @@ const AdminDashboard = () => {
 
     const fetchUsers = async () => {
       try {
-        const usersResponse = await fetch("/api/users");
+        const usersResponse = await fetch("https://surefinders-backend.onrender.com/api/users");
         const usersData = await usersResponse.json();
         console.log("usersData", usersData);
         setTotalUsersCount(usersData.data.length);
@@ -73,7 +73,7 @@ const AdminDashboard = () => {
 
     const fetchInactiveMarketers = async () => {
       try {
-        const response = await fetch("/api/marketers");
+        const response = await fetch("https://surefinders-backend.onrender.com/api/marketers");
         // console.log("Response status:", response.status);
         const data = await response.json();
         // console.log(data);
@@ -105,7 +105,7 @@ const AdminDashboard = () => {
 
   const approveMarketer = async (marketerId) => {
     try {
-      const response = await fetch(`/api/marketers/${marketerId}/approve`, {
+      const response = await fetch(`https://surefinders-backend.onrender.com/api/marketers/${marketerId}/approve`, {
         method: "POST",
       });
       const data = await response.json();

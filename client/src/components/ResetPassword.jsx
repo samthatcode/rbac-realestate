@@ -17,7 +17,7 @@ const ResetPassword = () => {
     setLoading(true);
     try {
       // Call your API to handle password reset
-      const response = await axios.post(`/api/reset/${resetToken}`, {
+      const response = await axios.post(`https://surefinders-backend.onrender.com/api/reset/${resetToken}`, {
         newPassword: password,
       });
       // Check if the password reset was successful

@@ -21,7 +21,7 @@ const Referrals = ({ referralId }) => {
     // console.log("Fetching referrals for marketer ID:", referringMarketerId);
     setIsLoading(true);
     try {
-      const response = await axios.get("/api/referrals", {
+      const response = await axios.get("https://surefinders-backend.onrender.com/api/referrals", {
         params: {
           referringMarketerId: referringMarketerId,
         },
