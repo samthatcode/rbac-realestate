@@ -6,12 +6,11 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
-const axios = require('axios');
 
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const dir = path.join(__dirname, 'public/images'); // use absolute paths/
+const dir = path.join(__dirname, 'public/images'); // use absolute paths
 
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir, { recursive: true });
@@ -34,7 +33,6 @@ module.exports = { dir, upload };
 app.use('/public/images', express.static(dir));
 
 
-const User = require('./Models/UserModel');
 
 const authRoute = require('./Routes/AuthRoute');
 const orderRoute = require('./Routes/OrderRoute');
@@ -55,9 +53,11 @@ const categoryRoute = require('./Routes/CategoryRoute');
 const verificationRoute = require('./Routes/VerificationRoute');
 
 const ErrorHandler = require('./Middlewares/ErrorHandler');
+const User = require('./Models/UserModel');
 
 const MONGODB_URI = process.env.MONGODB_URI;
-const PORT = process.env.PORT || 5175;
+// const PORT = process.env.PORT || 5175;
+const PORT = process.env.PORT || 10000;
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -104,12 +104,12 @@ mongoose.connect(MONGODB_URI, {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["http://localhost:5175", "http://localhost:5174"],
+    origin: ["https://rbac-realestate-client.vercel.app/", "http://localhost:5174"],
+    // origin: ["http://localhost:5175", "http://localhost:5174"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
-
 
 
 // Parse request bodies as JSON: app.use(express.json());

@@ -22,7 +22,13 @@ const AdminDashboard = () => {
   const [totalSales, setTotalSales] = useState(0);
   const [error, setError] = useState("");
   const [inactiveMarketers, setInactiveMarketers] = useState([]);
-  let { path, url } = useMatch();
+
+  let match = useMatch("/admin/dashboard");
+  let path, url;
+
+  if (match) {
+    ({ path, url } = match);
+  }
 
   const data = [
     { name: "Total Products", value: totalProductsCount },
@@ -219,13 +225,23 @@ const AdminDashboard = () => {
           )}
           {/* Use Route for nested routing */}
           <Routes>
-            <Route path="manageproducts" element={<ProductManagement />} />
-            <Route path="manageusers" element={<UserManagement />} />
-            <Route path="manageroles" element={<RoleManagement />} />
-            <Route path="managecategories" element={<CategoryManagement />} />
-            <Route path="create-event" element={<CreateEventForm />} />
-            <Route path="eventdetails" element={<EventDetails />} />
-            <Route path="eventlist" element={<EventList />} />
+            <Route exact path={path} />
+            <Route
+              path={`${path}/manageproducts`}
+              element={<ProductManagement />}
+            />
+            <Route path={`${path}/manageusers`} element={<UserManagement />} />
+            <Route path={`${path}/manageroles`} element={<RoleManagement />} />
+            <Route
+              path={`${path}/managecategories`}
+              element={<CategoryManagement />}
+            />
+            <Route
+              path={`${path}/create-event`}
+              element={<CreateEventForm />}
+            />
+            <Route path={`${path}/eventdetails`} element={<EventDetails />} />
+            <Route path={`${path}/`} element={<EventList />} />
           </Routes>
 
           <div className=" shadow rounded">
