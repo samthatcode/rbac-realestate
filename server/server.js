@@ -104,7 +104,7 @@ mongoose.connect(MONGODB_URI, {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["https://rbac-realestate-client.vercel.app/", "http://localhost:5174"],
+    origin: ["https://rbac-realestate-client.vercel.app", "http://localhost:5174"],
     // origin: ["http://localhost:5175", "http://localhost:5174"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
