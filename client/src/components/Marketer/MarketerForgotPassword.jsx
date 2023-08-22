@@ -23,7 +23,7 @@ const MarketerForgotPassword = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("/api/marketer-forgot-password", {
+      const { data } = await axios.post("https://surefinders-backend.onrender.com/api/marketer-forgot-password", {
         email,
       });
       if (data.message) {

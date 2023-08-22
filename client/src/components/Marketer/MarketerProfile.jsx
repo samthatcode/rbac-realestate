@@ -71,7 +71,7 @@ const MarketerProfile = () => {
     }
 
     try {
-      const response = await axios.put(`/api/marketers/${marketerId}`, data);
+      const response = await axios.put(`https://surefinders-backend.onrender.com/api/marketers/${marketerId}`, data);
 
       // Update the marketer's data with the response from the server
       setMarketer(response.data.data);
