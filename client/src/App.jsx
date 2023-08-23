@@ -7,8 +7,7 @@ import {
   MarketerDashboard,
   ProductPage,
   ProductDetails,
-  CartListPage,
-  UsersPage,
+  CartListPage, 
   CheckoutPage,
   ConfirmationPage,
   PaystackCheckout,
@@ -66,8 +65,7 @@ const App = () => {
                   <Route path="/confirm" element={<ConfirmationPage />} />
                   <Route path="/productform" element={<ProductForm />} />
                   <Route path="/products" element={<ProductPage />} />
-                  <Route path="/products/:id" element={<ProductDetails />} />
-                  <Route path="/users" element={<UsersPage />} />
+                  <Route path="/products/:id" element={<ProductDetails />} />             
                   {/* <Route path="/manageusers" element={<UserManagement />} />
                   <Route
                     path="/manageproducts"
