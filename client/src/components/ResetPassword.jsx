@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const ResetPassword = () => {
@@ -17,12 +17,16 @@ const ResetPassword = () => {
     setLoading(true);
     try {
       // Call your API to handle password reset
-      const response = await axios.post(`https://surefinders-backend.onrender.com/api/reset/${resetToken}`, {
-        newPassword: password,
-      });
+      const response = await axios.post(
+        `https://surefinders-backend.onrender.com/api/reset/${resetToken}`,
+        {
+          newPassword: password,
+        },
+        { withCredentials: true }
+      );
       // Check if the password reset was successful
       if (response.status === 200) {
-        toast.success('Password has been reset successfully!');
+        toast.success("Password has been reset successfully!");
         navigate("/login");
       } else {
         alert("Password reset failed");

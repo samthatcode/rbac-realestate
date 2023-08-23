@@ -85,7 +85,7 @@ const MarketerDashboard = () => {
       if (response.data.message === "Logged out successfully") {
         setMarketer(null); // Assuming you have a setMarketer function to update the marketer state
         navigate("/marketer/login"); // Redirect to the homepage after logout
-        console.log("Marketer Logged Out");
+        // console.log("Marketer Logged Out");
       }
     } catch (err) {
       console.error(err);

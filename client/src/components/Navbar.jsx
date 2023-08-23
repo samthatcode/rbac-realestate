@@ -24,7 +24,7 @@ const Navbar = () => {
         setUser(null);
         clearCart();
         navigate("/");
-        console.log("User Logged Out");
+        // console.log("User Logged Out");
       }
     } catch (err) {
       console.error(err);

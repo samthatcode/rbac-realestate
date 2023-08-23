@@ -28,7 +28,7 @@ const CheckoutPage = () => {
   const { cartItems, paymentReference } = useContext(CartContext);
 
   const userContext = useContext(UserContext);
-  console.log(userContext.user.email);
+  // console.log(userContext.user.email);
 
   const handleInputChange = (event) => {
     setFormData({
@@ -44,26 +44,30 @@ const CheckoutPage = () => {
     event.preventDefault();
     setLoading(true);
     const userId = userContext.user._id;
-    console.log(userId);
-    console.log(cartItems);
+    // console.log(userId);
+    // console.log(cartItems);
     // Send checkout request
     try {
-      const response = await axios.post("https://surefinders-backend.onrender.com/api/orders", {
-        userId: userId,
-        products: cartItems.map((item) => ({
-          productId: item.id,
-          quantity: item.quantity,
-          price: item.price,
-          title: item.title,
-        })),
-        shippingAddress: formData.shippingAddress,
-        totalPrice: cartItems.reduce(
-          (total, item) => total + item.price * item.quantity,
-          0
-        ),
-        paymentReference: paymentReference, // Add the payment reference
-      });
-      console.log(response.data);
+      const response = await axios.post(
+        "https://surefinders-backend.onrender.com/api/orders",
+        {
+          userId: userId,
+          products: cartItems.map((item) => ({
+            productId: item.id,
+            quantity: item.quantity,
+            price: item.price,
+            title: item.title,
+          })),
+          shippingAddress: formData.shippingAddress,
+          totalPrice: cartItems.reduce(
+            (total, item) => total + item.price * item.quantity,
+            0
+          ),
+          paymentReference: paymentReference, // Add the payment reference
+        },
+        { withCredentials: true }
+      );
+      // console.log(response.data);
       setTimeout(() => {
         setLoading(false);
         navigate("/confirm");

@@ -13,8 +13,8 @@ const ProductPage = () => {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get("https://surefinders-backend.onrender.com/api/products");
-        console.log(response.data);
+        const response = await axios.get("https://surefinders-backend.onrender.com/api/products", { withCredentials: true });
+        // console.log(response.data);
         setProducts(response.data.data);
       } catch (error) {
         console.error("Failed to fetch products:", error);

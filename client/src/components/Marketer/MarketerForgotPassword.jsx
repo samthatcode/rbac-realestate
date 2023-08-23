@@ -7,7 +7,7 @@ const MarketerForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [serverMessage, setServerMessage] = useState(""); // State for server response message
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -23,9 +23,13 @@ const MarketerForgotPassword = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("https://surefinders-backend.onrender.com/api/marketer-forgot-password", {
-        email,
-      });
+      const { data } = await axios.post(
+        "https://surefinders-backend.onrender.com/api/marketer-forgot-password",
+        {
+          email,
+        },
+        { withCredentials: true }
+      );
       if (data.message) {
         setServerMessage(data.message);
         setShowModal(true); // Show the modal with server response message

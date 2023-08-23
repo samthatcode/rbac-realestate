@@ -89,7 +89,7 @@ module.exports.createMarketer = async (req, res, next) => {
             referralLink: generatedRefferalLink,
             referralCode: generatedReferralCode
         });
-        console.log(marketer);
+        // console.log(marketer);
 
         // Create the verification token
         const verificationToken = new Token({
@@ -102,7 +102,7 @@ module.exports.createMarketer = async (req, res, next) => {
 
         // Save the verification token
         await verificationToken.save();
-        console.log(verificationToken);
+        // console.log(verificationToken);
 
 
         // Send the verification email
@@ -125,7 +125,7 @@ module.exports.createMarketer = async (req, res, next) => {
         });
 
         const token = createSecretToken(marketer._id);
-        console.log("Generated Token:", token); // Log the generated token
+        // console.log("Generated Token:", token); // Log the generated token
 
         res.cookie("token", token, {
             httpOnly: true,
@@ -209,7 +209,7 @@ module.exports.Login = async (req, res, next) => {
 
         // Generate a secret token
         const token = createSecretToken(marketer._id);
-        console.log("Generated Token:", token); // Log the generated token
+        // console.log("Generated Token:", token); // Log the generated token
 
         // Set the token as a cookie
         // res.cookie("token", token, {

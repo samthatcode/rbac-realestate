@@ -27,7 +27,10 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("https://surefinders-backend.onrender.com/api/users");
+      const response = await axios.get(
+        "https://surefinders-backend.onrender.com/api/users",
+        { withCredentials: true }
+      );
       setUsers(response.data.data);
     } catch (error) {
       console.error(error);
@@ -38,7 +41,11 @@ const UserManagement = () => {
   const createUser = async () => {
     setIsCreatingUser(true);
     try {
-      const response = await axios.post("https://surefinders-backend.onrender.com/api/signup", newUser);
+      const response = await axios.post(
+        "https://surefinders-backend.onrender.com/api/signup",
+        newUser,
+        { withCredentials: true }
+      );
       const createdUser = response.data.data;
       toast.success("User created successfully");
       // Update the list of users by adding the created user to the existing list
@@ -66,7 +73,11 @@ const UserManagement = () => {
       return;
     }
     try {
-      await axios.put(`https://surefinders-backend.onrender.com/api/users/${id}`, updatedUser);
+      await axios.put(
+        `https://surefinders-backend.onrender.com/api/users/${id}`,
+        updatedUser,
+        { withCredentials: true }
+      );
       fetchUsers();
       toast.success("User updated successfully");
     } catch (error) {
@@ -83,7 +94,10 @@ const UserManagement = () => {
   const deleteUser = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await axios.delete(`https://surefinders-backend.onrender.com/api/users/${id}`);
+        await axios.delete(
+          `https://surefinders-backend.onrender.com/api/users/${id}`,
+          { withCredentials: true }
+        );
         fetchUsers();
         toast.success("User deleted successfully");
       } catch (error) {
@@ -104,7 +118,8 @@ const UserManagement = () => {
         `https://surefinders-backend.onrender.com/api/users/${selectedUser}/assign-role`,
         {
           role: selectedRole,
-        }
+        },
+        { withCredentials: true }
       );
       if (response.status === 200) {
         toast.success("Role assigned successfully");

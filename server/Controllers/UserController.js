@@ -158,10 +158,9 @@ module.exports.Signup = async (req, res, next) => {
     console.log("Generated Token:", token); // Log the generated token
 
     res.cookie("token", token, {
-      withCredentials: true,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
     });
 
     res.status(201).json({
@@ -209,10 +208,9 @@ module.exports.Login = async (req, res, next) => {
 
     // Set the token as a cookie
     res.cookie("token", token, {
-      withCredentials: true,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
     });
 
     res.status(200).json({

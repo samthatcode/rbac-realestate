@@ -49,14 +49,14 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      console.log(data);
+      // console.log(data);
       const { success, message, data: marketer } = data;
 
       if (success) {
         handleSuccess(message);
         // Set the marketer in the context
         setMarketer(marketer);
-        console.log(marketer._id);
+        // console.log(marketer._id);
         navigate(`/marketerdashboard/${marketer._id}`);
       } else {
         handleError(message);

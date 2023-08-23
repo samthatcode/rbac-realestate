@@ -47,12 +47,17 @@ const ProductForm = () => {
         formDataToSend.append(key, formData[key]);
       }
       // Make the API request to send the form data to the server
-      const response = await axios.post("/api/products", formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await axios.post(
+        "/api/products",
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
-      console.log(response.data); // Optional: Log the response from the server
+        { withCredentials: true }
+      );
+      // console.log(response.data); // Optional: Log the response from the server
       // Reset the form
       setFormData({
         name: "",

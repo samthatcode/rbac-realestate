@@ -16,7 +16,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://surefinders-backend.onrender.com/api/products/${id}`);
+        const response = await axios.get(`https://surefinders-backend.onrender.com/api/products/${id}`, { withCredentials: true });
         setProduct(response.data.data);
         setCurrentImage(response.data.data.images[0]); // set the first image as current
       } catch (error) {
@@ -49,7 +49,7 @@ const ProductDetails = () => {
         position,
         autoClose: 2000,
       });
-      console.log("Product added to cart:", product);
+      // console.log("Product added to cart:", product);
     } else {
       toast.error("Please login to add a product to cart", {
         position: "top-right",
@@ -57,7 +57,7 @@ const ProductDetails = () => {
         onClose: () => navigate("/login"),
       });
 
-      console.log("User not logged in");
+      // console.log("User not logged in");
     }
   };
 
@@ -73,7 +73,7 @@ const ProductDetails = () => {
         <div className="flex justify-center">
           {currentImage && (
             <img
-              src={`http://localhost:5175/public/images/${currentImage}`}
+              src={`https://surefinders-backend.onrender.com/public/images/${currentImage}`}
               alt={title}
               className="w-full max-h-96 object-cover mb-4"
             />
@@ -85,7 +85,7 @@ const ProductDetails = () => {
             product.images.map((thumbnail, index) => (
               <img
                 key={index}
-                src={`http://localhost:5175/public/images/${thumbnail}`}
+                src={`https://surefinders-backend.onrender.com/public/images/${thumbnail}`}
                 alt={`Preview ${index + 1}`}
                 className="w-full h-16 object-cover cursor-pointer"
                 onClick={() => handleThumbnailClick(index)}
@@ -93,7 +93,7 @@ const ProductDetails = () => {
             ))}
         </div>
         <p className="text-gray-700 mb-4 capitalize">{description}</p>
-        <p className="text-lg font-bold mb-4">Price: ${price}</p>
+        <p className="text-lg font-bold mb-4">Price: &#x20A6;{price}</p>
         <p className="text-sm mb-4">Amenities: {amenities}</p>
         <ul className="list-disc pl-6 mb-4">
           <li className="text-[12px] text-darkslategray">

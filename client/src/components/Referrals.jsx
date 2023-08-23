@@ -21,18 +21,22 @@ const Referrals = ({ referralId }) => {
     // console.log("Fetching referrals for marketer ID:", referringMarketerId);
     setIsLoading(true);
     try {
-      const response = await axios.get("https://surefinders-backend.onrender.com/api/referrals", {
-        params: {
-          referringMarketerId: referringMarketerId,
+      const response = await axios.get(
+        "https://surefinders-backend.onrender.com/api/referrals",
+        {
+          params: {
+            referringMarketerId: referringMarketerId,
+          },
         },
-      });
+        { withCredentials: true }
+      );
       // console.log("Response from server:", response);
       if (response.data && Array.isArray(response.data.data)) {
         // console.log("Referral data received:", response.data.data);
         setReferralData(response.data);
         setReferralCount(response.data.stats.referralCount);
         setCommissionEarned(response.data.stats.commissionEarned);
-        console.log("Referral stats received:", response.data.stats);
+        // console.log("Referral stats received:", response.data.stats);
       } else {
         // console.log("Unexpected data structure:", response.data);
       }
@@ -105,7 +109,9 @@ const Referrals = ({ referralId }) => {
             <tbody className="text-sm font-light">
               <tr className="border-b border-gray-300 hover:bg-gray-200 cursor-pointer text-center">
                 <td className="border px-4 py-2">{referralCount}</td>
-                <td className="border px-4 py-2 text-green-500">${commissionEarned}</td>
+                <td className="border px-4 py-2 text-green-500">
+                  &#x20A6;{commissionEarned}
+                </td>
               </tr>
             </tbody>
           </table>

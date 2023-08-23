@@ -28,11 +28,16 @@ function CreateEventForm() {
     formData.append("eventImage", eventImage);
 
     try {
-      const response = await axios.post("/api/events", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await axios.post(
+        "/api/events",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+        { withCredentials: true }
+      );
       console.log(response.data);
     } catch (error) {
       console.error("Error submitting event:", error);

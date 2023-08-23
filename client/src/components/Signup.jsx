@@ -137,7 +137,7 @@ const Signup = () => {
         withCredentials: true,
       });
 
-      console.log(response.data);
+      // console.log(response.data);
       // After successful registration
       setShowModal(true);
       // Clear input fields after successful signup

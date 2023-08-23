@@ -49,7 +49,7 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      console.log(data);
+      // console.log(data);
       const { success, message, data: user } = data;
 
       if (success) {

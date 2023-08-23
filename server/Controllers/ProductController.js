@@ -6,10 +6,10 @@ const path = require('path');
 
 // Abstract category validation into a separate function
 const validateCategory = async (categoryId) => {
-    console.log('Validating category with ID:', categoryId);
+    // console.log('Validating category with ID:', categoryId);
     try {
         const category = await Category.findById(categoryId);
-        console.log('Found category:', category);
+        // console.log('Found category:', category);
         if (!category) {
             throw new Error(`Category with ID ${categoryId} not found`);
         }
@@ -22,7 +22,7 @@ const validateCategory = async (categoryId) => {
 
 // Create a new product
 module.exports.createProduct = async (req, res, next) => {
-    console.log(req.files);
+    // console.log(req.files);
     try {
         const { title,
             description,
@@ -41,7 +41,7 @@ module.exports.createProduct = async (req, res, next) => {
             return relativePath.replace(/\\/g, '/');
           });
      
-            console.log(imagePaths);
+            // console.log(imagePaths);
         let validatedCategoryId;
 
         if (Array.isArray(categoryId)) {
@@ -117,7 +117,7 @@ module.exports.getProductById = async (req, res, next) => {
 
 // Update a product
 module.exports.updateProduct = async (req, res, next) => {
-    console.log(req.files)
+    // console.log(req.files)
     try {
         const productId = req.params.productId;
         let newImages = req.files; // Get the uploaded images from req.files

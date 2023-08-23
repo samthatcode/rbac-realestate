@@ -8,7 +8,7 @@ function CodeVerification() {
   const handleSubmit = event => {
     event.preventDefault();
 
-    axios.post('https://surefinders-backend.onrender.com/api/verify-code', { code })
+    axios.post('https://surefinders-backend.onrender.com/api/verify-code', { code }, { withCredentials: true })
       .then(response => {
         setVerificationStatus(response.data.message);
       })

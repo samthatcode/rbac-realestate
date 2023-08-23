@@ -51,7 +51,7 @@ const App = () => {
           <CartProvider>
             <div>
               <ToastContainer />
-              <Navbar />
+              {/* <Navbar /> */}
               <div className="content font-poppins">
                 <Routes>
                   <Route path="/" element={<Home />} />

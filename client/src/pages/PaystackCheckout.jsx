@@ -42,7 +42,7 @@ const PaystackCheckout = () => {
   };
 
   const handlePaystackCloseAction = () => {
-    console.log("Payment dialog closed");
+    // console.log("Payment dialog closed");
   };
 
   const handleInputChange = (event) => {

@@ -45,7 +45,10 @@ const RoleManagement = () => {
 
   const fetchRoles = async () => {
     try {
-      const response = await axios.get("https://surefinders-backend.onrender.com/api/roles");
+      const response = await axios.get(
+        "https://surefinders-backend.onrender.com/api/roles",
+        { withCredentials: true }
+      );
       setRoles(response.data.data);
     } catch (error) {
       console.error(error);
@@ -56,7 +59,11 @@ const RoleManagement = () => {
   const createRole = async () => {
     setIsCreatingRole(true);
     try {
-      const response = await axios.post("https://surefinders-backend.onrender.com/api/roles", newRole);
+      const response = await axios.post(
+        "https://surefinders-backend.onrender.com/api/roles",
+        newRole,
+        { withCredentials: true }
+      );
       const createdRole = response.data.data;
       toast.success("Role created successfully");
       setRoles([...roles, createdRole]);
@@ -74,8 +81,8 @@ const RoleManagement = () => {
   };
 
   const updateRole = async (id) => {
-    console.log("Role ID:", id);
-    console.log("Roles:", roles);
+    // console.log("Role ID:", id);
+    // console.log("Roles:", roles);
     const roleToUpdate = roles.find((role) => role._id === id);
 
     if (!roleToUpdate) {
@@ -84,7 +91,11 @@ const RoleManagement = () => {
       return;
     }
     try {
-      const response = await axios.put(`https://surefinders-backend.onrender.com/api/roles/${id}`, editRole);
+      const response = await axios.put(
+        `https://surefinders-backend.onrender.com/api/roles/${id}`,
+        editRole,
+        { withCredentials: true }
+      );
       console.log("Server response:", response.data);
       // Manually update the roles state to include the updated role
       setRoles(roles.map((role) => (role._id === id ? editRole : role)));
@@ -115,7 +126,10 @@ const RoleManagement = () => {
   const deleteRole = async (id) => {
     if (window.confirm("Are you sure you want to delete this role?")) {
       try {
-        await axios.delete(`https://surefinders-backend.onrender.com/api/roles/${id}`);
+        await axios.delete(
+          `https://surefinders-backend.onrender.com/api/roles/${id}`,
+          { withCredentials: true }
+        );
         setRoles((prevRoles) => prevRoles.filter((role) => role._id !== id)); // Remove the deleted role from the roles state
         toast.success("Role deleted successfully");
       } catch (error) {

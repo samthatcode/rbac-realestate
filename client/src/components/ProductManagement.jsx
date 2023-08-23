@@ -61,7 +61,10 @@ const ProductManagement = () => {
   // fetch products
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("https://surefinders-backend.onrender.com/api/products");
+      const response = await axios.get(
+        "https://surefinders-backend.onrender.com/api/products",
+        { withCredentials: true }
+      );
       setProducts(response.data.data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -72,7 +75,10 @@ const ProductManagement = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("https://surefinders-backend.onrender.com/api/categories");
+        const response = await axios.get(
+          "https://surefinders-backend.onrender.com/api/categories",
+          { withCredentials: true }
+        );
         setCategories(response.data.data);
       } catch (error) {
         console.error("Failed to fetch categories", error);
@@ -148,7 +154,11 @@ const ProductManagement = () => {
         console.log(pair[0] + ", " + pair[1]);
       }
 
-      const response = await axios.post("https://surefinders-backend.onrender.com/api/products", formDataToSend);
+      const response = await axios.post(
+        "https://surefinders-backend.onrender.com/api/products",
+        formDataToSend,
+        { withCredentials: true }
+      );
       const createdProduct = response.data.data;
       toast.success("Product created successfully");
       setProducts([...products, createdProduct]);
@@ -197,7 +207,11 @@ const ProductManagement = () => {
         }
       }
       // Send the formData with the PUT request
-      await axios.put(`https://surefinders-backend.onrender.com/api/products/${id}`, formData);
+      await axios.put(
+        `https://surefinders-backend.onrender.com/api/products/${id}`,
+        formData,
+        { withCredentials: true }
+      );
 
       fetchProducts();
       toast.success("Product updated successfully");
@@ -223,7 +237,10 @@ const ProductManagement = () => {
   const deleteProduct = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await axios.delete(`https://surefinders-backend.onrender.com/api/products/${id}`);
+        await axios.delete(
+          `https://surefinders-backend.onrender.com/api/products/${id}`,
+          { withCredentials: true }
+        );
         fetchProducts();
         toast.success("Product deleted successfully");
       } catch (error) {
@@ -433,8 +450,7 @@ const ProductManagement = () => {
               value={formData.images}
               className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
             />
-            <div>
-              Selected files:
+            <div>              
               <ul>
                 {files.map((fileObject, index) => (
                   <li key={index}>{fileObject.name}</li>

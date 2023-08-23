@@ -10,8 +10,8 @@ const ProtectedRoute = ({ roles, children }) => {
   const isAuthenticated = user || marketer;
   const role = user ? user.role : marketer ? marketer.role : null;
 
-  console.log("Is authenticated:", isAuthenticated);
-  console.log("Role:", role);
+  // console.log("Is authenticated:", isAuthenticated);
+  // console.log("Role:", role);
 
   // if not authenticated, redirect to login
   if (!isAuthenticated) {
