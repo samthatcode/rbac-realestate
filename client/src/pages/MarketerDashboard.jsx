@@ -35,7 +35,13 @@ const MarketerDashboard = () => {
 
   useEffect(() => {
     const fetchMarketer = async () => {
-      const response = await axios.get(`https://surefinders-backend.onrender.com/api/marketers/${marketerId}`);
+      const response = await axios.get(
+        `https://surefinders-backend.onrender.com/api/marketers/${marketerId}`,
+        {},
+        {
+          withCredentials: true, // Include credentials (cookies)
+        }
+      );
       const marketerData = response.data.data;
 
       // Get the current URL without the pathname
