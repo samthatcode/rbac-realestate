@@ -37,9 +37,8 @@ const MarketerDashboard = () => {
     const fetchMarketer = async () => {
       const response = await axios.get(
         `https://surefinders-backend.onrender.com/api/marketers/${marketerId}`,
-        {},
         {
-          withCredentials: true, // Include credentials (cookies)
+          withCredentials: true,
         }
       );
       const marketerData = response.data.data;

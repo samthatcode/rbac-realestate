@@ -128,11 +128,11 @@ module.exports.createMarketer = async (req, res, next) => {
         console.log("Generated Token:", token); // Log the generated token
 
         res.cookie("token", token, {
-            withCredentials: true,
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
         });
+        
 
         res.status(201).json({
             message: 'Marketer created successfully',
@@ -206,12 +206,18 @@ module.exports.Login = async (req, res, next) => {
         console.log("Generated Token:", token); // Log the generated token
 
         // Set the token as a cookie
+        // res.cookie("token", token, {
+        //     withCredentials: true,
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === "production",
+        //     sameSite: "strict",
+        // });
         res.cookie("token", token, {
-            withCredentials: true,
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
         });
+        
 
         res.status(200).json({
             message: "Marketer logged in successfully",
