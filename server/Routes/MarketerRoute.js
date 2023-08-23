@@ -14,7 +14,7 @@ const {
     getMarketerDashboard,
     generateReferralLink,
     trackReferral,
-    deleteMarketer,    
+    deleteMarketer,
     approveMarketer
 } = require('../Controllers/MarketerController');
 
@@ -38,15 +38,15 @@ router.post('/marketers/logout', Logout);
 router.get('/marketers/dashboard', verifyTokenAndMarketer, allowIfMarketer, getMarketerDashboard);
 
 // Get marketer information
-router.get('/marketers',  allowIfLoggedin, getMarketers);
+router.get('/marketers', getMarketers);
 
 // Get marketer information
-router.get('/marketers/:marketerId', allowIfLoggedin, verifyTokenAndMarketer, grantAccess('readOwn', 'profile'), getMarketer);
+router.get('/marketers/:marketerId', grantAccess('readOwn', 'profile'), getMarketer);
 
 // Update marketer details
-router.put('/marketers/:marketerId', allowIfLoggedin, verifyTokenAndMarketer, grantAccess('updateOwn', 'profile'), upload.single('profilePicture'), updateMarketer);
+router.put('/marketers/:marketerId', grantAccess('updateOwn', 'profile'), upload.single('profilePicture'), updateMarketer);
 
-router.delete('/marketers/:marketerId', allowIfLoggedin, verifyTokenAndMarketer, grantAccess('deleteAny', 'profile'), deleteMarketer);
+router.delete('/marketers/:marketerId', grantAccess('deleteAny', 'profile'), deleteMarketer);
 
 router.post("/marketers/:marketerId/approve", approveMarketer);
 
