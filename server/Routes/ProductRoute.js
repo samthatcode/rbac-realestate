@@ -8,14 +8,14 @@ const { allowIfAdmin, verifyTokenAndUser, allowIfLoggedin } = require("../Middle
 const { grantAccess } = require('../Controllers/UserController');
 
 // Product Routes
-router.post('/products', upload.array('images'), verifyTokenAndUser, allowIfAdmin, grantAccess('createAny', 'product'), createProduct);
+router.post('/products', upload.array('images'), allowIfLoggedin, allowIfAdmin, grantAccess('createAny', 'product'), createProduct);
 
-router.get('/products', verifyTokenAndUser, allowIfLoggedin, grantAccess('readAny', 'product'), getProducts);
+router.get('/products', allowIfLoggedin, allowIfAdmin, grantAccess('readAny', 'product'), getProducts);
 
-router.get('/products/:productId', verifyTokenAndUser, allowIfLoggedin, grantAccess('readAny', 'product'), getProductById);
+router.get('/products/:productId', allowIfLoggedin, allowIfAdmin, grantAccess('readAny', 'product'), getProductById);
 
-router.put('/products/:productId', upload.array('images'), verifyTokenAndUser, allowIfLoggedin, grantAccess('updateAny', 'product'), updateProduct);
+router.put('/products/:productId', upload.array('images'), allowIfLoggedin, allowIfAdmin,  grantAccess('updateAny', 'product'), updateProduct);
 
-router.delete('/products/:productId', verifyTokenAndUser, allowIfLoggedin, grantAccess('deleteAny', 'product'), deleteProduct);
+router.delete('/products/:productId', allowIfLoggedin, allowIfAdmin, grantAccess('deleteAny', 'product'), deleteProduct);
 
 module.exports = router;

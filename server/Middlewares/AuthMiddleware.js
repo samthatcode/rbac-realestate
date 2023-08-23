@@ -21,7 +21,7 @@ module.exports.verifyTokenAndUser = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, secretToken);
-        console.log(decoded); // Log the decoded token
+        // console.log(decoded); // Log the decoded token
         const user = await User.findById(decoded.id);
         if (!user) {
             res.status(404).json({ message: 'User not found' });
@@ -111,7 +111,7 @@ module.exports.verifyTokenAndMarketer = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, secretToken);
-        console.log(decoded); // Log the decoded token
+        // console.log(decoded); // Log the decoded token
         const marketer = await Marketer.findById(decoded.id);
         if (!marketer) {
             res.status(404).json({ message: 'Marketer not found' });
