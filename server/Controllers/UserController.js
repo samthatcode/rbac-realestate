@@ -167,8 +167,7 @@ module.exports.Signup = async (req, res, next) => {
     res.status(201).json({
       message: "User signed up successfully",
       success: true,
-      data: { // only send necessary data
-        id: user._id,
+      data: { // only send necessary data       
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,

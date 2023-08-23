@@ -38,7 +38,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     // const fetchSales = async () => {
     //   try {
-    //     const salesResponse = await fetch("/api/sales/total");
+    //     const salesResponse = await fetch("/api/sales/total",  { withCredentials: true });
     //     const salesData = await salesResponse.json();
     //     setTotalSales(salesData.total);
     //   } catch (error) {
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
 
     const fetchProducts = async () => {
       try {
-        const productsResponse = await fetch("https://surefinders-backend.onrender.com/api/products");
+        const productsResponse = await fetch("https://surefinders-backend.onrender.com/api/products",  { withCredentials: true });
         const productsData = await productsResponse.json();
         console.log("productsData", productsData);
         setTotalProductsCount(productsData.data.length);
@@ -61,7 +61,7 @@ const AdminDashboard = () => {
 
     const fetchUsers = async () => {
       try {
-        const usersResponse = await fetch("https://surefinders-backend.onrender.com/api/users");
+        const usersResponse = await fetch("https://surefinders-backend.onrender.com/api/users",  { withCredentials: true });
         const usersData = await usersResponse.json();
         console.log("usersData", usersData);
         setTotalUsersCount(usersData.data.length);
@@ -73,7 +73,7 @@ const AdminDashboard = () => {
 
     const fetchInactiveMarketers = async () => {
       try {
-        const response = await fetch("https://surefinders-backend.onrender.com/api/marketers");
+        const response = await fetch("https://surefinders-backend.onrender.com/api/marketers",  { withCredentials: true });
         // console.log("Response status:", response.status);
         const data = await response.json();
         // console.log(data);
@@ -105,7 +105,7 @@ const AdminDashboard = () => {
 
   const approveMarketer = async (marketerId) => {
     try {
-      const response = await fetch(`https://surefinders-backend.onrender.com/api/marketers/${marketerId}/approve`, {
+      const response = await fetch(`https://surefinders-backend.onrender.com/api/marketers/${marketerId}/approve`,  { withCredentials: true }, {
         method: "POST",
       });
       const data = await response.json();

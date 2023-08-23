@@ -80,10 +80,7 @@ const MarketerDashboard = () => {
     try {
       const response = await axios.post(
         "https://surefinders-backend.onrender.com/api/marketers/logout",
-        {},
-        {
-          withCredentials: true, // Include credentials (cookies)
-        }
+        { withCredentials: true }
       );
       if (response.data.message === "Logged out successfully") {
         setMarketer(null); // Assuming you have a setMarketer function to update the marketer state

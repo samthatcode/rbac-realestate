@@ -132,11 +132,17 @@ module.exports.createMarketer = async (req, res, next) => {
             secure: process.env.NODE_ENV === "production",
             sameSite: "none",
         });
-        
+
 
         res.status(201).json({
             message: 'Marketer created successfully',
-            data: marketer
+            success: true,
+            data: { // only send necessary data       
+                firstName: marketer.firstName,
+                lastName: marketer.lastName,
+                email: marketer.email,
+                role: marketer.role,
+            },
         });
     } catch (error) {
         console.error(error);
@@ -217,7 +223,7 @@ module.exports.Login = async (req, res, next) => {
             secure: process.env.NODE_ENV === "production",
             sameSite: "none",
         });
-        
+
 
         res.status(200).json({
             message: "Marketer logged in successfully",
@@ -295,7 +301,7 @@ module.exports.updateMarketer = async (req, res, next) => {
             } else {
                 marketer[update] = req.body[update];
             }
-        }        
+        }
 
         const updateMarketer = await marketer.save();
 
