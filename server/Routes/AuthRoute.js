@@ -27,7 +27,7 @@ router.post('/logout', Logout);
 // authRoute
 router.get('/users/:userId', grantAccess('readOwn', 'profile'), getUserById);
 
-router.get('/users', grantAccess('readAny', 'profile'), getUsers);
+router.get('/users', getUsers);
 
 router.put('/users/:userId', grantAccess('updateAny', 'profile'), updateUser);
 
