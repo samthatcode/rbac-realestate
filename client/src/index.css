@@ -14,6 +14,12 @@ body {
   /* Adjust the padding-top value as needed to avoid overlap with the Navbar */
 }
 
+.active {
+  background-color: orange;
+  color: black;
+}
+
+
 /* Hide the increase and decrease buttons on number inputs */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

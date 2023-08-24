@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Link, Route, Routes, useMatch } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+import { NavLink, useNavigate } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import { PieChart, Pie, Cell } from "recharts";
 import {
@@ -13,28 +14,44 @@ import {
   UserManagement,
 } from "../components";
 import StyledTable from "./StyledTable";
+import axios from "axios";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const AdminDashboard = () => {
+  const { user, setUser } = useContext(UserContext);
   const [totalProductsCount, setTotalProductsCount] = useState(0);
   const [totalUsersCount, setTotalUsersCount] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
   const [error, setError] = useState("");
   const [inactiveMarketers, setInactiveMarketers] = useState([]);
+  const [currentView, setCurrentView] = useState("");
 
-  let match = useMatch("/admin/dashboard/*");
-
-  let path, url;
-
-  if (match) {
-    ({ path, url } = match);
-  }
+  const navigate = useNavigate();
 
   const data = [
     { name: "Total Products", value: totalProductsCount },
     { name: "Total Users", value: totalUsersCount },
   ];
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "https://surefinders-backend.onrender.com/api/logout",
+        {},
+        {
+          withCredentials: true, // Include credentials (cookies)
+        }
+      );
+      if (response.data.message === "Logged out successfully") {
+        setUser(null);
+        navigate("/login");
+        // console.log("User Logged Out");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     // const fetchSales = async () => {
@@ -143,54 +160,93 @@ const AdminDashboard = () => {
             <button onClick={() => setIsDrawerOpen(false)}>
               <span className="text-4xl">&times;</span>
             </button>
-            <Link
-              to={`${url}/manageproducts`}
-              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
+            <NavLink
+              to="/manageproducts"
+              className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
+              activeClassName="active"
+              onClick={(event) => {
+                event.preventDefault();
+                setCurrentView("manageproducts");
+              }}
             >
               Manage Products
-            </Link>
-            <Link
-              to={`${url}/manageusers`}
-              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
+            </NavLink>
+
+            <NavLink
+              to="/manageusers"
+              className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
+              activeClassName="active"
+              onClick={(event) => {
+                event.preventDefault();
+                setCurrentView("manageusers");
+              }}
             >
               Manage Users
-            </Link>
-            <Link
-              to={`${url}/manageroles`}
-              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
+            </NavLink>
+
+            <NavLink
+              to="/manageroles"
+              className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
+              activeClassName="active"
+              onClick={(event) => {
+                event.preventDefault();
+                setCurrentView("manageroles");
+              }}
             >
               Manage Roles
-            </Link>
-            <Link
-              to={`${url}/managecategories`}
-              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
+            </NavLink>
+            <NavLink
+              to="/managecategories"
+              className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
+              activeClassName="active"
+              onClick={(event) => {
+                event.preventDefault();
+                setCurrentView("managecategories");
+              }}
             >
               Manage Categories
-            </Link>
+            </NavLink>
+
             <div className="relative block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium cursor-pointer">
               <button onClick={toggleDropdown} className="">
                 Manage Events
               </button>
               {isDropdownOpen && (
                 <div className="absolute top-full left-0 bg-gray-200 p-2 rounded shadow">
-                  <Link
-                    to={`${url}/create-event`}
-                    className="block px-2 py-1 text-blue-600 hover:text-blue-800"
+                  <NavLink
+                    to="/create-event"
+                    className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
+                    activeClassName="active"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setCurrentView("create-event");
+                    }}
                   >
                     Create Event
-                  </Link>
-                  <Link
-                    to={`${url}/eventdetails`}
-                    className="block px-2 py-1 text-blue-600 hover:text-blue-800"
+                  </NavLink>
+                  <NavLink
+                    to="/eventdetails"
+                    className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
+                    activeClassName="active"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setCurrentView("eventdetails");
+                    }}
                   >
                     Event Details
-                  </Link>
-                  <Link
-                    to={`${url}/eventdetails`}
-                    className="block px-2 py-1 text-blue-600 hover:text-blue-800"
+                  </NavLink>
+                  <NavLink
+                    to="/eventlist"
+                    className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
+                    activeClassName="active"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setCurrentView("eventlist");
+                    }}
                   >
                     Event List
-                  </Link>
+                  </NavLink>
+
                   {/* Add more sub-links as needed */}
                 </div>
               )}
@@ -205,18 +261,39 @@ const AdminDashboard = () => {
             </button>
             <h1 className="ml-4 text-xl font-bold">Admin Dashboard</h1>
           </div>
+          {user && (
+            <>
+              <span className="text-blue-500 bg-blue-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
+                {user.email}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="inline-block font-medium bg-white text-blue-500 hover:text-blue-700 py-2 px-4 rounded-md"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </header>
         <main className="col-span-12 lg:col-span-9 p-6 bg-slate-200 m-4 shadow-xl rounded-lg">
           <h1 className="text-2xl font-bold mb-4 text-steelteal">
             Welcome, Admin!
           </h1>
-          {/* Dashboard content goes here. */}
+          {/* Dashboard content goes here */}
+          {currentView === "manageproducts" && <ProductManagement />}
+          {currentView === "manageusers" && <UserManagement />}
+          {currentView === "manageroles" && <RoleManagement />}
+          {currentView === "managecategories" && <CategoryManagement />}
+          {currentView === "create-event" && <CreateEventForm />}
+          {currentView === "eventdetails" && <EventDetails />}
+          {currentView === "eventlist" && <EventList />}
+
           {error ? (
             <div className="p-4 bg-red-500 text-white rounded">
               <p>{error}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-20">
               <div className="p-4 bg-white shadow rounded">
                 <h2 className="font-bold text-lg mb-2 text-steelteal">
                   Total Products
@@ -237,27 +314,6 @@ const AdminDashboard = () => {
               </div>
             </div>
           )}
-          {/* Use Route for nested routing */}
-          <Routes>
-            <Route exact path={path} />
-            <Route
-              path={`${url}/manageproducts`}
-              element={<ProductManagement />}
-            />
-            <Route path={`${url}/manageusers`} element={<UserManagement />} />
-            <Route path={`${url}/manageroles`} element={<RoleManagement />} />
-            <Route
-              path={`${url}/managecategories`}
-              element={<CategoryManagement />}
-            />
-            <Route
-              path={`${url}/create-event`}
-              element={<CreateEventForm />}
-            />
-            <Route path={`${url}/eventdetails`} element={<EventDetails />} />
-            <Route path={`${url}/`} element={<EventList />} />
-          </Routes>
-
           <div className=" shadow rounded">
             <PieChart width={300} height={300}>
               <Pie
