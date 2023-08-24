@@ -23,7 +23,8 @@ const AdminDashboard = () => {
   const [error, setError] = useState("");
   const [inactiveMarketers, setInactiveMarketers] = useState([]);
 
-  let match = useMatch("/admin/dashboard");
+  let match = useMatch("/admin/dashboard/*");
+
   let path, url;
 
   if (match) {
@@ -240,21 +241,21 @@ const AdminDashboard = () => {
           <Routes>
             <Route exact path={path} />
             <Route
-              path={`${path}/manageproducts`}
+              path={`${url}/manageproducts`}
               element={<ProductManagement />}
             />
-            <Route path={`${path}/manageusers`} element={<UserManagement />} />
-            <Route path={`${path}/manageroles`} element={<RoleManagement />} />
+            <Route path={`${url}/manageusers`} element={<UserManagement />} />
+            <Route path={`${url}/manageroles`} element={<RoleManagement />} />
             <Route
-              path={`${path}/managecategories`}
+              path={`${url}/managecategories`}
               element={<CategoryManagement />}
             />
             <Route
-              path={`${path}/create-event`}
+              path={`${url}/create-event`}
               element={<CreateEventForm />}
             />
-            <Route path={`${path}/eventdetails`} element={<EventDetails />} />
-            <Route path={`${path}/`} element={<EventList />} />
+            <Route path={`${url}/eventdetails`} element={<EventDetails />} />
+            <Route path={`${url}/`} element={<EventList />} />
           </Routes>
 
           <div className=" shadow rounded">
