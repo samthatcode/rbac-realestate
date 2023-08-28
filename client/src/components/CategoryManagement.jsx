@@ -128,7 +128,7 @@ const CategoryManagement = () => {
             <button
               type="submit"
               disabled={isCreatingCategory}
-              className="p-2 bg-blue-500 text-white rounded"
+              className="p-2 bg-primary text-white rounded"
             >
               {isCreatingCategory ? "Creating Category..." : "Create Category"}
             </button>
@@ -152,13 +152,13 @@ const CategoryManagement = () => {
                 <td className="border px-4 py-2 flex justify-between">
                   <button
                     onClick={() => openModal(category)}
-                    className="text-blue-500 px-2"
+                    className="text-primary px-2"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => deleteCategory(category._id)}
-                    className="text-red-500 px-2"
+                    className="text-red px-2"
                   >
                     Delete
                   </button>
@@ -231,7 +231,7 @@ const CategoryManagement = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="w-full flex justify-center rounded-md border font-semibold border-transparent shadow-sm px-4 py-2 my-4 mt-4 bg-red-500 text-base text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full flex justify-center rounded-md border font-semibold border-transparent shadow-sm px-4 py-2 my-4 mt-4 bg-red text-base text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Close
                 </button>

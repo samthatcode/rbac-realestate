@@ -42,6 +42,7 @@ const Login = () => {
 
     try {
       const { data } = await axios.post(
+        // "/api/marketers/login",
         "https://surefinders-backend.onrender.com/api/marketers/login",
         {
           ...inputValue,
@@ -78,8 +79,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
-      <div className="w-full max-w-md p-4 bg-white rounded-md shadow-xl">
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-4 rounded-md shadow-xl">
         <h2 className="md:text-left text-center text-xl font-bold text-slate-500">
           Log In
         </h2>
@@ -122,7 +123,7 @@ const Login = () => {
           <button
             type="submit"
             className={
-              `w-full px-4 py-2 mt-4 mb-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium ${
+              `w-full px-4 py-2 mt-4 mb-4  bg-primary hover:bg-blue text-white rounded-md font-medium ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }` // Disable button and show loading state
             }
@@ -133,13 +134,13 @@ const Login = () => {
           <div className="flex items-center justify-between text-center gap-4">
             <span className="block">
               Don't have an account?{" "}
-              <Link to="/marketer/signup" className="text-blue-500">
+              <Link to="/marketer/signup" className="text-primary hover:text-blue">
                 Sign Up
               </Link>
             </span>
             <span className="block">
               Forgot your password?{" "}
-              <Link to="/marketer-forgot-password" className="text-blue-500">
+              <Link to="/marketer-forgot-password" className="text-primary hover:text-blue">
                 Reset it
               </Link>
             </span>

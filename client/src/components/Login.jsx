@@ -43,6 +43,7 @@ const Login = () => {
     try {
       const { data } = await axios.post(
         "https://surefinders-backend.onrender.com/api/login",
+        // "/api/login",
         {
           ...inputValue,
         },
@@ -62,8 +63,8 @@ const Login = () => {
           }, 2000); // Navigate to the 'AdminDashboard' component if the user is an admin
         } else {
           setTimeout(() => {
-            navigate("/products");
-          }, 2000); // Navigate to the 'ProductsPage' component if the user is not an admin
+            navigate("/user/dashboard");
+          }, 2000);
         }
       } else {
         handleError(message);
@@ -131,7 +132,7 @@ const Login = () => {
           <button
             type="submit"
             className={
-              `w-full px-4 py-2 mt-4 mb-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium ${
+              `w-full px-4 py-2 mt-4 mb-4 bg-primary hover:bg-blue text-white rounded-md font-medium ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }` // Disable button and show loading state
             }
@@ -142,13 +143,13 @@ const Login = () => {
           <div className="flex items-center justify-between text-center gap-4">
             <span className="block ">
               Don't have an account?{" "}
-              <Link to="/signup" className="text-blue-500">
+              <Link to="/signup" className="text-primary hover:text-blue">
                 Sign Up
               </Link>
             </span>
             <span className="block ">
               Forgot your password?{" "}
-              <Link to="/forgot-password" className="text-blue-500">
+              <Link to="/forgot-password" className="text-primary hover:text-blue">
                 Reset it
               </Link>
             </span>

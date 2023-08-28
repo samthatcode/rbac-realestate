@@ -183,7 +183,7 @@ const UserManagement = () => {
         />
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 font-bold text-white p-2 rounded-md ml-auto"
+          className="bg-primary hover:bg-blue font-bold text-white p-2 rounded-md ml-auto"
           disabled={isCreatingUser}
         >
           {isCreatingUser ? "Creating User..." : "Create User"}
@@ -212,13 +212,13 @@ const UserManagement = () => {
               <td className="border px-4 py-2 flex justify-between">
                 <button
                   onClick={() => openModal(user)}
-                  className="text-blue-500 hover:text-blue-700 font-bold bg-slate-200 px-2 py-1 rounded-md"
+                  className="text-primary hover:text-blue font-bold bg-slate-100 px-2 py-1 rounded-md"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => deleteUser(user._id)}
-                  className="text-red-500 hover:text-red-600 font-bold bg-slate-200 px-2 py-1 rounded-md"
+                  className="text-red font-bold bg-slate-100 px-2 py-1 rounded-md"
                 >
                   Delete
                 </button>
@@ -267,7 +267,7 @@ const UserManagement = () => {
 
       <button
         className={`p-2 py-2 px-4 rounded-md ${
-          loading ? "bg-gray-500" : "bg-green-500"
+          loading ? "bg-gray-500" : "bg-green"
         } text-white`}
         onClick={assignRole}
         disabled={!selectedUser || !selectedRole || loading}
@@ -370,7 +370,7 @@ const UserManagement = () => {
                   <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                     <button
                       type="submit"
-                      className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                      className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-primary text-base leading-6 font-medium text-white shadow-sm hover:bg-blue focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                     >
                       Save
                     </button>

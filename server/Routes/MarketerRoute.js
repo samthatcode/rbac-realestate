@@ -41,7 +41,7 @@ router.get('/marketers/dashboard', verifyTokenAndMarketer, allowIfMarketer, getM
 router.get('/marketers', getMarketers);
 
 // Get marketer information
-router.get('/marketers/:marketerId', grantAccess('readOwn', 'profile'), getMarketer);
+router.get('/marketers/:marketerId', getMarketer);
 
 // Update marketer details
 router.put('/marketers/:marketerId', grantAccess('updateOwn', 'profile'), upload.single('profilePicture'), updateMarketer);

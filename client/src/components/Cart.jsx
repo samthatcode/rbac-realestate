@@ -16,7 +16,7 @@ const Cart = () => {
         className="text-2xl cursor-pointer"
       />
       {cartItemsCount > 0 && (
-        <span className="absolute -top-2 -right-2 px-1 text-xs font-semibold bg-red-500 text-white rounded-full">
+        <span className="absolute -top-2 -right-2 px-1 text-xs font-semibold bg-red text-white rounded-full">
           {cartItemsCount}
         </span>
       )}

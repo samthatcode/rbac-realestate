@@ -166,7 +166,7 @@ const RoleManagement = () => {
                   onChange={(e) =>
                     setNewRole({ ...newRole, name: e.target.value })
                   }
-                  className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 "
+                  className="w-full border-gray-300 rounded-md focus:ring-blue focus:border-blue sm:text-sm px-3 py-2 "
                 />
               </div>
               <div className="mb-4">
@@ -183,7 +183,7 @@ const RoleManagement = () => {
                   onChange={(e) =>
                     setNewRole({ ...newRole, description: e.target.value })
                   }
-                  className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 "
+                  className="w-full border-gray-300 rounded-md focus:ring-blue focus:border-blue sm:text-sm px-3 py-2 "
                 />
               </div>
               <div className="mb-4">
@@ -202,14 +202,14 @@ const RoleManagement = () => {
                       .map((permission) => permission.trim());
                     setNewRole({ ...newRole, permissions });
                   }}
-                  className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 "
+                  className="w-full border-gray-300 rounded-md focus:ring-blue focus:border-blue sm:text-sm px-3 py-2 "
                   rows="4"
                 ></textarea>
               </div>
               <button
                 type="submit"
                 disabled={isCreatingRole}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 w-full px-4 rounded"
+                className="bg-primary hover:bg-blue text-white font-bold py-2 w-full px-4 rounded"
               >
                 {isCreatingRole ? "Creating Role..." : "Create Role"}
               </button>
@@ -343,7 +343,7 @@ const RoleManagement = () => {
                     </div>
                     <button
                       type="submit"
-                      className="p-2 bg-blue-500 text-white font-bold mt-2 w-full border-gray-300 rounded-md hover:bg-blue-700 focus:border-blue-500 sm:text-sm px-3 py-2 "
+                      className="p-2 bg-primary text-white font-bold mt-2 w-full border-gray-300 rounded-md hover:bg-blue focus:border-blue-500 sm:text-sm px-3 py-2 "
                     >
                       Update Role
                     </button>
@@ -352,7 +352,7 @@ const RoleManagement = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="w-full flex justify-center rounded-md border font-semibold border-transparent shadow-sm px-4 py-2 my-4 mt-4 bg-red-500 text-base text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full flex justify-center rounded-md border font-semibold border-transparent shadow-sm px-4 py-2 my-4 mt-4 bg-red text-base text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Close
                 </button>

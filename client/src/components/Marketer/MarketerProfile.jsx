@@ -211,14 +211,14 @@ const MarketerProfile = () => {
       </div>
       <button
         type="submit"
-        className={`mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+        className={`mt-4 bg-primary hover:bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
           loading ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={loading}
       >
         {loading ? "Updating..." : "Update"}
       </button>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+      {error && <p className="text-red mt-2">{error}</p>}
     </form>
   );
 };

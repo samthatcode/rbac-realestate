@@ -52,7 +52,7 @@ const StyledTable = ({ data, approveMarketer }) => {
                 <td className="px-4 py-2">
                   <button
                     onClick={() => handleApproveClick(marketer._id)}
-                    className="text-green-600 bg-green-100 hover:bg-green-200 rounded p-1 text-xs font-semibold inline-block py-1 px-2 last:mr-0 mr-1 text-[14px]"
+                    className="text-orange-500 bg-orange-100 hover:bg-orange-200 rounded p-1 text-xs font-semibold inline-block py-1 px-2 last:mr-0 mr-1 text-[14px]"
                   >
                     Approve
                   </button>

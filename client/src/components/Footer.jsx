@@ -89,7 +89,7 @@ const Footer = () => {
           delivered to you.
         </p>
         <div className="mt-4 flex justify-center md:justify-start">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mr-4">
+          <button className="bg-primary hover:bg-blue text-white font-semibold py-2 px-4 rounded mr-4">
             Subscribe
           </button>
           <button className="bg-gray-300 hover:bg-gray-400 text-black font-semibold py-2 px-4 rounded">

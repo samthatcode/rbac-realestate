@@ -23,7 +23,7 @@ const ModalSuccess = ({ showModal, setShowModal }) => {
                 <div className="sm:flex sm:items-start">
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <h3
-                      className="text-lg leading-6 font-medium text-green-500"
+                      className="text-lg leading-6 font-medium text-green"
                       id="modal-title"
                     >
                       Registration successful!
@@ -40,7 +40,7 @@ const ModalSuccess = ({ showModal, setShowModal }) => {
                 <button
                   onClick={() => setShowModal(false)}
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Close
                 </button>

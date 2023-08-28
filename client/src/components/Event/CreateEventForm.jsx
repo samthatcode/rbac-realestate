@@ -29,7 +29,8 @@ function CreateEventForm() {
 
     try {
       const response = await axios.post(
-        "/api/events",
+        "https://surefinders-backend.onrender.com/api/events",
+        // "/api/events",
         formData,
         {
           headers: {

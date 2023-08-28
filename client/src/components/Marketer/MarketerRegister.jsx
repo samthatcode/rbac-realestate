@@ -203,7 +203,7 @@ const Signup = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="w-full max-w-xl p-4 bg-white rounded-md shadow-xl">
+      <div className="w-full max-w-xl p-4 rounded-md shadow-xl">
         <div className="md:text-left text-center mb-7">
           <h2 className="text-xl font-bold text-slate-500">Sign Up</h2>
           <p className="text-sm text-blue-900">
@@ -432,7 +432,7 @@ const Signup = () => {
                     (step === 2 && !isStepTwoValid()) ||
                     (step === 3 && !isStepThreeValid())
                       ? "opacity-50 cursor-not-allowed"
-                      : "px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium"
+                      : "px-4 py-2 bg-primary hover:bg-blue text-white rounded-md font-medium"
                   } mr-4`}
                   disabled={
                     (step === 1 && !isStepOneValid()) ||
@@ -446,7 +446,7 @@ const Signup = () => {
               {step === 3 && (
                 <button
                   type="submit"
-                  className={`px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium ${
+                  className={`px-4 py-2  bg-primary hover:bg-blue text-white rounded-md hover:bg-blue-600 font-medium ${
                     loading || step < 3 || !isFormValid()
                       ? "opacity-50 cursor-not-allowed"
                       : ""
@@ -465,7 +465,7 @@ const Signup = () => {
         <div className="text-center mt-4">
           <span>
             Already have an account?{" "}
-            <Link to="/marketer/login" className="text-blue-500">
+            <Link to="/marketer/login" className="text-primary hover:text-blue">
               Log In
             </Link>
           </span>

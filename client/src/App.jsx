@@ -7,7 +7,7 @@ import {
   MarketerDashboard,
   ProductPage,
   ProductDetails,
-  CartListPage, 
+  CartListPage,
   CheckoutPage,
   ConfirmationPage,
   PaystackCheckout,
@@ -65,17 +65,7 @@ const App = () => {
                   <Route path="/confirm" element={<ConfirmationPage />} />
                   <Route path="/productform" element={<ProductForm />} />
                   <Route path="/products" element={<ProductPage />} />
-                  <Route path="/products/:id" element={<ProductDetails />} />             
-                  {/* <Route path="/manageusers" element={<UserManagement />} />
-                  <Route
-                    path="/manageproducts"
-                    element={<ProductManagement />}
-                  />
-                  <Route
-                    path="/managecategories"
-                    element={<CategoryManagement />}
-                  />
-                  <Route path="/manageroles" element={<RoleManagement />} /> */}
+                  <Route path="/products/:id" element={<ProductDetails />} />
                   {/* Marketer */}
 
                   <Route
@@ -105,7 +95,7 @@ const App = () => {
                     path="/marketer-reset/:resetToken"
                     element={<MarketerResetPassword />}
                   />
-                  <Route path="/userdashboard" element={<UserDashboard />} />
+                  <Route path="/user/dashboard" element={<UserDashboard />} />
 
                   <Route
                     path="/admin/dashboard"
@@ -114,12 +104,7 @@ const App = () => {
                         <AdminDashboard />
                       </ProtectedRoute>
                     }
-                  />
-
-                  {/* Events */}
-                  {/* <Route path="/create-event" element={<CreateEventForm />} /> */}
-                  {/* <Route path="/eventdetails" element={<EventDetails />} /> */}
-                  {/* <Route path="/eventlist" element={<EventList />} /> */}
+                  />                
                   <Route
                     path="/verify-user-email/:token"
                     element={<UserEmailVerification />}

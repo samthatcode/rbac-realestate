@@ -27,22 +27,30 @@ numberInputs.forEach((input) => {
 const ContactUs = () => {
   return (
     <div className="bg-slate-100 shadow-xl mx-2 rounded-md p-4 my-4">
-      <h1 className="text-3xl text-center text-teal">Contact Us</h1>
+      <div className="title_head mb-4">
+        <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
+          Contact Us
+        </h2>
+        <p class="text-center capitalize text-subTitle">
+        reach out to us! We provide full service at every step.
+        </p>
+      </div>
+
       <div className="flex">
         <div className="w-1/2 p-8">
           <div>
             <h2 className="text-xl font-semibold mb-4">Our Offices</h2>
             <p>
-              <FaMapMarkerAlt className="inline mr-2" />
+              <FaMapMarkerAlt className="inline mr-2 text-red" />
               22, Olufunmilayo Street, Dideolu Estate, Second Gate B/Stop, Ogba
               Lagos.
             </p>
             <p>
-              <FaEnvelope className="inline mr-2" />
+              <FaEnvelope className="inline mr-2 text-orange-500" />
               contact@surefinders.com
             </p>
             <p>
-              <FaPhone className="inline mr-2" />
+              <FaPhone className="inline mr-2 text-green" />
               234 (90) 9767 7173
             </p>
           </div>
@@ -50,14 +58,14 @@ const ContactUs = () => {
             <h2 className="text-xl font-semibold mb-4">Social Media</h2>
             <a
               href="https://twitter.com/surefinders"
-              className="text-blue-500 block mb-2"
+              className="text-blue block mb-2"
             >
               <AiFillTwitterCircle className="inline mr-2" />
               Twitter
             </a>
             <a
               href="https://web.facebook.com/surefinders"
-              className="text-blue-700 block mb-2"
+              className="text-primary block mb-2"
             >
               <AiFillFacebook className="inline mr-2" />
               Facebook
@@ -140,7 +148,7 @@ const ContactUs = () => {
             </div>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-7 py-2 rounded uppercase"
+              className="bg-primary hover:bg-blue text-white px-7 py-2 rounded uppercase"
             >
               Send a Message
             </button>

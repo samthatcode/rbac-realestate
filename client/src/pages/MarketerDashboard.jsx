@@ -36,6 +36,7 @@ const MarketerDashboard = () => {
   useEffect(() => {
     const fetchMarketer = async () => {
       const response = await axios.get(
+        // `/api/marketers/${marketerId}`,
         `https://surefinders-backend.onrender.com/api/marketers/${marketerId}`,
         {
           withCredentials: true,
@@ -80,6 +81,7 @@ const MarketerDashboard = () => {
     try {
       const response = await axios.post(
         "https://surefinders-backend.onrender.com/api/marketers/logout",
+        // "/api/marketers/logout",
         { withCredentials: true }
       );
       if (response.data.message === "Logged out successfully") {
@@ -101,30 +103,30 @@ const MarketerDashboard = () => {
   };
 
   return (
-    <div className=" bg-slate-200">
+    <div className=" bg-slate-50">
       <div className="grid grid-cols-12">
         <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
-          <nav className="w-64 bg-gray-200 p-4">
+          <nav className="w-64 p-4">
             <h2 className="text-lg font-semibold mb-4">Marketer Menu</h2>
             <button onClick={() => setIsDrawerOpen(false)}>
               <span className="text-4xl">&times;</span>
             </button>
             <Link
               to="/registration"
-              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
+              className="block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4"
             >
               Registration Form
             </Link>
             <Link
               to={`/referrals/${referralId}`}
-              className="block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4"
+              className="block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4"
             >
               Referrals
             </Link>
           </nav>
         </Drawer>
 
-        <header className="col-span-12 flex justify-between items-center p-4 bg-blue-500 text-white">
+        <header className="col-span-12 flex justify-between items-center p-4 bg-primary text-white">
           <div className="flex items-center">
             <button onClick={() => setIsDrawerOpen(true)} className="text-4xl">
               &#9776;
@@ -133,17 +135,20 @@ const MarketerDashboard = () => {
           </div>
           <div className="flex justify-between items-center relative gap-3">
             {ismarketer && !ismarketer.isActive && (
-              <p className="flex text-red-500 bg-red-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
+              <p className="flex text-orange-500 bg-orange-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
                 Inactive
               </p>
             )}
             {ismarketer && ismarketer.isActive && (
-              <p className="flex text-green-500 bg-green-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
+              <p className="flex text-cyan-500 bg-cyan-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
                 Active
               </p>
             )}
-            <p className="capitalize text-blue-500 bg-blue-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
-              Welcome {marketer.firstName}
+            <p className="capitalize ">
+              Welcome{" "}
+              <span className="capitalize text-orange-500 bg-orange-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
+                {marketer.firstName}
+              </span>
             </p>
             <button
               onClick={() => setShowOptions(!showOptions)}
@@ -157,28 +162,28 @@ const MarketerDashboard = () => {
               <FaChevronDown className="text-[#1A1619] h-4 w-4" />
             </button>
             {showOptions && (
-              <div className="absolute right-0 left-7 top-14 mt-2 py-2slate-100 p-3 rounded shadow-lg flex flex-col bg-slate-200">
+              <div className="absolute right-0 left-7 top-14 mt-2 py-2slate-100 p-3 rounded shadow-lg flex flex-col bg-white gap-2">
                 {ismarketer && (
                   <>
                     <CopyToClipboard
                       text={ismarketer.referralLink}
                       onCopy={handleCopy}
                     >
-                      <button className="font-medium py-2 px-4 rounded text-blue-500 hover:text-blue-400  hover:bg-white">
+                      <button className="font-medium py-2 px-4 rounded bg-primary hover:bg-blue  text-white">
                         {copied ? "Copied!" : "Copy Referral Link"}
                       </button>
                     </CopyToClipboard>
                   </>
                 )}
                 <button
-                  className="font-medium py-2 px-4 rounded text-blue-500 hover:text-blue-400  hover:bg-white"
+                  className="font-medium py-2 px-4 rounded bg-primary hover:bg-blue  text-white"
                   onClick={handleProfileModalOpen}
                 >
                   Edit Profile
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="font-medium px-4 py-2 rounded text-blue-500 hover:text-blue-400  hover:bg-white"
+                  className="font-medium px-4 py-2 rounded bg-primary hover:bg-blue  text-white"
                 >
                   Logout
                 </button>
@@ -192,7 +197,7 @@ const MarketerDashboard = () => {
           <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl relative">
             <button
               onClick={handleProfileModalClose}
-              className="absolute top-0 right-0 m-3 text-white px-2 py-1 rounded p-2 bg-blue-500 hover:bg-blue-400 text-xl"
+              className="absolute top-0 right-0 m-3 text-white px-2 py-1 rounded p-2 bg-primary hover:bg-blue text-xl"
             >
               &#x2715;
             </button>

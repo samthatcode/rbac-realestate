@@ -7,7 +7,10 @@ const EventList = () => {
   useEffect(() => {
     const fetchEventsData = async () => {
       try {
-        const response = await axios.get("/api/events", {
+        const response = await axios.get(
+          // "/api/events",
+          "https://surefinders-backend.onrender.com/api/events",
+          {
           withCredentials: true,
         });
         setEvents(response.data.data);

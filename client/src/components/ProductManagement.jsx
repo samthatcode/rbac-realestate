@@ -331,7 +331,7 @@ const ProductManagement = () => {
               id="title"
               value={formData.title}
               onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 capitalize"
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
             />
           </div>
           <div className="mb-4">
@@ -347,7 +347,7 @@ const ProductManagement = () => {
               id="description"
               value={formData.description}
               onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 capitalize"
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
             ></textarea>
           </div>
           <div className="mb-4">
@@ -364,7 +364,7 @@ const ProductManagement = () => {
               id="price"
               value={formData.price}
               onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
             />
           </div>
           <div className="mb-4">
@@ -381,7 +381,7 @@ const ProductManagement = () => {
               id="location"
               value={formData.location}
               onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 capitalize"
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
             />
           </div>
           <div className="mb-4">
@@ -398,7 +398,7 @@ const ProductManagement = () => {
               id="numberOfRooms"
               value={formData.numberOfRooms}
               onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
             />
           </div>
           <div className="mb-4">
@@ -415,7 +415,7 @@ const ProductManagement = () => {
               id="squareFootage"
               value={formData.squareFootage}
               onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
             />
           </div>
           <div className="mb-4">
@@ -432,7 +432,7 @@ const ProductManagement = () => {
               id="amenities"
               value={formData.amenities}
               onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
             />
           </div>
           <div className="mb-4">
@@ -448,7 +448,7 @@ const ProductManagement = () => {
               name="images"
               onChange={handleFileChange}
               value={formData.images}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
             />
             <div>              
               <ul>
@@ -469,7 +469,7 @@ const ProductManagement = () => {
               id="categoryId"
               name="categoryId"
               onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 bg-white"
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 bg-white"
             >
               <option className="bg-white">Select a category</option>
               {categories.map((categoryId) => (
@@ -520,13 +520,13 @@ const ProductManagement = () => {
                 <td className="border px-4 py-2 flex justify-between gap-4">
                   <button
                     onClick={() => openModal(product)}
-                    className="text-blue-500 hover:text-blue-700 font-bold bg-slate-200 px-2 py-1 rounded-md"
+                    className="text-primary hover:text-blue font-bold bg-slate-100 px-2 py-1 rounded-md"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => deleteProduct(product._id)}
-                    className="text-red-500 hover:text-red-600 font-bold bg-slate-200 px-2 py-1 rounded-md"
+                    className="text-red font-bold bg-slate-100 px-2 py-1 rounded-md"
                   >
                     Delete
                   </button>
@@ -606,7 +606,7 @@ const ProductManagement = () => {
                     name: e.target.value,
                   })
                 }
-                className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 capitalize"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
               />
             </div>
             <div className="mb-4">
@@ -627,7 +627,7 @@ const ProductManagement = () => {
                     description: e.target.value,
                   })
                 }
-                className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 capitalize"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
               ></textarea>
             </div>
             <div className="mb-4">
@@ -649,7 +649,7 @@ const ProductManagement = () => {
                     price: e.target.value,
                   })
                 }
-                className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
               />
             </div>
             <div className="mb-4">
@@ -671,7 +671,7 @@ const ProductManagement = () => {
                     location: e.target.value,
                   })
                 }
-                className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 capitalize"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
               />
             </div>
             <div className="mb-4">
@@ -693,7 +693,7 @@ const ProductManagement = () => {
                     numberOfRooms: e.target.value,
                   })
                 }
-                className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
               />
             </div>
             <div className="mb-4">
@@ -715,7 +715,7 @@ const ProductManagement = () => {
                     squareFootage: e.target.value,
                   })
                 }
-                className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
               />
             </div>
             <div className="mb-4">
@@ -737,7 +737,7 @@ const ProductManagement = () => {
                     amenities: e.target.value,
                   })
                 }
-                className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2 capitalize"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
               />
             </div>
             <div className="mb-4">
@@ -753,7 +753,7 @@ const ProductManagement = () => {
                 multiple
                 name="images"
                 onChange={handleFileChange}
-                className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
               />
             </div>
             <div className="mb-4">
@@ -768,7 +768,7 @@ const ProductManagement = () => {
                 name="categoryId"
                 value={formData.categoryId}
                 onChange={handleInputChange}
-                className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-3 py-2"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
               >
                 {categories.map((categoryId) => (
                   <option key={categoryId._id} value={categoryId._id}>

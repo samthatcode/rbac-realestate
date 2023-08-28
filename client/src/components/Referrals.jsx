@@ -22,6 +22,7 @@ const Referrals = ({ referralId }) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
+        // "/api/referrals",
         "https://surefinders-backend.onrender.com/api/referrals",
         {
           params: {
@@ -118,7 +119,7 @@ const Referrals = ({ referralId }) => {
           {isLoading && <div>Loading...</div>}
         </div>
       )}
-      {error && <div className="text-red-500">{error}</div>}
+      {error && <div className="text-red">{error}</div>}
     </div>
   );
 };

@@ -12,7 +12,7 @@ router.post('/products', upload.array('images'), allowIfLoggedin, allowIfAdmin, 
 
 router.get('/products', getProducts);
 
-router.get('/products/:productId', allowIfLoggedin, allowIfAdmin, grantAccess('readAny', 'product'), getProductById);
+router.get('/products/:productId', getProductById);
 
 router.put('/products/:productId', upload.array('images'), allowIfLoggedin, allowIfAdmin,  grantAccess('updateAny', 'product'), updateProduct);
 

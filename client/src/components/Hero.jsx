@@ -37,7 +37,7 @@ const Hero = () => {
               className="absolute left-0 top-0 right-0 bottom-0 w-full h-full object-cover"
             />
             <div className="absolute left-0 top-0 right-0 bottom-0 flex flex-row justify-center p-4 bg-black bg-opacity-50 text-center">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between mx-10">
                 <div>
                   <p className="w-full text-white md:text-4xl text-2xl uppercase font-extrabold mb-2">
                     {item.text}
@@ -64,7 +64,7 @@ const Hero = () => {
                         </div>
                         <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-red-600 text-white px-5 p-3 rounded">
                           <AiOutlineSearch className=" mr-5" />
-                          <span className="text-sm uppercase">Search</span>
+                          <button className="text-sm uppercase">Search</button>
                         </div>
                       </div>
                       <div className="flex justify-between items-center mx-80 mt-5 bg-gray-600 text-white p-3 rounded capitalize text-sm">
@@ -86,19 +86,19 @@ const Hero = () => {
             <div className="flex justify-between items-center gap-7 mt-80 z-20">
               <Link
                 to="/signup"
-                className="px-5 py-2 bg-blue-500 text-white rounded"
+                className="px-5 py-2 bg-primary hover:bg-blue text-white rounded"
               >
                 Get Started
               </Link>
               <Link
                 to="/marketer/signup"
-                className="px-4 py-2 bg-green-500 text-white rounded"
+                className="px-4 py-2 bg-green text-white rounded"
               >
                 Get Started as a Marketer
               </Link>
               <Link
                 to="/login"
-                className="px-4 py-2 bg-red-500 text-white rounded"
+                className="px-4 py-2 bg-red text-white rounded"
               >
                 Login
               </Link>

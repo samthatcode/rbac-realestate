@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import { PieChart, Pie, Cell } from "recharts";
 import {
@@ -38,6 +38,7 @@ const AdminDashboard = () => {
     try {
       const response = await axios.post(
         "https://surefinders-backend.onrender.com/api/logout",
+        // "/api/logout",
         {},
         {
           withCredentials: true, // Include credentials (cookies)
@@ -69,6 +70,7 @@ const AdminDashboard = () => {
       try {
         const productsResponse = await fetch(
           "https://surefinders-backend.onrender.com/api/products",
+          // "/api/products",
           { withCredentials: true }
         );
         const productsData = await productsResponse.json();
@@ -84,6 +86,7 @@ const AdminDashboard = () => {
       try {
         const usersResponse = await fetch(
           "https://surefinders-backend.onrender.com/api/users",
+          // "/api/users",
           { withCredentials: true }
         );
         const usersData = await usersResponse.json();
@@ -99,6 +102,7 @@ const AdminDashboard = () => {
       try {
         const response = await fetch(
           "https://surefinders-backend.onrender.com/api/marketers",
+          // "/api/marketers",
           { withCredentials: true }
         );
         // console.log("Response status:", response.status);
@@ -134,6 +138,7 @@ const AdminDashboard = () => {
     try {
       const response = await fetch(
         `https://surefinders-backend.onrender.com/api/marketers/${marketerId}/approve`,
+        // `/api/marketers/${marketerId}/approve`,
         { withCredentials: true },
         {
           method: "POST",
@@ -155,97 +160,90 @@ const AdminDashboard = () => {
     <>
       <div className="grid grid-cols-12">
         <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
-          <nav className="w-64 bg-gray-200 p-4">
+          <nav className="w-64 p-4">
             <h2 className="text-lg font-semibold mb-4">Admin Menu</h2>
             <button onClick={() => setIsDrawerOpen(false)}>
               <span className="text-4xl">&times;</span>
             </button>
-            <NavLink
+            <Link
               to="/manageproducts"
-              className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
-              activeClassName="active"
+              className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
               onClick={(event) => {
                 event.preventDefault();
                 setCurrentView("manageproducts");
               }}
             >
               Manage Products
-            </NavLink>
+            </Link>
 
-            <NavLink
+            <Link
               to="/manageusers"
-              className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
-              activeClassName="active"
+              className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
               onClick={(event) => {
                 event.preventDefault();
                 setCurrentView("manageusers");
               }}
             >
               Manage Users
-            </NavLink>
+            </Link>
 
-            <NavLink
+            <Link
               to="/manageroles"
-              className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
-              activeClassName="active"
+              className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
               onClick={(event) => {
                 event.preventDefault();
                 setCurrentView("manageroles");
               }}
             >
               Manage Roles
-            </NavLink>
-            <NavLink
+            </Link>
+            <Link
               to="/managecategories"
-              className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
-              activeClassName="active"
+              className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
               onClick={(event) => {
                 event.preventDefault();
                 setCurrentView("managecategories");
               }}
             >
               Manage Categories
-            </NavLink>
+            </Link>
 
-            <div className="relative block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium cursor-pointer">
+            <div className="relative block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium cursor-pointer">
               <button onClick={toggleDropdown} className="">
                 Manage Events
               </button>
               {isDropdownOpen && (
                 <div className="absolute top-full left-0 bg-gray-200 p-2 rounded shadow">
-                  <NavLink
+                  <Link
                     to="/create-event"
-                    className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
-                    activeClassName="active"
+                    className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
                     onClick={(event) => {
                       event.preventDefault();
                       setCurrentView("create-event");
                     }}
                   >
                     Create Event
-                  </NavLink>
-                  <NavLink
+                  </Link>
+                  <Link
                     to="/eventdetails"
-                    className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
-                    activeClassName="active"
+                    className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
                     onClick={(event) => {
                       event.preventDefault();
                       setCurrentView("eventdetails");
                     }}
                   >
                     Event Details
-                  </NavLink>
-                  <NavLink
+                  </Link>
+                  <Link
                     to="/eventlist"
-                    className={`block py-2 px-4 rounded bg-blue-300 hover:bg-blue-500 hover:text-white transition-colors font-medium mb-4`}
-                    activeClassName="active"
+                    className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
                     onClick={(event) => {
                       event.preventDefault();
                       setCurrentView("eventlist");
                     }}
                   >
                     Event List
-                  </NavLink>
+                  </Link>
 
                   {/* Add more sub-links as needed */}
                 </div>
@@ -254,7 +252,7 @@ const AdminDashboard = () => {
             {/* Add more links as needed */}
           </nav>
         </Drawer>
-        <header className="col-span-12 flex justify-between items-center p-4 bg-blue-500 text-white">
+        <header className="col-span-12 flex justify-between items-center p-4 bg-primary text-white">
           <div className="flex items-center">
             <button onClick={() => setIsDrawerOpen(true)}>
               <span className="text-4xl">&#9776;</span>
@@ -263,19 +261,19 @@ const AdminDashboard = () => {
           </div>
           {user && (
             <>
-              <span className="text-blue-500 bg-blue-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
+              <span className="text-orange-500 bg-orange-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
                 {user.email}
               </span>
               <button
                 onClick={handleLogout}
-                className="inline-block font-medium bg-white text-blue-500 hover:text-blue-700 py-2 px-4 rounded-md"
+                className="inline-block font-medium bg-white text-primary hover:text-blue py-2 px-4 rounded-md"
               >
                 Logout
               </button>
             </>
           )}
         </header>
-        <main className="col-span-12 lg:col-span-9 p-6 bg-slate-200 m-4 shadow-xl rounded-lg">
+        <main className="col-span-12 lg:col-span-9 p-6 m-4 shadow-xl rounded-lg">
           <h1 className="text-2xl font-bold mb-4 text-steelteal">
             Welcome, Admin!
           </h1>
@@ -289,25 +287,25 @@ const AdminDashboard = () => {
           {currentView === "eventlist" && <EventList />}
 
           {error ? (
-            <div className="p-4 bg-red-500 text-white rounded">
+            <div className="p-4 bg-red text-white rounded">
               <p>{error}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-20">
-              <div className="p-4 bg-white shadow rounded">
-                <h2 className="font-bold text-lg mb-2 text-steelteal">
+              <div className="p-4 bg-primary shadow rounded">
+                <h2 className="font-bold text-lg mb-2 text-white">
                   Total Products
                 </h2>
                 <p className="text-purple-500">{totalProductsCount}</p>
               </div>
-              <div className="p-4 bg-white shadow rounded">
-                <h2 className="font-bold text-lg mb-2 text-steelteal">
+              <div className="p-4 bg-primary shadow rounded">
+                <h2 className="font-bold text-lg mb-2 text-white">
                   Total Users
                 </h2>
                 <p className="text-purple-500">{totalUsersCount}</p>
               </div>
-              <div className="p-4 bg-white shadow rounded">
-                <h2 className="font-bold text-lg mb-2 text-steelteal">
+              <div className="p-4 bg-primary shadow rounded">
+                <h2 className="font-bold text-lg mb-2 text-white">
                   Total Sales
                 </h2>
                 <p>&#x20A6;{totalSales}</p>

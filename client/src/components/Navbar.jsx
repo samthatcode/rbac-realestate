@@ -15,6 +15,7 @@ const Navbar = () => {
     try {
       const response = await axios.post(
         "https://surefinders-backend.onrender.com/api/logout",
+        // "/api/logout",
         {},
         {
           withCredentials: true, // Include credentials (cookies)
@@ -38,14 +39,15 @@ const Navbar = () => {
   const [isShopOpen, setIsShopOpen] = useState(false);
 
   return (
-    <nav className="bg-blue-200 text-black top-0 fixed md:w-full w-full z-10">
+    <nav className="bg-white text-dark top-0 fixed md:w-full w-full z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-[70px]">
+        <div className="flex items-center justify-between h-[90px]">
           <div className="flex items-center">
-            <Link to="/" className="text-black hover:text-gray-700 font-bold">
+            <Link to="/" className="text-dark hover:text-gray-700 font-bold text-2xl">
+              <span className="rounded-full bg-primary text-white p-2 mr-1">SF</span>
               SureFinders
             </Link>
-            <Cart cartItems={cartItems} />
+            {/* <Cart cartItems={cartItems} /> */}
           </div>
           {/* Desktop View */}
           <div className="hidden md:flex items-baseline justify-center space-x-4 ">
@@ -149,7 +151,7 @@ const Navbar = () => {
                 <span className="pr-4">{user.email}</span>
                 <button
                   onClick={handleLogout}
-                  className="inline-block font-medium bg-gray-200 hover:bg-slate-500 hover:text-white py-2 px-4 rounded-md"
+                  className="inline-block font-medium bg-primary hover:bg-blue text-white py-2 px-4 rounded-md"
                 >
                   Logout
                 </button>
@@ -158,13 +160,13 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login"
-                  className="inline-block font-medium bg-gray-200 hover:bg-slate-500 hover:text-white py-2 px-4 rounded-md"
+                  className="inline-block font-medium bg-primary hover:bg-blue text-white py-2 px-4 rounded-md"
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="inline-block font-medium bg-gray-200 hover:bg-slate-500 hover:text-white py-2 px-4 rounded-md ml-4"
+                  className="inline-block font-medium bg-primary hover:bg-blue text-white py-2 px-4 rounded-md ml-4"
                 >
                   Create Account
                 </Link>
@@ -246,7 +248,7 @@ const Navbar = () => {
               </span>
               <button
                 onClick={handleLogout}
-                className="block px-3 py-2 rounded-md font-medium hover:bg-gray-200 text-slate-950"
+                className="block px-3 py-2 rounded-md font-medium bg-primary hover:bg-blue text-white"
               >
                 Logout
               </button>
@@ -254,14 +256,14 @@ const Navbar = () => {
           ) : (
             <>
               <a
-                className="block px-3 py-2 rounded-md font-medium hover:bg-gray-200 text-slate-950"
+                className="block px-3 py-2 rounded-md font-medium bg-primary hover:bg-blue text-white mb-4 text-center"
                 href="/login"
                 target="_self"
               >
                 Login
               </a>
               <a
-                className="block px-3 py-2 rounded-md font-medium hover:bg-gray-200 text-slate-950"
+                className="block px-3 py-2 rounded-md font-medium bg-primary hover:bg-blue text-white text-center"
                 href="/signup"
                 target="_self"
               >

@@ -438,7 +438,7 @@ const Signup = () => {
                     (step === 2 && !isStepTwoValid()) ||
                     (step === 3 && !isStepThreeValid())
                       ? "opacity-50 cursor-not-allowed"
-                      : "px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium"
+                      : "px-4 py-2 bg-primary hover:bg-blue text-white rounded-md hover:bg-blue-600 font-medium"
                   } mr-4`}
                   disabled={
                     (step === 1 && !isStepOneValid()) ||
@@ -452,7 +452,7 @@ const Signup = () => {
               {step === 3 && (
                 <button
                   type="submit"
-                  className={`px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 font-medium ${
+                  className={`px-4 py-2 bg-primary hover:bg-blue text-white  rounded-md font-medium ${
                     loading || step < 3 || !isFormValid()
                       ? "opacity-50 cursor-not-allowed"
                       : ""
@@ -471,7 +471,7 @@ const Signup = () => {
         <div className="text-center mt-4">
           <span>
             Already have an account?{" "}
-            <Link to="/login" className="text-blue-500">
+            <Link to="/login" className="text-primary">
               Log In
             </Link>
           </span>

@@ -7,7 +7,11 @@ function EventDetails({ match }) {
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        const response = await axios.get(`/api/events/${match.params.id}`, {
+        const response = await axios.get(
+             // `https://surefinders-backend.onrender.com/api/events/${match.params.id}`,
+          `/api/events/${match.params.id}`,
+        
+        {
           withCredentials: true,
         });
         setEvent(response.data.data);
