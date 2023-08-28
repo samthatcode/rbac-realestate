@@ -17,11 +17,6 @@ import {
   Login,
   Signup,
   Home,
-  ProductForm,
-  UserManagement,
-  ProductManagement,
-  CategoryManagement,
-  RoleManagement,
   UserEmailVerification,
   MarketerRegister,
   MarketerLogin,
@@ -30,9 +25,6 @@ import {
   MarketerEmailVerification,
   RegistrationForm,
   Referrals,
-  CreateEventForm,
-  EventDetails,
-  EventList,
   MarketerForgotPassword,
   MarketerResetPassword,
 } from "./components";
@@ -62,8 +54,7 @@ const App = () => {
                     path="/paystackcheckout"
                     element={<PaystackCheckout />}
                   />
-                  <Route path="/confirm" element={<ConfirmationPage />} />
-                  <Route path="/productform" element={<ProductForm />} />
+                  <Route path="/confirm" element={<ConfirmationPage />} />                
                   <Route path="/products" element={<ProductPage />} />
                   <Route path="/products/:id" element={<ProductDetails />} />
                   {/* Marketer */}

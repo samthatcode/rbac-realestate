@@ -11,7 +11,6 @@ export { default as UserManagement } from './UserManagement';
 export { default as ProductManagement } from './ProductManagement';
 export { default as CategoryManagement } from './CategoryManagement';
 export { default as RoleManagement } from './RoleManagement';
-export { default as ProductForm } from './ProductForm';
 export { default as UserEmailVerification } from './UserEmailVerification';
 export { default as MarketerEmailVerification } from './MarketerEmailVerification';
 export { default as CodeVerification } from './CodeVerification';
