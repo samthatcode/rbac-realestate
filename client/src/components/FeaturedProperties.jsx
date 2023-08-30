@@ -6,7 +6,7 @@ import { properties } from "../data/PropertyData";
 
 const FeaturedProperties = () => {
   return (
-    <div className="container mx-auto py-10 px-8 -mt-80">
+    <div className="container mx-auto py-20 px-8">
       <div className="title_head mb-4">
         <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
           Featured properties

@@ -11,8 +11,8 @@ const UserDashboard = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        "https://surefinders-backend.onrender.com/api/logout",
-        // "/api/logout",
+        // "https://surefinders-backend.onrender.com/api/logout",
+        "/api/logout",
         {},
         {
           withCredentials: true, // Include credentials (cookies)
@@ -20,7 +20,7 @@ const UserDashboard = () => {
       );
       if (response.data.message === "Logged out successfully") {
         setUser(null);
-        navigate("/login");
+        navigate("/");
         // console.log("User Logged Out");
       }
     } catch (err) {

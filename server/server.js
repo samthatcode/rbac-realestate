@@ -55,8 +55,8 @@ const verificationRoute = require('./Routes/VerificationRoute');
 const ErrorHandler = require('./Middlewares/ErrorHandler');
 
 const MONGODB_URI = process.env.MONGODB_URI;
-// const PORT = process.env.PORT || 5175;
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5175;
+// const PORT = process.env.PORT || 10000;
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -103,8 +103,8 @@ mongoose.connect(MONGODB_URI, {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["https://surefinders-frontend.onrender.com"],
-    // origin: ["http://localhost:5175", "http://localhost:5174"],
+    // origin: ["https://surefinders-frontend.onrender.com"],
+    origin: ["http://localhost:5175", "http://localhost:5174"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

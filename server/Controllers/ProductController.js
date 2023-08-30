@@ -30,7 +30,8 @@ module.exports.createProduct = async (req, res, next) => {
             location,
             numberOfRooms,
             squareFootage,
-            amenities,
+            numberOfBeds,
+            numberOfBaths,
             categoryId } = req.body;
 
         let images = req.files; // Get the uploaded images from req.files
@@ -63,7 +64,8 @@ module.exports.createProduct = async (req, res, next) => {
             location,
             numberOfRooms,
             squareFootage,
-            amenities,
+            numberOfBeds,
+            numberOfBaths,
             images: imagePaths, // Save the paths of the uploaded images
             categoryId: validatedCategoryId,
         });
@@ -78,8 +80,6 @@ module.exports.createProduct = async (req, res, next) => {
         next(error);
     }
 };
-
-
 
 
 // Get all products
@@ -132,7 +132,8 @@ module.exports.updateProduct = async (req, res, next) => {
             location,
             numberOfRooms,
             squareFootage,
-            amenities,
+            numberOfBeds,
+            numberOfBaths,
             categoryId } = req.body;
 
         // Check if categoryId exists
@@ -166,7 +167,8 @@ module.exports.updateProduct = async (req, res, next) => {
         product.location = location;
         product.numberOfRooms = numberOfRooms;
         product.squareFootage = squareFootage;
-        product.amenities = amenities;
+        product.numberOfBeds = numberOfBeds;
+        product.numberOfBaths = numberOfBaths;
         product.categoryId = validatedCategoryId;
 
         // Save the product

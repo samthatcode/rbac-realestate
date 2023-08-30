@@ -5,6 +5,7 @@ import { CartContext } from "../contexts/CartContext";
 
 import { Link, useNavigate } from "react-router-dom";
 import Cart from "./Cart";
+import { FaRegBuilding } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, setUser } = useContext(UserContext);
@@ -39,14 +40,20 @@ const Navbar = () => {
   const [isShopOpen, setIsShopOpen] = useState(false);
 
   return (
-    <nav className="bg-white text-dark top-0 fixed md:w-full w-full z-10">
+    <nav className="bg-white text-dark top-0 fixed md:w-full w-full z-10 shadow-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-[90px]">
           <div className="flex items-center">
-            <Link to="/" className="text-dark hover:text-gray-700 font-bold text-2xl">
-              <span className="rounded-full bg-primary text-white p-2 mr-1">SF</span>
-              SureFinders
+            <Link
+              to="/"
+              className="text-dark hover:text-gray-700 font-bold text-2xl flex items-center"
+            >
+              <span className="text-primary mr-1 flex justify-center items-center z-10">
+              <FaRegBuilding size={30} />
+              </span>
+              <span>SureFinders</span>
             </Link>
+
             {/* <Cart cartItems={cartItems} /> */}
           </div>
           {/* Desktop View */}

@@ -27,7 +27,8 @@ const ProductManagement = () => {
     location: "",
     numberOfRooms: "",
     squareFootage: "",
-    amenities: [],
+    numberOfBeds: "",
+    numberOfBaths: "",
     images: [],
     categoryId: "",
   });
@@ -50,7 +51,8 @@ const ProductManagement = () => {
         location: "",
         numberOfRooms: "",
         squareFootage: "",
-        amenities: [],
+        numberOfBeds: "",
+        numberOfBaths: "",
         images: [],
         categoryId: "",
       });
@@ -62,7 +64,8 @@ const ProductManagement = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        "https://surefinders-backend.onrender.com/api/products",
+        "/api/products",
+        // "https://surefinders-backend.onrender.com/api/products",
         { withCredentials: true }
       );
       setProducts(response.data.data);
@@ -76,7 +79,8 @@ const ProductManagement = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "https://surefinders-backend.onrender.com/api/categories",
+          "/api/categories",
+          // "https://surefinders-backend.onrender.com/api/categories",
           { withCredentials: true }
         );
         setCategories(response.data.data);
@@ -115,7 +119,7 @@ const ProductManagement = () => {
       });
     } else if (e.target.name === "categoryId") {
       const selectedCategoryId = e.target.value;
-      console.log("Selected Category ID:", selectedCategoryId);
+      // console.log("Selected Category ID:", selectedCategoryId);
       setFormData({
         ...formData,
         categoryId: selectedCategoryId,
@@ -134,7 +138,7 @@ const ProductManagement = () => {
     try {
       // Create a new FormData object
       const formDataToSend = new FormData();
-      console.log("formData images:", formData["images"]); // log the images from the state
+      // console.log("formData images:", formData["images"]); 
       // Inside createProduct function
       for (const key in formData) {
         if (key === "images") {
@@ -148,14 +152,15 @@ const ProductManagement = () => {
         }
       }
 
-      console.log("image after loop:", formDataToSend.getAll("images")); // log image after loop
+      // console.log("image after loop:", formDataToSend.getAll("images")); 
       // Make the API request to send the form data to the server
       for (let pair of formDataToSend.entries()) {
         console.log(pair[0] + ", " + pair[1]);
       }
 
       const response = await axios.post(
-        "https://surefinders-backend.onrender.com/api/products",
+        "/api/products",
+        // "https://surefinders-backend.onrender.com/api/products",
         formDataToSend,
         { withCredentials: true }
       );
@@ -171,7 +176,8 @@ const ProductManagement = () => {
         location: "",
         numberOfRooms: "",
         squareFootage: "",
-        amenities: [],
+        numberOfBeds: "",
+        numberOfBaths: "",
         images: [],
         categoryId: "",
       });
@@ -208,7 +214,8 @@ const ProductManagement = () => {
       }
       // Send the formData with the PUT request
       await axios.put(
-        `https://surefinders-backend.onrender.com/api/products/${id}`,
+        `/api/products/${id}`,
+        // `https://surefinders-backend.onrender.com/api/products/${id}`,
         formData,
         { withCredentials: true }
       );
@@ -224,7 +231,8 @@ const ProductManagement = () => {
         location: "",
         numberOfRooms: "",
         squareFootage: "",
-        amenities: [],
+        numberOfBeds: "",
+        numberOfBaths: "",
         images: [],
         categoryId: "",
       });
@@ -238,7 +246,8 @@ const ProductManagement = () => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
         await axios.delete(
-          `https://surefinders-backend.onrender.com/api/products/${id}`,
+          `/api/products/${id}`,
+          // `https://surefinders-backend.onrender.com/api/products/${id}`,
           { withCredentials: true }
         );
         fetchProducts();
@@ -259,7 +268,8 @@ const ProductManagement = () => {
       location,
       numberOfRooms,
       squareFootage,
-      amenities,
+      numberOfBeds,
+      numberOfBaths,
       categoryId,
     } = product;
     // Create a new object with the extracted properties and set it as the form data
@@ -270,7 +280,8 @@ const ProductManagement = () => {
       location,
       numberOfRooms,
       squareFootage,
-      amenities,
+      numberOfBeds,
+      numberOfBaths,
       categoryId,
       images: [], // Initialize images as an empty array since the modal is for editing, not creating
     });
@@ -286,7 +297,8 @@ const ProductManagement = () => {
       location: "",
       numberOfRooms: "",
       squareFootage: "",
-      amenities: [],
+      numberOfBeds: "",
+      numberOfBaths: "",
       images: [],
       categoryId: "",
     });
@@ -306,6 +318,24 @@ const ProductManagement = () => {
     setFiles(filesArray);
   };
 
+  // Get all number input fields
+  const numberInputs = document.querySelectorAll('input[type="number"]');
+  // Add event listeners to number input fields
+  numberInputs.forEach((input) => {
+    input.addEventListener("keydown", (e) => {
+      // Allow only numbers, backspace, and delete key
+      if (
+        !(
+          (e.key >= "0" && e.key <= "9") ||
+          e.key === "Backspace" ||
+          e.key === "Delete"
+        )
+      ) {
+        e.preventDefault();
+      }
+    });
+  });
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Manage Products</h1>
@@ -322,7 +352,7 @@ const ProductManagement = () => {
               htmlFor="title"
               className="block font-medium mb-1 text-gray-700"
             >
-              Title:
+              Title
             </label>
             <input
               placeholder="Product Title"
@@ -339,7 +369,7 @@ const ProductManagement = () => {
               htmlFor="description"
               className="block font-medium mb-1 text-gray-700"
             >
-              Description:
+              Description
             </label>
             <textarea
               placeholder="Description.."
@@ -355,7 +385,7 @@ const ProductManagement = () => {
               htmlFor="price"
               className="block font-medium mb-1 text-gray-700"
             >
-              Price:
+              Price
             </label>
             <input
               placeholder="Price"
@@ -372,7 +402,7 @@ const ProductManagement = () => {
               htmlFor="location"
               className="block font-medium mb-1 text-gray-700"
             >
-              Location:
+              Location
             </label>
             <input
               placeholder="Location"
@@ -389,7 +419,7 @@ const ProductManagement = () => {
               htmlFor="numberOfRooms"
               className="block font-medium mb-1 text-gray-700"
             >
-              Number of Rooms:
+              Rooms
             </label>
             <input
               placeholder="Number of Rooms"
@@ -406,10 +436,10 @@ const ProductManagement = () => {
               htmlFor="squareFootage"
               className="block font-medium mb-1 text-gray-700"
             >
-              Square Footage:
+              Square Footage / Area
             </label>
             <input
-              placeholder="Square Footage"
+              placeholder="Square Footage / Area"
               type="number"
               name="squareFootage"
               id="squareFootage"
@@ -420,17 +450,34 @@ const ProductManagement = () => {
           </div>
           <div className="mb-4">
             <label
-              htmlFor="amenities"
+              htmlFor="numberOfBaths"
               className="block font-medium mb-1 text-gray-700"
             >
-              Amenities:
+              Baths
             </label>
             <input
-              placeholder="Amenities"
-              type="text"
-              name="amenities"
-              id="amenities"
-              value={formData.amenities}
+              placeholder="Number of Baths"
+              type="number"
+              name="numberOfBaths"
+              id="numberOfBaths"
+              value={formData.numberOfBaths}
+              onChange={handleInputChange}
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="numberOfBeds"
+              className="block font-medium mb-1 text-gray-700"
+            >
+              Beds
+            </label>
+            <input
+              placeholder="Number of Beds"
+              type="number"
+              name="numberOfBeds"
+              id="numberOfBeds"
+              value={formData.numberOfBeds}
               onChange={handleInputChange}
               className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
             />
@@ -440,7 +487,7 @@ const ProductManagement = () => {
               htmlFor="images"
               className="block font-medium mb-1 text-gray-700"
             >
-              Images:
+              Images
             </label>
             <input
               type="file"
@@ -450,7 +497,7 @@ const ProductManagement = () => {
               value={formData.images}
               className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
             />
-            <div>              
+            <div>
               <ul>
                 {files.map((fileObject, index) => (
                   <li key={index}>{fileObject.name}</li>
@@ -463,7 +510,7 @@ const ProductManagement = () => {
               htmlFor="categoryId"
               className="block font-medium mb-1 text-gray-700"
             >
-              Category ID:
+              Category
             </label>
             <select
               id="categoryId"
@@ -679,7 +726,7 @@ const ProductManagement = () => {
                 htmlFor="numberOfRooms"
                 className="block font-medium mb-1 text-gray-700"
               >
-                Number of Rooms:
+                Rooms:
               </label>
               <input
                 placeholder="Number of Rooms"
@@ -701,10 +748,10 @@ const ProductManagement = () => {
                 htmlFor="squareFootage"
                 className="block font-medium mb-1 text-gray-700"
               >
-                Square Footage:
+                Square Footage / Area
               </label>
               <input
-                placeholder="Square Footage"
+                placeholder="Square Footage / Area"
                 type="number"
                 name="squareFootage"
                 id="squareFootage"
@@ -718,28 +765,52 @@ const ProductManagement = () => {
                 className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
               />
             </div>
+
             <div className="mb-4">
               <label
-                htmlFor="amenities"
+                htmlFor="numberOfBaths"
                 className="block font-medium mb-1 text-gray-700"
               >
-                Amenities:
+                Baths
               </label>
               <input
-                placeholder="Amenities"
-                type="text"
-                name="amenities"
-                id="amenities"
-                value={formData.amenities}
+                placeholder="Number of Baths"
+                type="number"
+                name="numberOfBaths"
+                id="numberOfBaths"
+                value={formData.numberOfBaths}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    amenities: e.target.value,
+                    numberOfBaths: e.target.value,
                   })
                 }
-                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
               />
             </div>
+            <div className="mb-4">
+              <label
+                htmlFor="numberOfBeds"
+                className="block font-medium mb-1 text-gray-700"
+              >
+                Beds
+              </label>
+              <input
+                placeholder="Number of Beds"
+                type="number"
+                name="numberOfBeds"
+                id="numberOfBeds"
+                value={formData.numberOfBeds}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    numberOfBeds: e.target.value,
+                  })
+                }
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
+              />
+            </div>
+
             <div className="mb-4">
               <label
                 htmlFor="image"

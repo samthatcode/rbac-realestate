@@ -25,7 +25,7 @@ const StyledTable = ({ data, approveMarketer }) => {
 
   return (
     <div className="p-4 bg-white shadow rounded mt-5">
-      <h2 className="font-bold text-lg mb-2 text-steelteal">
+      <h2 className="font-bold text-lg mb-2 text-title">
         Inactive Marketers
       </h2>
       <div className="overflow-x-auto">
@@ -46,13 +46,13 @@ const StyledTable = ({ data, approveMarketer }) => {
                 <td className="py-1 px-2">
                   {currentPage * ITEMS_PER_PAGE + index + 1}
                 </td>
-                <td className="py-1 px-2 text-orange-600 bg-orange-100 rounded-lg p-1 text-xs font-semibold inline-block last:mr-0 mr-1 text-[14px]">
+                <td className="py-1 px-2 text-indigo-600 bg-indigo-100 rounded-lg p-1 text-xs font-semibold inline-block last:mr-0 mr-1 text-[14px]">
                   {marketer.email}
                 </td>
                 <td className="px-4 py-2">
                   <button
                     onClick={() => handleApproveClick(marketer._id)}
-                    className="text-orange-500 bg-orange-100 hover:bg-orange-200 rounded p-1 text-xs font-semibold inline-block py-1 px-2 last:mr-0 mr-1 text-[14px]"
+                    className="text-purple-500 bg-purple-100 hover:bg-purple-200 rounded p-1 text-xs font-semibold inline-block py-1 px-2 last:mr-0 mr-1 text-[14px]"
                   >
                     Approve
                   </button>

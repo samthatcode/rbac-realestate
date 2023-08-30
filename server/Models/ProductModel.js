@@ -23,15 +23,19 @@ const ProductSchema = new Schema({
     numberOfRooms: {
         type: Number,
         required: true,
+    },   
+    numberOfBeds: {
+        type: Number,
+        required: true,
+    },
+    numberOfBaths: {
+        type: Number,
+        required: true,
     },
     squareFootage: {
         type: Number,
         required: true,
     },
-    amenities: {
-        type: [String], // Array of amenities
-        required: false,
-    }, 
     images: {
         type: [String], // Array of image URLs
         required: true,

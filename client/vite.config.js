@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       // '/api': 'https://surefinders-backend.onrender.com',
-      // '/api': 'http://localhost:5175',
+      '/api': 'http://localhost:5175',
     },
   },
 })

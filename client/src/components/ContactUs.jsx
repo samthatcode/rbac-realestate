@@ -26,7 +26,7 @@ numberInputs.forEach((input) => {
 
 const ContactUs = () => {
   return (
-    <div className="bg-slate-100 shadow-xl mx-2 rounded-md p-4 my-4">
+    <div className="bg-slate-100 shadow-xl mx-2 rounded-md p-4 my-20">
       <div className="title_head mb-4">
         <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
           Contact Us
@@ -39,7 +39,7 @@ const ContactUs = () => {
       <div className="flex">
         <div className="w-1/2 p-8">
           <div>
-            <h2 className="text-xl font-semibold mb-4">Our Offices</h2>
+            <h2 className="text-xl font-semibold mb-4 text-title">Our Offices</h2>
             <p>
               <FaMapMarkerAlt className="inline mr-2 text-red" />
               22, Olufunmilayo Street, Dideolu Estate, Second Gate B/Stop, Ogba
@@ -55,7 +55,7 @@ const ContactUs = () => {
             </p>
           </div>
           <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Social Media</h2>
+            <h2 className="text-xl font-semibold mb-4 text-title">Social Media</h2>
             <a
               href="https://twitter.com/surefinders"
               className="text-blue block mb-2"
@@ -80,7 +80,7 @@ const ContactUs = () => {
           </div>
         </div>
         <div className="w-1/2 p-8">
-          <h2 className="text-xl font-semibold mb-4">Enquiries</h2>
+          <h2 className="text-xl font-semibold mb-4 text-title">Enquiries</h2>
           <form>
             <div className="flex flex-wrap -mx-2 mb-4">
               <div className="w-1/2 px-2">

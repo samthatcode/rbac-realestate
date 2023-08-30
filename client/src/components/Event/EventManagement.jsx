@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function CreateEventForm() {
   const [name, setName] = useState("");
@@ -9,6 +12,7 @@ function CreateEventForm() {
   const [description, setDescription] = useState("");
   const [eventImage, setEventImage] = useState("");
   const [filePreview, setFilePreview] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -16,8 +20,20 @@ function CreateEventForm() {
     setFilePreview(selectedFile ? selectedFile.name : "");
   };
 
+  const resetFields = () => {
+    setName("");
+    setDate("");
+    setTime("");
+    setLocation("");
+    setDescription("");
+    setEventImage("");
+    setFilePreview("");
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (loading) return; // Prevent multiple clicks while loading
+    setLoading(true); // Start loading state
 
     const formData = new FormData();
     formData.append("name", name);
@@ -25,12 +41,16 @@ function CreateEventForm() {
     formData.append("time", time); // Time is now included in the form data
     formData.append("location", location);
     formData.append("description", description);
+    
+  if (eventImage) {
     formData.append("eventImage", eventImage);
+  }
+
 
     try {
       const response = await axios.post(
-        "https://surefinders-backend.onrender.com/api/events",
-        // "/api/events",
+        // "https://surefinders-backend.onrender.com/api/events",
+        "/api/events",
         formData,
         {
           headers: {
@@ -40,8 +60,18 @@ function CreateEventForm() {
         { withCredentials: true }
       );
       console.log(response.data);
+
+      resetFields();
+
+      toast.success("Event created successfully", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
     } catch (error) {
       console.error("Error submitting event:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,7 +94,7 @@ function CreateEventForm() {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md capitalize"
               required
             />
           </div>
@@ -94,14 +124,28 @@ function CreateEventForm() {
               >
                 Event Time
               </label>
-              <input
-                type="time"
-                id="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-                className="w-full p-2 border rounded-md"
-                required
-              />
+              <div className="flex items-center">
+                <input
+                  type="time"
+                  id="time"
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+                <select
+                  value={time.endsWith("am") ? "am" : "pm"}
+                  onChange={(e) => {
+                    const newTime =
+                      e.target.value === "am" ? `${time} AM` : `${time} PM`;
+                    setTime(newTime);
+                  }}
+                  className="ml-2 border p-1 rounded-md bg-slate-50"
+                >
+                  <option value="am">AM</option>
+                  <option value="pm">PM</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -117,7 +161,7 @@ function CreateEventForm() {
               id="location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md capitalize"
               required
             />
           </div>
@@ -133,7 +177,7 @@ function CreateEventForm() {
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 capitalize p-2"
               required
             ></textarea>
           </div>
@@ -155,9 +199,14 @@ function CreateEventForm() {
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className={
+              `w-full px-4 py-2 mt-4 mb-4 bg-primary hover:bg-blue text-white rounded-md font-medium ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }` // Disable button and show loading state
+            }
+            disabled={loading} // Disable button
           >
-            Create Event
+            {loading ? "Creating..." : "Create Event"}
           </button>
         </form>
       </div>

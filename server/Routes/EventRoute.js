@@ -3,16 +3,15 @@ const router = express.Router();
 const { upload } = require('../server'); 
 
 const { allowIfLoggedin } = require('../Middlewares/AuthMiddleware');
-const { createEvents, getEvents, getEventDetails, registerForEvent } = require('../Controllers/EventController');
+const { createEvents, getEvents, registerForEvent } = require('../Controllers/EventController');
 
 
 // create an event
-router.post('/events', upload.single('image'), allowIfLoggedin, createEvents);
+router.post('/events', upload.single('eventImage'), createEvents);
 // Get all events
-router.get('/events', allowIfLoggedin, getEvents);
-// get event details
-router.get('/events:eventId', allowIfLoggedin, getEventDetails);
+router.get('/events', getEvents);
+
 // Register for an event
-router.post('/events/:eventId/registerations', allowIfLoggedin, registerForEvent);
+router.post('/events/:eventId/registerations', registerForEvent);
 
 module.exports = router;

@@ -1,16 +1,26 @@
-const Event = require('../Models/EventModel');
 const Registration = require('../Models/RegistrationModel');
+const Event = require('../Models/EventModel');
+const { dir } = require('../server');
+const path = require('path');
 
-// Create an event
+// Create a new event
 module.exports.createEvents = async (req, res, next) => {
   try {
     const { name, date, time, location, description } = req.body;
 
-    let eventImagePath = req.file.path; // Get the path of the uploaded image
-    imagePath = imagePath.replace(/\\/g, '/'); // Replace backslashes with forward slashes if you are on Windows
+    // Get the uploaded image from req.file
+    let eventImage = req.file;
+
+    // Get the path of the uploaded image file
+    let eventImagePath = path.relative(dir, eventImage.path);
+    eventImagePath = eventImagePath.replace(/\\/g, '/');
 
     const event = await Event.create({
-      name, date, time, location, description,
+      name,
+      date,
+      time,
+      location,
+      description,
       eventImage: eventImagePath, // Save the path of the uploaded image
     });
 
@@ -25,20 +35,6 @@ module.exports.createEvents = async (req, res, next) => {
 };
 
 
-// Get event details
-module.exports.getEventDetails = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const event = await Event.findById(id);
-
-    res.status(200).json({
-      data: event,
-    });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-};
 
 
 // Get all events

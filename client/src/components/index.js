@@ -16,9 +16,8 @@ export { default as MarketerEmailVerification } from './MarketerEmailVerificatio
 export { default as CodeVerification } from './CodeVerification';
 export { default as Referrals } from './Referrals';
 export { default as RegistrationForm } from './RegistrationForm';
-export { default as EventList } from './Event/EventList';
-export { default as EventDetails } from './Event/EventDetails';
-export { default as CreateEventForm } from './Event/CreateEventForm';
+export { default as Events } from './Event/Events';
+export { default as EventManagement } from './Event/EventManagement';
 export { default as MarketerRegister } from './Marketer/MarketerRegister';
 export { default as MarketerLogin } from './Marketer/MarketerLogin';
 export { default as MarketerForgotPassword } from './Marketer/MarketerForgotPassword';
