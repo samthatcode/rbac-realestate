@@ -9,6 +9,7 @@ export { default as Footer } from './Footer';
 export { default as FeaturedProperties } from './FeaturedProperties';
 export { default as UserManagement } from './UserManagement';
 export { default as ProductManagement } from './ProductManagement';
+export { default as LandManagement } from './LandManagement';
 export { default as CategoryManagement } from './CategoryManagement';
 export { default as RoleManagement } from './RoleManagement';
 export { default as UserEmailVerification } from './UserEmailVerification';

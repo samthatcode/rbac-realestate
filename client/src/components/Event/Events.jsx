@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaCalendar, FaClock, FaMapMarkerAlt, FaRegBuilding } from "react-icons/fa";
+import {
+  FaCalendar,
+  FaClock,
+  FaMapMarkerAlt,
+  FaRegBuilding,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Events = () => {
@@ -16,7 +21,18 @@ const Events = () => {
             withCredentials: true,
           }
         );
-        setEvents(response.data.data);
+
+        const events = response.data.data.map((event) => {
+          const time = new Date(`1970-01-01T${event.time}`);
+          const timeString = time.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          });
+          return { ...event, time: timeString };
+        });
+
+        setEvents(events);
       } catch (error) {
         console.error("Error fetching events data:", error);
       }
@@ -39,7 +55,7 @@ const Events = () => {
         {events.map((event) => (
           <div
             key={event._id}
-            className=" border-gray-300 rounded overflow-hidden hover:shadow-lg transition-all hover-card"
+            className=" border-gray-300 rounded overflow-hidden hover:shadow-lg transition-all hover-card relative"
           >
             <div className="image-container">
               <img
@@ -48,6 +64,9 @@ const Events = () => {
                 alt={event.name}
                 className="w-ful object-cover image"
               />
+            </div>
+            <div className="absolute top-0 right-0 p-1 bg-title text-white">
+              Event
             </div>
             <div className="hover-card-content p-4 block border">
               <span className="text-sm font-medium capitalize text-indigo-500 bg-indigo-100 p-1 py-1 px-2 last:mr-0 mr-1 mb-2">
@@ -75,7 +94,7 @@ const Events = () => {
             </div>
             <div className="p-4 border flex justify-between items-center">
               <div class="text-primary flex justify-center items-center">
-              <FaRegBuilding size={30} />
+                <FaRegBuilding size={20} />
               </div>
 
               <Link to="">

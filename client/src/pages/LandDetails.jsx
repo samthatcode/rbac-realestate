@@ -1,53 +1,41 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../contexts/UserContext";
-import { CartContext } from "../contexts/CartContext";
 import { toast } from "react-toastify";
 import { AiOutlineEnvironment } from "react-icons/ai";
-import { FaBath, FaBed, FaDoorOpen, FaRuler } from "react-icons/fa";
+import { GiRoad, GiPriceTag } from "react-icons/gi";
 
-const ProductDetails = () => {
+const LandDetails = () => {
   const { id } = useParams();
-  const { user } = useContext(UserContext);
-  const { addToCart } = useContext(CartContext);
   const navigate = useNavigate();
-  const [product, setProduct] = useState([]);
+  const [land, setLand] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchLand = async () => {
       try {
         const response = await axios.get(
-          // `https://surefinders-backend.onrender.com/api/products/${id}`,
-          `/api/products/${id}`,
-          { withCredentials: true }
+          // `https://surefinders-backend.onrender.com/api/lands/${id}`,
+          `/api/lands/${id}`,
+          {
+            withCredentials: true,
+          }
         );
-        setProduct(response.data.data);
+        setLand(response.data.data);
         setCurrentImage(response.data.data.images[0]); // set the first image as current
       } catch (error) {
-        console.error("Failed to fetch product:", error);
+        console.error("Failed to fetch land:", error);
       }
     };
 
-    fetchProduct();
+    fetchLand();
   }, [id]);
 
-  if (!product) {
+  if (!land) {
     return <p>Loading...</p>;
   }
 
-  const {
-    title,
-    description,
-    price,
-    numberOfBaths,
-    numberOfBeds,
-    numberOfRooms,
-    squareFootage,
-    location,
-    images,
-  } = product;
+  const { title, description, price, acreage, location, images } = land;
 
   const handleThumbnailClick = (index) => {
     setCurrentImage(images[index]); // set the clicked image as current
@@ -57,28 +45,28 @@ const ProductDetails = () => {
     <div className="container mx-auto p-10 py-20">
       <div className="title_head mb-4">
         <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
-          Recent Property Details
+          Land Details
         </h2>
-        <p class="text-center capitalize text-subTitle">
+        <p className="text-center capitalize text-subTitle">
           We provide full service at every step.
         </p>
       </div>
       <div className="flex justify-between items-center mx-auto bg-white rounded-lg shadow-xl p-8">
         <div className="max-w-md">
           <div className="flex justify-center">
-            {currentImage && (
+            {images.length > 0 && (
               <img
                 // src={`https://surefinders-backend.onrender.com/public/images/${currentImage}`}
-                src={`http://localhost:5175/public/images/${currentImage}`}
+                src={`http://localhost:5175/public/images/${currentImage[0]}`}
                 alt={title}
                 className="w-full max-h-96 object-cover mb-4"
               />
             )}
           </div>
           <div className="grid grid-cols-4 gap-4 mb-4">
-            {product &&
-              product.images &&
-              product.images.map((thumbnail, index) => (
+            {land &&
+              land.images &&
+              land.images.map((thumbnail, index) => (
                 <img
                   key={index}
                   // src={`https://surefinders-backend.onrender.com/public/images/${thumbnail}`}
@@ -89,7 +77,6 @@ const ProductDetails = () => {
                 />
               ))}
           </div>
-          
         </div>
         <div className="">
           <span className="text-sm font-medium capitalize text-indigo-500 bg-indigo-100 p-1 py-1 px-2 last:mr-0 mr-1 mb-4">
@@ -105,45 +92,19 @@ const ProductDetails = () => {
           <div className="flex">
             <div className="flex flex-row gap-4 text-sm text-zinc-500 mr-4">
               <div className="flex-col">
-                <p>Baths</p>
+                <p>Acreage</p>
                 <div className="flex justify-center items-center">
                   <span className="mr-1">
-                    <FaBath />
+                    <GiRoad />
                   </span>
-                  <p>{numberOfBaths}</p>
-                </div>
-              </div>
-              <div className="flex-col">
-                <p>Beds</p>
-                <div className="flex justify-center items-center">
-                  <span className="mr-1">
-                    <FaBed />
-                  </span>
-                  <p>{numberOfBeds}</p>
-                </div>
-              </div>
-              <div className="flex-col">
-                <p>Rooms</p>
-                <div className="flex justify-center items-center">
-                  <span className="mr-1">
-                    <FaDoorOpen />
-                  </span>
-                  <p>{numberOfRooms}</p>
-                </div>
-              </div>
-              <div className="flex-col">
-                <p>Area</p>
-                <div className="flex justify-center items-center">
-                  <span className="mr-1">
-                    <FaRuler />
-                  </span>
-                  <p>{squareFootage} Sq Ft</p>
+                  <p>{acreage} Acres</p>
                 </div>
               </div>
             </div>
           </div>
           <div className="flex justify-between items-center">
             <p className="text-lg text-title font-bold border-t mt-2">
+              <GiPriceTag className="mr-1" />
               &#x20A6;{price}
             </p>
           </div>
@@ -153,4 +114,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default LandDetails;

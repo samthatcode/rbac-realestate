@@ -4,42 +4,38 @@ import Modal from "react-modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 Modal.setAppElement("#root");
+
 const modalStyles = {
   content: {
-    height: "500px", // Adjust the height as per your requirement
+    height: "500px",
     overflowY: "auto",
   },
 };
 
-const ITEMS_PER_PAGE = 5; // Number of items per page
+const ITEMS_PER_PAGE = 5;
 
-const ProductManagement = () => {
+const LandManagement = () => {
   const [currentPage, setCurrentPage] = useState(0);
-
-  const [products, setProducts] = useState([]);
+  const [lands, setLands] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     price: "",
     location: "",
-    numberOfRooms: "",
-    squareFootage: "",
-    numberOfBeds: "",
-    numberOfBaths: "",
     images: [],
     categoryId: "",
+    acreage: "",
   });
-  const [editingProduct, setEditingProduct] = useState("");
+  const [editingLand, setEditingLand] = useState("");
   const [categories, setCategories] = useState([]);
-  const [isCreatingProduct, setIsCreatingProduct] = useState(false);
+  const [isCreatingLand, setIsCreatingLand] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [files, setFiles] = useState([]);
 
   useEffect(() => {
-    fetchProducts();
+    fetchLands();
   }, []);
 
   useEffect(() => {
@@ -49,32 +45,27 @@ const ProductManagement = () => {
         description: "",
         price: "",
         location: "",
-        numberOfRooms: "",
-        squareFootage: "",
-        numberOfBeds: "",
-        numberOfBaths: "",
         images: [],
         categoryId: "",
+        acreage: "",
       });
       setIsFormSubmitted(false);
     }
   }, [isFormSubmitted]);
 
-  // fetch products
-  const fetchProducts = async () => {
+  const fetchLands = async () => {
     try {
       const response = await axios.get(
-        "/api/products",
-        // "https://surefinders-backend.onrender.com/api/products",
+        "/api/lands",
+        // "https://surefinders-backend.onrender.com/api/lands",
         { withCredentials: true }
       );
-      setProducts(response.data.data);
+      setLands(response.data.data);
     } catch (error) {
-      console.error("Failed to fetch products:", error);
+      console.error("Failed to fetch lands:", error);
     }
   };
 
-  // fetching categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -92,34 +83,31 @@ const ProductManagement = () => {
     fetchCategories();
   }, []);
 
-  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(lands.length / ITEMS_PER_PAGE);
 
   const getPageData = () => {
     const startIndex = currentPage * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    return products.slice(startIndex, endIndex);
+    return lands.slice(startIndex, endIndex);
   };
 
-  // Handle input changes
   const handleInputChange = (e) => {
-    // Inside handleInputChange function
     if (e.target.name === "image" || e.target.name === "images") {
       const selectedFiles = Array.from(e.target.files);
-      setFiles(selectedFiles); // Update selected files in the state
+      setFiles(selectedFiles);
       setFormData({
         ...formData,
         [e.target.name]: selectedFiles,
-        [`${e.target.name}Name`]: selectedFiles.map((file) => file.name), // Store file names
+        [`${e.target.name}Name`]: selectedFiles.map((file) => file.name),
       });
     } else if (e.target.name === "imageUrl") {
       setFormData({
         ...formData,
         image: e.target.value,
-        imageName: "imageUrl", // store the file name
+        imageName: "imageUrl",
       });
     } else if (e.target.name === "categoryId") {
       const selectedCategoryId = e.target.value;
-      // console.log("Selected Category ID:", selectedCategoryId);
       setFormData({
         ...formData,
         categoryId: selectedCategoryId,
@@ -132,14 +120,10 @@ const ProductManagement = () => {
     }
   };
 
-  // Create Product
-  const createProduct = async () => {
-    setIsCreatingProduct(true);
+  const createLand = async () => {
+    setIsCreatingLand(true);
     try {
-      // Create a new FormData object
       const formDataToSend = new FormData();
-      // console.log("formData images:", formData["images"]); 
-      // Inside createProduct function
       for (const key in formData) {
         if (key === "images") {
           if (Array.isArray(files) && files.length > 0) {
@@ -152,56 +136,44 @@ const ProductManagement = () => {
         }
       }
 
-      // console.log("image after loop:", formDataToSend.getAll("images")); 
-      // Make the API request to send the form data to the server
-      for (let pair of formDataToSend.entries()) {
-        console.log(pair[0] + ", " + pair[1]);
-      }
-
       const response = await axios.post(
-        "/api/products",
-        // "https://surefinders-backend.onrender.com/api/products",
+        "/api/lands",
+        // "https://surefinders-backend.onrender.com/api/lands",
         formDataToSend,
         { withCredentials: true }
       );
-      const createdProduct = response.data.data;
-      toast.success("Product created successfully");
-      setProducts([...products, createdProduct]);
+      const createdLand = response.data.data;
+      toast.success("Land created successfully");
+      setLands([...lands, createdLand]);
       setFiles([]);
-      // Reset the form
       setFormData({
         title: "",
         description: "",
         price: "",
         location: "",
-        numberOfRooms: "",
-        squareFootage: "",
-        numberOfBeds: "",
-        numberOfBaths: "",
         images: [],
         categoryId: "",
+        acreage: "",
       });
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create product");
+      toast.error("Failed to create land");
     } finally {
-      setIsCreatingProduct(false);
+      setIsCreatingLand(false);
     }
     closeModal();
   };
 
-  const updateProduct = async (id, updatedProduct) => {
-    const productToUpdate = products.find((product) => product._id === id);
-    if (!productToUpdate) {
-      console.error("Product not found:", id);
-      toast.error("Product not found");
+  const updateLand = async (id, updatedLand) => {
+    const landToUpdate = lands.find((land) => land._id === id);
+    if (!landToUpdate) {
+      console.error("Land not found:", id);
+      toast.error("Land not found");
       return;
     }
     try {
-      // Create a new FormData instance
       let formData = new FormData();
-      // Append the fields in the updatedProduct object to the formData
-      for (let key in updatedProduct) {
+      for (let key in updatedLand) {
         if (key === "images") {
           if (Array.isArray(files) && files.length > 0) {
             files.forEach((fileObj, index) => {
@@ -209,83 +181,69 @@ const ProductManagement = () => {
             });
           }
         } else {
-          formData.append(key, updatedProduct[key]);
+          formData.append(key, updatedLand[key]);
         }
       }
-      // Send the formData with the PUT request
+
       await axios.put(
-        `/api/products/${id}`,
-        // `https://surefinders-backend.onrender.com/api/products/${id}`,
+        `/api/lands/${id}`,
+        // `https://surefinders-backend.onrender.com/api/lands/${id}`,
         formData,
         { withCredentials: true }
       );
 
-      fetchProducts();
-      toast.success("Product updated successfully");
+      fetchLands();
+      toast.success("Land updated successfully");
       setIsFormSubmitted(true);
-      // Reset the form
       setFormData({
         title: "",
         description: "",
         price: "",
         location: "",
-        numberOfRooms: "",
-        squareFootage: "",
-        numberOfBeds: "",
-        numberOfBaths: "",
         images: [],
         categoryId: "",
+        acreage: "",
       });
     } catch (error) {
-      console.error("Failed to update product:", error);
-      toast.error(`Failed to update product: ${error.message}`);
+      console.error("Failed to update land:", error);
+      toast.error(`Failed to update land: ${error.message}`);
     }
   };
 
-  const deleteProduct = async (id) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
+  const deleteLand = async (id) => {
+    if (window.confirm("Are you sure you want to delete this land?")) {
       try {
         await axios.delete(
-          `/api/products/${id}`,
-          // `https://surefinders-backend.onrender.com/api/products/${id}`,
+          `/api/lands/${id}`,
+          // `https://surefinders-backend.onrender.com/api/lands/${id}`,
           { withCredentials: true }
         );
-        fetchProducts();
-        toast.success("Product deleted successfully");
+        fetchLands();
+        toast.success("Land deleted successfully");
       } catch (error) {
-        console.error("Failed to delete product:", error);
-        toast.error("Failed to delete product");
+        console.error("Failed to delete land:", error);
+        toast.error("Failed to delete land");
       }
     }
   };
 
-  const openModal = (product) => {
+  // Define openModal and closeModal functions
+  const openModal = (land) => {
     // Extract the properties needed for the form data
-    const {
-      title,
-      description,
-      price,
-      location,
-      numberOfRooms,
-      squareFootage,
-      numberOfBeds,
-      numberOfBaths,
-      categoryId,
-    } = product;
+    const { title, description, price, location, acreage, categoryId } = land;
+
     // Create a new object with the extracted properties and set it as the form data
     setFormData({
       title,
       description,
       price,
       location,
-      numberOfRooms,
-      squareFootage,
-      numberOfBeds,
-      numberOfBaths,
+      acreage,
       categoryId,
-      images: [], 
+      images: [], // Assuming you want to clear existing images when editing
     });
-    setEditingProduct(product);
+
+    setEditingLand(land);
     setModalIsOpen(true);
   };
 
@@ -295,13 +253,11 @@ const ProductManagement = () => {
       description: "",
       price: "",
       location: "",
-      numberOfRooms: "",
-      squareFootage: "",
-      numberOfBeds: "",
-      numberOfBaths: "",
-      images: [],
+      acreage: "",
       categoryId: "",
+      images: [],
     });
+    setEditingLand("");
     setModalIsOpen(false);
   };
 
@@ -338,11 +294,11 @@ const ProductManagement = () => {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Manage Products</h1>
+      <h1 className="text-2xl font-bold mb-4">Manage Lands</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          createProduct();
+          createLand();
         }}
         className="mb-4 mx-auto bg-slate-200 p-6 rounded-lg shadow-md"
       >
@@ -355,7 +311,7 @@ const ProductManagement = () => {
               Title
             </label>
             <input
-              placeholder="Product Title"
+              placeholder="Land Title"
               type="text"
               name="title"
               id="title"
@@ -416,68 +372,17 @@ const ProductManagement = () => {
           </div>
           <div className="mb-4">
             <label
-              htmlFor="numberOfRooms"
+              htmlFor="acreage"
               className="block font-medium mb-1 text-gray-700"
             >
-              Rooms
+              Acreage
             </label>
             <input
-              placeholder="Number of Rooms"
+              placeholder="Acreage"
               type="number"
-              name="numberOfRooms"
-              id="numberOfRooms"
-              value={formData.numberOfRooms}
-              onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="squareFootage"
-              className="block font-medium mb-1 text-gray-700"
-            >
-              Square Footage / Area
-            </label>
-            <input
-              placeholder="Square Footage / Area"
-              type="number"
-              name="squareFootage"
-              id="squareFootage"
-              value={formData.squareFootage}
-              onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="numberOfBaths"
-              className="block font-medium mb-1 text-gray-700"
-            >
-              Baths
-            </label>
-            <input
-              placeholder="Number of Baths"
-              type="number"
-              name="numberOfBaths"
-              id="numberOfBaths"
-              value={formData.numberOfBaths}
-              onChange={handleInputChange}
-              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="numberOfBeds"
-              className="block font-medium mb-1 text-gray-700"
-            >
-              Beds
-            </label>
-            <input
-              placeholder="Number of Beds"
-              type="number"
-              name="numberOfBeds"
-              id="numberOfBeds"
-              value={formData.numberOfBeds}
+              name="acreage"
+              id="acreage"
+              value={formData.acreage}
               onChange={handleInputChange}
               className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
             />
@@ -530,9 +435,9 @@ const ProductManagement = () => {
             <button
               type="submit"
               className="w-full px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600"
-              disabled={isCreatingProduct}
+              disabled={isCreatingLand}
             >
-              {isCreatingProduct ? "Creating Product..." : "Create Product"}
+              {isCreatingLand ? "Creating Land..." : "Create Land"}
             </button>
           </div>
         </div>
@@ -551,28 +456,28 @@ const ProductManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {getPageData().map((product, index) => (
-              <tr key={product._id}>
+            {getPageData().map((land, index) => (
+              <tr key={land._id}>
                 <td className="border px-4 py-2">
                   {currentPage * ITEMS_PER_PAGE + index + 1}
                 </td>
-                <td className="border px-4 py-2 capitalize">{product.title}</td>
+                <td className="border px-4 py-2 capitalize">{land.title}</td>
                 <td className="border px-4 py-2 text-green-500 font-semibold ">
-                  &#x20A6;{product.price}
+                  &#x20A6;{land.price}
                 </td>
                 <td className="border px-4 py-2 capitalize">
-                  {product.description}
+                  {land.description}
                 </td>
-                <td className="border px-4 py-2">{product.categoryId}</td>
+                <td className="border px-4 py-2">{land.categoryId}</td>
                 <td className="border px-4 py-2 flex justify-between gap-4">
                   <button
-                    onClick={() => openModal(product)}
+                    onClick={() => openModal(land)}
                     className="text-primary hover:text-blue font-bold bg-slate-100 px-2 py-1 rounded-md"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => deleteProduct(product._id)}
+                    onClick={() => deleteLand(land._id)}
                     className="text-red font-bold bg-slate-100 px-2 py-1 rounded-md"
                   >
                     Delete
@@ -624,12 +529,12 @@ const ProductManagement = () => {
         style={modalStyles} // Apply the modal styles
         className="p-4 mt-20 bg-slate-200"
       >
-        <h2 className="text-lg font-bold mb-4">Edit Product</h2>
+        <h2 className="text-lg font-bold mb-4">Edit Land</h2>
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            console.log("Form data:", formData);
-            updateProduct(editingProduct._id, formData);
+            // console.log("Form data:", formData);
+            updateLand(editingLand._id, formData);
           }}
           className="mb-4 bg-slate-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4"
         >
@@ -664,7 +569,7 @@ const ProductManagement = () => {
                 Description:
               </label>
               <textarea
-                placeholder="Product Description"
+                placeholder="Land Description"
                 name="description"
                 id="description"
                 value={formData.description}
@@ -723,88 +628,21 @@ const ProductManagement = () => {
             </div>
             <div className="mb-4">
               <label
-                htmlFor="numberOfRooms"
+                htmlFor=""
                 className="block font-medium mb-1 text-gray-700"
               >
-                Rooms:
+                Acreage
               </label>
               <input
-                placeholder="Number of Rooms"
+                placeholder="Acreage"
                 type="number"
-                name="numberOfRooms"
-                id="numberOfRooms"
-                value={formData.numberOfRooms}
+                name="acreage"
+                id="acreage"
+                value={formData.acreage}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    numberOfRooms: e.target.value,
-                  })
-                }
-                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="squareFootage"
-                className="block font-medium mb-1 text-gray-700"
-              >
-                Square Footage / Area
-              </label>
-              <input
-                placeholder="Square Footage / Area"
-                type="number"
-                name="squareFootage"
-                id="squareFootage"
-                value={formData.squareFootage}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    squareFootage: e.target.value,
-                  })
-                }
-                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="numberOfBaths"
-                className="block font-medium mb-1 text-gray-700"
-              >
-                Baths
-              </label>
-              <input
-                placeholder="Number of Baths"
-                type="number"
-                name="numberOfBaths"
-                id="numberOfBaths"
-                value={formData.numberOfBaths}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    numberOfBaths: e.target.value,
-                  })
-                }
-                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="numberOfBeds"
-                className="block font-medium mb-1 text-gray-700"
-              >
-                Beds
-              </label>
-              <input
-                placeholder="Number of Beds"
-                type="number"
-                name="numberOfBeds"
-                id="numberOfBeds"
-                value={formData.numberOfBeds}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    numberOfBeds: e.target.value,
+                    acreage: e.target.value,
                   })
                 }
                 className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
@@ -853,7 +691,7 @@ const ProductManagement = () => {
               type="submit"
               className="w-full px-4 py-2 text-white bg-indigo-500 font-semibold rounded-md hover:bg-indigo-600"
             >
-              Update Product
+              Update Land
             </button>
           </div>
         </form>
@@ -869,4 +707,4 @@ const ProductManagement = () => {
   );
 };
 
-export default ProductManagement;
+export default LandManagement;

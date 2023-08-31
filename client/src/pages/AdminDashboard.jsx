@@ -7,6 +7,7 @@ import {
   CategoryManagement,
   EventManagement,
   Footer,
+  LandManagement,
   ProductManagement,
   RoleManagement,
   UserManagement,
@@ -20,7 +21,6 @@ const AdminDashboard = () => {
   const { user, setUser } = useContext(UserContext);
   const [totalProductsCount, setTotalProductsCount] = useState(0);
   const [totalUsersCount, setTotalUsersCount] = useState(0);
-  const [totalSales, setTotalSales] = useState(0);
   const [error, setError] = useState("");
   const [inactiveMarketers, setInactiveMarketers] = useState([]);
   const [currentView, setCurrentView] = useState("");
@@ -156,6 +156,16 @@ const AdminDashboard = () => {
             >
               Manage Products
             </Link>
+            <Link
+              to="/managelands"
+              className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
+              onClick={(event) => {
+                event.preventDefault();
+                setCurrentView("managelands");
+              }}
+            >
+              Manage Lands
+            </Link>
 
             <Link
               to="/manageusers"
@@ -227,6 +237,7 @@ const AdminDashboard = () => {
           <h1 className="text-xl font-bold mb-4 text-title">Welcome, Admin!</h1>
           {/* Dashboard content goes here */}
           {currentView === "manageproducts" && <ProductManagement />}
+          {currentView === "managelands" && <LandManagement />}
           {currentView === "manageusers" && <UserManagement />}
           {currentView === "manageroles" && <RoleManagement />}
           {currentView === "managecategories" && <CategoryManagement />}
@@ -242,7 +253,7 @@ const AdminDashboard = () => {
                 <h2 className="font-bold text-lg mb-2 text-white">
                   Total Products
                 </h2>
-                <p className="text-lg border p-5 rounded-full text-slate-200">
+                <p className="text-lg border px-5 py-4 rounded-md  text-slate-200">
                   {totalProductsCount}
                 </p>
               </div>
@@ -250,7 +261,7 @@ const AdminDashboard = () => {
                 <h2 className="font-bold text-lg mb-2 text-white">
                   Total Users
                 </h2>
-                <p className="text-lg border p-5 rounded-full text-slate-200">
+                <p className="text-lg border px-5 py-4 rounded-md  text-slate-200">
                   {totalUsersCount}
                 </p>
               </div>

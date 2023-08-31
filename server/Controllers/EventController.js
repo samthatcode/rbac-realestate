@@ -6,7 +6,13 @@ const path = require('path');
 // Create a new event
 module.exports.createEvents = async (req, res, next) => {
   try {
-    const { name, date, time, location, description } = req.body;
+    const { name, location, description } = req.body;
+
+    // Convert incoming date and time to appropriate format
+    let date = new Date(req.body.date);
+    let time = new Date(`1970-01-01T${req.body.time}:00Z`);
+    date = date.toISOString().split('T')[0]; // Get date string in 'yyyy-mm-dd' format
+    time = time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }); // Convert time to 24-hour format
 
     // Get the uploaded image from req.file
     let eventImage = req.file;
@@ -33,7 +39,6 @@ module.exports.createEvents = async (req, res, next) => {
     next(error);
   }
 };
-
 
 
 

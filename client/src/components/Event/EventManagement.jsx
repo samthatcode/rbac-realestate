@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import TimePicker from "react-time-picker";
 
-
-function CreateEventForm() {
+const CreateEventForm = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -32,20 +32,19 @@ function CreateEventForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (loading) return; // Prevent multiple clicks while loading
-    setLoading(true); // Start loading state
+    if (loading) return; 
+    setLoading(true); 
 
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("date", date);
-    formData.append("time", time); // Time is now included in the form data
     formData.append("location", location);
     formData.append("description", description);
-    
-  if (eventImage) {
-    formData.append("eventImage", eventImage);
-  }
-
+    if (eventImage) {
+      formData.append("eventImage", eventImage);
+    }
+    formData.append("time", time);    
+    formData.append("date", date);
+  
 
     try {
       const response = await axios.post(
@@ -125,26 +124,13 @@ function CreateEventForm() {
                 Event Time
               </label>
               <div className="flex items-center">
-                <input
-                  type="time"
+                <TimePicker
                   id="time"
                   value={time}
-                  onChange={(e) => setTime(e.target.value)}
+                  onChange={setTime}
                   className="w-full p-2 border rounded-md"
                   required
-                />
-                <select
-                  value={time.endsWith("am") ? "am" : "pm"}
-                  onChange={(e) => {
-                    const newTime =
-                      e.target.value === "am" ? `${time} AM` : `${time} PM`;
-                    setTime(newTime);
-                  }}
-                  className="ml-2 border p-1 rounded-md bg-slate-50"
-                >
-                  <option value="am">AM</option>
-                  <option value="pm">PM</option>
-                </select>
+                />              
               </div>
             </div>
           </div>
@@ -212,6 +198,6 @@ function CreateEventForm() {
       </div>
     </div>
   );
-}
+};
 
 export default CreateEventForm;
