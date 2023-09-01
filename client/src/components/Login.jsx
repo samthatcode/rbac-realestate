@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Layout from "./Layout";
+import { ColorRing } from "react-loader-spinner";
 
 const Login = () => {
   const { setUser } = useContext(UserContext);
@@ -43,8 +44,8 @@ const Login = () => {
 
     try {
       const { data } = await axios.post(
-        // "https://surefinders-backend.onrender.com/api/login",
-        "/api/login",
+        "https://surefinders-backend.onrender.com/api/login",
+        // "/api/login",
         {
           ...inputValue,
         },
@@ -88,7 +89,7 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white my-10">
         <div className="w-full max-w-md p-4 bg-whiterounded-md shadow-xl">
           <h2 className="md:text-left text-center text-xl font-bold text-slate-500">
             Log In
@@ -136,13 +137,31 @@ const Login = () => {
               className={
                 `w-full px-4 py-2 mt-4 mb-4 bg-primary hover:bg-blue text-white rounded-md font-medium ${
                   loading ? "opacity-50 cursor-not-allowed" : ""
-                }` // Disable button and show loading state
+                }`
               }
-              disabled={loading} // Disable button
+              disabled={loading}
             >
-              {loading ? "Logging in..." : "Log In"}
-            </button>
-            <div className="flex items-center justify-between text-center gap-4">
+              {loading ? (
+                <div className="relative">
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+                    style={{ zIndex: 9999 }}
+                  >
+                    <ColorRing
+                      visible={true}
+                      height="50"
+                      width="50"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="blocks-wrapper"
+                      colors={["#3454d1", "#007bff"]}
+                    />
+                  </div>
+                </div>
+              ) : (
+                "Log In"
+              )}
+            </button><div className="flex items-center justify-between text-center gap-4">
               <span className="block ">
                 Don't have an account?{" "}
                 <Link to="/signup" className="text-primary hover:text-blue">

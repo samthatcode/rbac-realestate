@@ -5,7 +5,7 @@ import Layout from "./Layout";
 const NotFoundPage = () => {
   return (
     <Layout>
-      <div className="flex h-screen items-center justify-center bg-gray-100">
+      <div className="flex h-screen items-center justify-center bg-gray-100 py-10">
         <div className="max-w-lg text-center">
           <h1 className="mb-8 text-9xl font-extrabold text-gray-800">404</h1>
           <p className="mb-8 text-gray-600">

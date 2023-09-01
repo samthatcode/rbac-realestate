@@ -3,7 +3,7 @@ import Hero from "./Hero";
 import FeaturedProperties from "./FeaturedProperties";
 import ContactUs from "./ContactUs";
 import Layout from "./Layout";
-import { ProductPage } from "../pages";
+import { LandPage, ProductPage } from "../pages";
 import Events from "./Event/Events";
 
 const Home = () => {
@@ -12,7 +12,8 @@ const Home = () => {
       <Layout>
         <Hero />
         <ProductPage />
-        <FeaturedProperties />
+        <LandPage />
+        {/* <FeaturedProperties /> */}
         <Events />
         <ContactUs />     
       </Layout>  

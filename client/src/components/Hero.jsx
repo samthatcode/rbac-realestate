@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CarouselData } from "../data/CarouselData";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -8,6 +8,7 @@ import {
   AiOutlineHome,
   AiOutlineEnvironment,
 } from "react-icons/ai";
+import { useSearch } from "../contexts/SearchContext";
 
 <style jsx>
   {`
@@ -23,6 +24,9 @@ import {
 </style>;
 
 const Hero = () => {
+
+  const { searchQuery, setSearchQuery } = useSearch();
+
   return (
     <div className="">
       <Carousel showThumbs={false} showStatus={false} autoPlay infiniteLoop>
@@ -52,6 +56,8 @@ const Hero = () => {
                           type="text"
                           placeholder={item.inputPlaceholder}
                           className="w-full px-3 py-5 text-sm text-white bg-slate-800 border rounded pl-10"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
                         />
                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
                           <AiOutlineHome className="text-gray-400" />
@@ -62,7 +68,7 @@ const Hero = () => {
                             Location., e.g Lagos, Abuja...
                           </span>
                         </div>
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-red-600 text-white px-5 p-3 rounded">
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center bg-primary hover:bg-blue text-white px-5 p-3 rounded">
                           <AiOutlineSearch className=" mr-5" />
                           <button className="text-sm uppercase">Search</button>
                         </div>

@@ -35,8 +35,8 @@ const AdminDashboard = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        // "https://surefinders-backend.onrender.com/api/logout",
-        "/api/logout",
+        "https://surefinders-backend.onrender.com/api/logout",
+        // "/api/logout",
         {},
         {
           withCredentials: true, // Include credentials (cookies)
@@ -56,8 +56,8 @@ const AdminDashboard = () => {
     const fetchProducts = async () => {
       try {
         const productsResponse = await fetch(
-          // "https://surefinders-backend.onrender.com/api/products",
-          "/api/products",
+          "https://surefinders-backend.onrender.com/api/products",
+          // "/api/products",
           { withCredentials: true }
         );
         const productsData = await productsResponse.json();
@@ -72,8 +72,8 @@ const AdminDashboard = () => {
     const fetchUsers = async () => {
       try {
         const usersResponse = await fetch(
-          // "https://surefinders-backend.onrender.com/api/users",
-          "/api/users",
+          "https://surefinders-backend.onrender.com/api/users",
+          // "/api/users",
           { withCredentials: true }
         );
         const usersData = await usersResponse.json();
@@ -88,8 +88,8 @@ const AdminDashboard = () => {
     const fetchInactiveMarketers = async () => {
       try {
         const response = await fetch(
-          // "https://surefinders-backend.onrender.com/api/marketers",
-          "/api/marketers",
+          "https://surefinders-backend.onrender.com/api/marketers",
+          // "/api/marketers",
           { withCredentials: true }
         );
         // console.log("Response status:", response.status);
@@ -118,8 +118,8 @@ const AdminDashboard = () => {
   const approveMarketer = async (marketerId) => {
     try {
       const response = await fetch(
-        // `https://surefinders-backend.onrender.com/api/marketers/${marketerId}/approve`,
-        `/api/marketers/${marketerId}/approve`,
+        `https://surefinders-backend.onrender.com/api/marketers/${marketerId}/approve`,
+        // `/api/marketers/${marketerId}/approve`,
         { withCredentials: true },
         {
           method: "POST",
@@ -177,17 +177,6 @@ const AdminDashboard = () => {
             >
               Manage Users
             </Link>
-
-            <Link
-              to="/manageroles"
-              className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
-              onClick={(event) => {
-                event.preventDefault();
-                setCurrentView("manageroles");
-              }}
-            >
-              Manage Roles
-            </Link>
             <Link
               to="/managecategories"
               className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
@@ -239,7 +228,7 @@ const AdminDashboard = () => {
           {currentView === "manageproducts" && <ProductManagement />}
           {currentView === "managelands" && <LandManagement />}
           {currentView === "manageusers" && <UserManagement />}
-          {currentView === "manageroles" && <RoleManagement />}
+          {/* {currentView === "manageroles" && <RoleManagement />} */}
           {currentView === "managecategories" && <CategoryManagement />}
           {currentView === "manage_event" && <EventManagement />}
 

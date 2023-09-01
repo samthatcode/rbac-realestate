@@ -143,9 +143,9 @@ module.exports.Signup = async (req, res, next) => {
       subject: "Account Verification",
       text: `Click the link to verify your account: ${verificationLink}`,
       html: `<div>
-              <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, corrupti.</p>
-              <a href=${verificationLink}>Click here to verify your account</a>         
-        </div>` // mail body
+          <p>Thank you for creating an account with Surefinders! To ensure the security of your account, please verify your email address by clicking the link below:</p>
+          <a href=${verificationLink}>Click here to verify your account</a>
+          </div>` 
     }, (error, info) => {
       if (error) {
         console.log('Error occurred while sending email:', error);

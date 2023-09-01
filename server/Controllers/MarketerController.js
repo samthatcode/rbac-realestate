@@ -113,9 +113,9 @@ module.exports.createMarketer = async (req, res, next) => {
             subject: "Account Verification",
             text: `Click the link to verify your account: ${verificationLink}`,
             html: `<div>
-                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, corrupti.</p>
-                <a href=${verificationLink}>Click here to verify your account</a>         
-          </div>` // mail body
+                <p>Thank you for creating an account with Surefinders! To ensure the security of your account, please verify your email address by clicking the link below:</p>
+                <a href=${verificationLink}>Click here to verify your account</a>
+                 </div>`
         }, (error, info) => {
             if (error) {
                 console.log('Error occurred while sending email:', error);
@@ -211,13 +211,7 @@ module.exports.Login = async (req, res, next) => {
         const token = createSecretToken(marketer._id);
         // console.log("Generated Token:", token); // Log the generated token
 
-        // Set the token as a cookie
-        // res.cookie("token", token, {
-        //     withCredentials: true,
-        //     httpOnly: true,
-        //     secure: process.env.NODE_ENV === "production",
-        //     sameSite: "strict",
-        // });
+
         res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",

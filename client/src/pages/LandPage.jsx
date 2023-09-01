@@ -7,6 +7,7 @@ import { GiRoad, GiPriceTag } from "react-icons/gi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { useSearch } from "../contexts/SearchContext";
 
 const settings = {
   infinite: true,
@@ -57,16 +58,23 @@ const LandPage = () => {
   const [lands, setLands] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { searchQuery } = useSearch();
+
+  const filteredLands = lands.filter((land) =>
+    land.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     async function fetchLands() {
       try {
         const response = await axios.get(
-          // "https://surefinders-backend.onrender.com/api/lands",
-          "/api/lands",
+          "https://surefinders-backend.onrender.com/api/lands",
+        //   "/api/lands",
           {
             withCredentials: true,
           }
         );
+        console.log(response.data);
         setLands(response.data.data);
       } catch (error) {
         console.error("Failed to fetch lands:", error);
@@ -108,16 +116,16 @@ const LandPage = () => {
               colors={["#3454d1", "#007bff"]}
             />
           </div>
-        ) : Array.isArray(lands) && lands.length > 0 ? (
-          lands.map((land) => (
+        ) : filteredLands.length > 0 ? (
+          filteredLands.map((land) => (
             <div key={land._id} className="slick-slide">
               <Link to={`/lands/${land._id}`} className="transition-all">
                 <div className="rounded overflow-hidden hover:shadow-xl transition-all hover-card">
                   <div className="image-container">
                     {land.images.length > 0 && (
                       <img
-                        // src={`https://surefinders-backend.onrender.com/public/images/${land.images[0]}`}
-                        src={`http://localhost:5175/public/images/${land.images[0]}`}
+                        src={`https://surefinders-backend.onrender.com/public/images/${land.images[0]}`}
+                        // src={`http://localhost:5175/public/images/${land.images[0]}`}
                         alt={land.title}
                         className="w-full object-cover image"
                       />
@@ -140,7 +148,9 @@ const LandPage = () => {
                         <div className="flex-col">
                           <p className="mb-2">Acreage</p>
                           <div className="flex justify-center items-center">
-                            <GiRoad className="mr-1" />
+                            <span className="mr-1">
+                              <GiRoad />
+                            </span>
                             <p>{land.acreage} Acres</p>
                           </div>
                         </div>
@@ -148,7 +158,6 @@ const LandPage = () => {
                     </div>
                     <div className="flex justify-between items-center">
                       <p className="text-lg text-title font-bold border-t mt-2">
-                        <GiPriceTag className="mr-1" />
                         &#x20A6;{land.price}
                       </p>
                     </div>
@@ -157,7 +166,9 @@ const LandPage = () => {
               </Link>
             </div>
           ))
-        ) : null}
+        ) : (
+          <div>No lands match your search.</div>
+        )}
       </Slider>
     </div>
   );

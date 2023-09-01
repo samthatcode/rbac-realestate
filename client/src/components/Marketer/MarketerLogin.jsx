@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Layout from "../Layout";
+import { ColorRing } from "react-loader-spinner";
 
 const Login = () => {
   const { setMarketer } = useContext(MarketerContext);
@@ -79,75 +81,100 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-4 rounded-md shadow-xl">
-        <h2 className="md:text-left text-center text-xl font-bold text-slate-500">
-          Log In
-        </h2>
-        <form onSubmit={handleSubmit} className="mt-4">
-          <div className="mb-4">
-            <label htmlFor="email" className="block">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              placeholder="Enter your email"
-              onChange={handleOnChange}
-              className="w-full p-2 border rounded-md"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block">
-              Password
-            </label>
-            <div className="relative">
+    <Layout>
+      <div className="flex flex-col items-center justify-center min-h-screen my-10">
+        <div className="w-full max-w-md p-4 rounded-md shadow-xl">
+          <h2 className="md:text-left text-center text-xl font-bold text-slate-500">
+            Log In
+          </h2>
+          <form onSubmit={handleSubmit} className="mt-4">
+            <div className="mb-4">
+              <label htmlFor="email" className="block">
+                Email
+              </label>
               <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={password}
-                placeholder="Enter your password"
+                type="email"
+                name="email"
+                value={email}
+                placeholder="Enter your email"
                 onChange={handleOnChange}
                 className="w-full p-2 border rounded-md"
               />
-              <button
-                type="button"
-                className="absolute right-3 top-3 text-gray-500"
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
             </div>
-          </div>
-          <button
-            type="submit"
-            className={
-              `w-full px-4 py-2 mt-4 mb-4  bg-primary hover:bg-blue text-white rounded-md font-medium ${
+            <div className="mb-4">
+              <label htmlFor="password" className="block">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={password}
+                  placeholder="Enter your password"
+                  onChange={handleOnChange}
+                  className="w-full p-2 border rounded-md"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-3 text-gray-500"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className={`w-full px-4 py-2 mt-4 mb-4 bg-primary hover:bg-blue text-white rounded-md font-medium ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
-              }` // Disable button and show loading state
-            }
-            disabled={loading} // Disable button
-          >
-            {loading ? "Logging in..." : "Log In"}
-          </button>
-          <div className="flex items-center justify-between text-center gap-4">
-            <span className="block">
-              Don't have an account?{" "}
-              <Link to="/marketer/signup" className="text-primary hover:text-blue">
-                Sign Up
-              </Link>
-            </span>
-            <span className="block">
-              Forgot your password?{" "}
-              <Link to="/marketer-forgot-password" className="text-primary hover:text-blue">
-                Reset it
-              </Link>
-            </span>
-          </div>
-        </form>
+              }`}
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="relative">
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+                    style={{ zIndex: 9999 }}
+                  >
+                    <ColorRing
+                      visible={true}
+                      height="50"
+                      width="50"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="blocks-wrapper"
+                      colors={["#3454d1", "#007bff"]}
+                    />
+                  </div>
+                </div>
+              ) : (
+                "Log In"
+              )}
+            </button>
+            <div className="flex items-center justify-between text-center gap-4">
+              <span className="block">
+                Don't have an account?{" "}
+                <Link
+                  to="/marketer/signup"
+                  className="text-primary hover:text-blue"
+                >
+                  Sign Up
+                </Link>
+              </span>
+              <span className="block">
+                Forgot your password?{" "}
+                <Link
+                  to="/marketer-forgot-password"
+                  className="text-primary hover:text-blue"
+                >
+                  Reset it
+                </Link>
+              </span>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

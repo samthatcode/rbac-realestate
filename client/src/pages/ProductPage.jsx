@@ -7,6 +7,7 @@ import { FaBath, FaBed, FaDoorOpen, FaRuler } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { useSearch } from "../contexts/SearchContext";
 
 const settings = {
   infinite: true,
@@ -57,12 +58,18 @@ const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { searchQuery } = useSearch();
+
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     async function fetchProducts() {
       try {
         const response = await axios.get(
-          // "https://surefinders-backend.onrender.com/api/products",
-          "/api/products",
+          "https://surefinders-backend.onrender.com/api/products",
+          // "/api/products",
           {
             withCredentials: true,
           }
@@ -110,17 +117,16 @@ const ProductPage = () => {
               colors={["#3454d1", "#007bff"]}
             />
           </div>
-        ) : Array.isArray(products) && products.length > 0 ? (
-          // Check if products is an array and not empty
-          products.map((product) => (
+        ) : filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
             <div key={product._id} className="slick-slide">
               <Link to={`/products/${product._id}`} className="transition-all">
                 <div className="rounded overflow-hidden hover:shadow-xl transition-all hover-card">
                   <div className="image-container">
                     {product.images.length > 0 && (
                       <img
-                        // src={`https://surefinders-backend.onrender.com/public/images/${product.images[0]}`}
-                        src={`http://localhost:5175/public/images/${product.images[0]}`}
+                        src={`https://surefinders-backend.onrender.com/public/images/${product.images[0]}`}
+                        // src={`http://localhost:5175/public/images/${product.images[0]}`}
                         alt={product.title}
                         className="w-full object-cover image"
                       />
@@ -188,7 +194,9 @@ const ProductPage = () => {
               </Link>
             </div>
           ))
-        ) : null}
+        ) : (
+          <div>No houses match your search.</div>
+        )}
       </Slider>
     </div>
   );

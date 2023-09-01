@@ -56,8 +56,8 @@ const LandManagement = () => {
   const fetchLands = async () => {
     try {
       const response = await axios.get(
-        "/api/lands",
-        // "https://surefinders-backend.onrender.com/api/lands",
+        // "/api/lands",
+        "https://surefinders-backend.onrender.com/api/lands",
         { withCredentials: true }
       );
       setLands(response.data.data);
@@ -70,8 +70,8 @@ const LandManagement = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "/api/categories",
-          // "https://surefinders-backend.onrender.com/api/categories",
+          // "/api/categories",
+          "https://surefinders-backend.onrender.com/api/categories",
           { withCredentials: true }
         );
         setCategories(response.data.data);
@@ -137,8 +137,8 @@ const LandManagement = () => {
       }
 
       const response = await axios.post(
-        "/api/lands",
-        // "https://surefinders-backend.onrender.com/api/lands",
+        // "/api/lands",
+        "https://surefinders-backend.onrender.com/api/lands",
         formDataToSend,
         { withCredentials: true }
       );
@@ -186,8 +186,8 @@ const LandManagement = () => {
       }
 
       await axios.put(
-        `/api/lands/${id}`,
-        // `https://surefinders-backend.onrender.com/api/lands/${id}`,
+        // `/api/lands/${id}`,
+        `https://surefinders-backend.onrender.com/api/lands/${id}`,
         formData,
         { withCredentials: true }
       );
@@ -214,8 +214,8 @@ const LandManagement = () => {
     if (window.confirm("Are you sure you want to delete this land?")) {
       try {
         await axios.delete(
-          `/api/lands/${id}`,
-          // `https://surefinders-backend.onrender.com/api/lands/${id}`,
+          // `/api/lands/${id}`,
+          `https://surefinders-backend.onrender.com/api/lands/${id}`,
           { withCredentials: true }
         );
         fetchLands();
@@ -300,7 +300,7 @@ const LandManagement = () => {
           e.preventDefault();
           createLand();
         }}
-        className="mb-4 mx-auto bg-slate-200 p-6 rounded-lg shadow-md"
+        className="mb-4 mx-auto bg-slate-100 p-6 rounded-lg shadow-md"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="mb-4">

@@ -1,45 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import {
   AiFillTwitterCircle,
   AiFillFacebook,
   AiFillInstagram,
 } from "react-icons/ai";
-
-// Get all number input fields
-const numberInputs = document.querySelectorAll('input[type="number"]');
-// Add event listeners to number input fields
-numberInputs.forEach((input) => {
-  input.addEventListener("keydown", (e) => {
-    // Allow only numbers, backspace, and delete key
-    if (
-      !(
-        (e.key >= "0" && e.key <= "9") ||
-        e.key === "Backspace" ||
-        e.key === "Delete"
-      )
-    ) {
-      e.preventDefault();
-    }
-  });
-});
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "https://surefinders-backend.onrender.com/api/contact",
+        // "/api/contact",
+        formData
+      );
+      response.data;
+      console.log("Form submitted successfully!", response.data);
+
+      // Show a success toast message
+      toast.success("Form submitted successfully!", {
+        autoClose: 2000, // Close after 2 seconds
+      });
+
+      // Clear the form by resetting the formData state
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Form submission failed:", error);
+      toast.error("Form submission failed. Please try again.", {
+        autoClose: 5000, // Close after 5 seconds in case of an error
+      });
+    }
+  };
+
   return (
     <div className="bg-slate-100 shadow-xl mx-2 rounded-md p-4 my-20">
       <div className="title_head mb-4">
         <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
           Contact Us
         </h2>
-        <p class="text-center capitalize text-subTitle">
-        reach out to us! We provide full service at every step.
+        <p className="text-center capitalize text-subTitle mb-10">
+          Reach out to us! We provide full service at every step.
         </p>
       </div>
 
-      <div className="flex">
-        <div className="w-1/2 p-8">
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-1/2 p-8">
           <div>
-            <h2 className="text-xl font-semibold mb-4 text-title">Our Offices</h2>
+            <h2 className="text-xl font-semibold mb-4 text-title">
+              Our Offices
+            </h2>
             <p>
               <FaMapMarkerAlt className="inline mr-2 text-red" />
               22, Olufunmilayo Street, Dideolu Estate, Second Gate B/Stop, Ogba
@@ -55,7 +91,9 @@ const ContactUs = () => {
             </p>
           </div>
           <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4 text-title">Social Media</h2>
+            <h2 className="text-xl font-semibold mb-4 text-title">
+              Social Media
+            </h2>
             <a
               href="https://twitter.com/surefinders"
               className="text-blue block mb-2"
@@ -79,9 +117,9 @@ const ContactUs = () => {
             </a>
           </div>
         </div>
-        <div className="w-1/2 p-8">
+        <div className="w-full md:w-1/2 p-8">
           <h2 className="text-xl font-semibold mb-4 text-title">Enquiries</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-2 mb-4">
               <div className="w-1/2 px-2">
                 <label htmlFor="name" className="block font-medium">
@@ -93,6 +131,8 @@ const ContactUs = () => {
                   className="w-full px-3 py-2 border rounded"
                   required
                   placeholder="Your name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="w-1/2 px-2">
@@ -105,6 +145,8 @@ const ContactUs = () => {
                   className="w-full px-3 py-2 border rounded"
                   required
                   placeholder="Phone number"
+                  value={formData.phone}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -119,6 +161,8 @@ const ContactUs = () => {
                   className="w-full px-3 py-2 border rounded"
                   required
                   placeholder="Your email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="w-1/2 px-2">
@@ -131,6 +175,8 @@ const ContactUs = () => {
                   className="w-full px-3 py-2 border rounded"
                   required
                   placeholder="Subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -144,6 +190,8 @@ const ContactUs = () => {
                 className="w-full px-3 py-2 border rounded"
                 required
                 placeholder="Your message"
+                value={formData.message}
+                onChange={handleInputChange}
               ></textarea>
             </div>
             <button

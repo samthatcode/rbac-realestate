@@ -64,8 +64,8 @@ const ProductManagement = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        "/api/products",
-        // "https://surefinders-backend.onrender.com/api/products",
+        // "/api/products",
+        "https://surefinders-backend.onrender.com/api/products",
         { withCredentials: true }
       );
       setProducts(response.data.data);
@@ -79,8 +79,8 @@ const ProductManagement = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "/api/categories",
-          // "https://surefinders-backend.onrender.com/api/categories",
+          // "/api/categories",
+          "https://surefinders-backend.onrender.com/api/categories",
           { withCredentials: true }
         );
         setCategories(response.data.data);
@@ -159,8 +159,8 @@ const ProductManagement = () => {
       }
 
       const response = await axios.post(
-        "/api/products",
-        // "https://surefinders-backend.onrender.com/api/products",
+        // "/api/products",
+        "https://surefinders-backend.onrender.com/api/products",
         formDataToSend,
         { withCredentials: true }
       );
@@ -214,8 +214,8 @@ const ProductManagement = () => {
       }
       // Send the formData with the PUT request
       await axios.put(
-        `/api/products/${id}`,
-        // `https://surefinders-backend.onrender.com/api/products/${id}`,
+        // `/api/products/${id}`,
+        `https://surefinders-backend.onrender.com/api/products/${id}`,
         formData,
         { withCredentials: true }
       );
@@ -246,8 +246,8 @@ const ProductManagement = () => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
         await axios.delete(
-          `/api/products/${id}`,
-          // `https://surefinders-backend.onrender.com/api/products/${id}`,
+          // `/api/products/${id}`,
+          `https://surefinders-backend.onrender.com/api/products/${id}`,
           { withCredentials: true }
         );
         fetchProducts();

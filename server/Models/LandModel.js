@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const LandSchema = new Schema({
-    name: {
+    title: {
         type: String,
         required: true
     },
@@ -24,7 +24,7 @@ const LandSchema = new Schema({
         required: true,
     },
     images: {
-        type: [String], // Array of image URLs
+        type: [String],
         required: true,
     },
     categoryId: {
