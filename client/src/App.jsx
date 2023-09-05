@@ -36,6 +36,7 @@ import { MarketerProvider } from "./contexts/MarketerContext";
 import { ReferralProvider } from "./contexts/ReferralsContext";
 import ProtectedRoute from "./ProtectedRoute";
 import { SearchProvider } from "./contexts/SearchContext";
+import { SavedPropertiesProvider } from "./contexts/SavedPropertiesContext";
 
 const App = () => {
   return (
@@ -44,6 +45,7 @@ const App = () => {
         <ReferralProvider>
           <CartProvider>
             <SearchProvider>
+              <SavedPropertiesProvider>
               <div>
                 <ToastContainer />
                 {/* <Navbar /> */}
@@ -125,6 +127,7 @@ const App = () => {
                   </Routes>
                 </div>
               </div>
+              </SavedPropertiesProvider>
             </SearchProvider>
           </CartProvider>
         </ReferralProvider>

@@ -53,7 +53,7 @@ const Hero = () => {
                     <>
                       <div className="relative mt-2">
                         <input
-                          type="text"
+                          type="search"
                           placeholder={item.inputPlaceholder}
                           className="w-full px-3 py-5 text-sm text-white bg-slate-800 border rounded pl-10"
                           value={searchQuery}
@@ -98,13 +98,13 @@ const Hero = () => {
               </Link>
               <Link
                 to="/marketer/signup"
-                className="px-4 py-2 bg-green text-white rounded"
+                className="px-4 py-2 bg-cadetblue hover:bg-steelblue text-white rounded"
               >
                 Get Started as a Marketer
               </Link>
               <Link
                 to="/login"
-                className="px-4 py-2 bg-red text-white rounded"
+                className="px-4 py-2 bg-steelblue hover:bg-cadetblue text-white rounded"
               >
                 Login
               </Link>

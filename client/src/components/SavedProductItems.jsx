@@ -1,96 +1,63 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FaHeart, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useSavedProperties } from "../contexts/SavedPropertiesContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
 import { AiOutlineEnvironment } from "react-icons/ai";
 import { FaBath, FaBed, FaDoorOpen, FaRuler } from "react-icons/fa";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import { useSearch } from "../contexts/SearchContext";
-import { FaHeart } from "react-icons/fa";
-import { useSavedProperties } from "../contexts/SavedPropertiesContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
-const settings = {
-  infinite: true,
-  dots: true,
-  arrows: true,
-  cssEase: "ease-in-out",
-  slidesToShow: 3,
-  slidesToScroll: 1,
+const SavedProductItems = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [error, setError] = useState(null);
 
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        infinite: true,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        infinite: true,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: 1,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-};
-
-const ProductPage = () => {
+  const { savedProperties, toggleSavedProperty } = useSavedProperties();
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { savedProperties, toggleSavedProperty, setShowSavedProducts } = useSavedProperties();
 
-
-  const { searchQuery } = useSearch();
   const navigate = useNavigate();
+  const productsPerPage = 3;
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  // console.log(typeof setShowSavedProducts) 
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    const maxPage = Math.ceil(savedProducts.length / productsPerPage) - 1;
+    if (currentPage < maxPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Fetch products
   useEffect(() => {
-    async function fetchProducts() {
+    const fetchSavedProductsDetails = async () => {
       try {
         const response = await axios.get(
           "https://surefinders-backend.onrender.com/api/products",
           // "/api/products",
           {
+            params: { ids: savedProperties.join(",") },
             withCredentials: true,
           }
         );
-
-        // console.log(response.data);
         setProducts(response.data.data);
       } catch (error) {
-        console.error("Failed to fetch products:", error);
-      } finally {
-        setIsLoading(false);
+        console.error("Failed to fetch saved products details:", error);
+        setError(error);
       }
-    }
+    };
 
-    fetchProducts();
-  }, []);
+    if (savedProperties.length > 0) {
+      fetchSavedProductsDetails();
+    }
+  }, [savedProperties]);
+
+  const savedProducts = products.filter((product) => {
+    return savedProperties.includes(product._id);
+  });
 
   const handleHeartClick = (product) => {
     toggleSavedProperty(product._id);
@@ -100,47 +67,56 @@ const ProductPage = () => {
       toast.info("Unsaved", { autoClose: 1000, position: "top-right" });
     }
   };
-  
+
+  if (error) {
+    return (
+      <div>
+        Error: <span className="text-red">{error.message}</span>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto py-20 px-8">
+    <>
       <div className="title_head mb-4">
         <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
-          Recent Property Listings
+          Recent Saved Property
         </h2>
         <p class="text-center capitalize text-subTitle mb-10">
-          We provide full service at every step.
+          Your saved Properties
         </p>
       </div>
-
-      <Slider
-        {...settings}
-        className=""
-        dots={true}
-        autoplay={true}
-        autoplaySpeed={4000}
-      >
-        {isLoading ? (
-          <div className="overlay">
-            <ColorRing
-              visible={true}
-              height="50"
-              width="50"
-              ariaLabel="blocks-loading"
-              wrapperStyle={{}}
-              wrapperClass="blocks-wrapper"
-              colors={["#3454d1", "#007bff"]}
-            />
+    
+      <div className="my-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {savedProducts.length > productsPerPage && (
+          <div className="col-span-full flex justify-end items-center gap-8">
+            <button
+              className="text-indigo-500 hover:text-indigo-700 bg-indigo-200 p-2 rounded px-4"
+              onClick={handlePrevPage}
+            >
+              <FaArrowLeft size={24} />
+            </button>
+            <button
+              className="text-indigo-500 hover:text-indigo-700 bg-indigo-200 p-2 rounded px-4"
+              onClick={handleNextPage}
+            >
+              <FaArrowRight size={24} />
+            </button>
           </div>
-        ) : filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div key={product._id} className="slick-slide">
+        )}
+        {savedProducts
+          .slice(
+            currentPage * productsPerPage,
+            (currentPage + 1) * productsPerPage
+          )
+          .map((product) => (
+            <div key={product._id} className="">              
               <div
                 className="relative rounded overflow-hidden hover:shadow-xl transition-all hover-card cursor-pointer"
                 onClick={() => {
                   // Check if the click target is not the heart icon
                   if (!event.target.classList.contains("heart-icon")) {
-                    navigate(`/products/${product._id}`); // Navigate to the details page
+                    navigate(`/products/${product._id}`); 
                   }
                 }}
               >
@@ -161,9 +137,8 @@ const ProductPage = () => {
                       : "text-gray-200"
                   } heart-icon`}
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent the parent onClick from firing
+                    e.stopPropagation();
                     handleHeartClick(product);
-                    setShowSavedProducts(true);
                   }}
                 >
                   <FaHeart size={20} />
@@ -230,15 +205,10 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
-          ))
-        ) : (
-          <div className="text-center text-lg text-gray-600 mt-4">
-            No lands match your search.
-          </div>
-        )}
-      </Slider>
-    </div>
+          ))}       
+      </div>
+    </>
   );
 };
 
-export default ProductPage;
+export default SavedProductItems;

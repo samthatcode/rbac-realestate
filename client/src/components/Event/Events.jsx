@@ -15,8 +15,8 @@ const Events = () => {
     const fetchEventsData = async () => {
       try {
         const response = await axios.get(
-          "/api/events",
-          // "https://surefinders-backend.onrender.com/api/events",
+          // "/api/events",
+          "https://surefinders-backend.onrender.com/api/events",
           {
             withCredentials: true,
           }
@@ -59,13 +59,13 @@ const Events = () => {
           >
             <div className="image-container">
               <img
-                src={`http://localhost:5175/public/images/${event.eventImage}`}
-                // src={`https://surefinders-backend.onrender.com/public/images/${event.eventImage}`}
+                // src={`http://localhost:5175/public/images/${event.eventImage}`}
+                src={`https://surefinders-backend.onrender.com/public/images/${event.eventImage}`}
                 alt={event.name}
-                className="w-ful object-cover image"
+                className="w-full max-h-40 object-cover image"
               />
             </div>
-            <div className="absolute top-0 right-0 p-1 bg-title text-white">
+            <div className="absolute top-0 right-0 p-1 bg-blue text-white">
               Event
             </div>
             <div className="hover-card-content p-4 block border">
@@ -73,7 +73,9 @@ const Events = () => {
                 {event.name}
               </span>
               <p className=" text-title text-base capitalize break-words font-bold my-2">
-                {event.description}
+                {event.description.length > 15
+                  ? `${event.description.substring(0, 15)}...`
+                  : event.description}
               </p>
               <div className="text-sm">
                 <div className="flex items-center">
@@ -82,26 +84,26 @@ const Events = () => {
                     {new Date(event.date).toLocaleDateString()}
                   </p>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center mt-2">
                   <FaClock className="mr-2 text-primary" />
                   <p className="text-subTitle">{event.time}</p>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center mt-2">
                   <FaMapMarkerAlt className="mr-2 text-primary" />
                   <p className="text-subTitle capitalize">{event.location}</p>
                 </div>
               </div>
-            </div>
-            <div className="p-4 border flex justify-between items-center">
-              <div class="text-primary flex justify-center items-center">
-                <FaRegBuilding size={20} />
-              </div>
+              <div className="py-3 mt-2 border-t flex justify-between items-center">
+                <div class="text-primary flex justify-center items-center">
+                  <FaRegBuilding size={20} />
+                </div>
 
-              <Link to="">
-                <button className="px-4 py-2 text-white bg-primary hover:bg-blue">
-                  Read More
-                </button>
-              </Link>
+                <Link to="">
+                  <button className="px-4 py-2 text-white bg-primary hover:bg-blue">
+                    Read More
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         ))}

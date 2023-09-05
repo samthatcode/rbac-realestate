@@ -3,14 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AiOutlineEnvironment } from "react-icons/ai";
-import { GiRoad, GiPriceTag } from "react-icons/gi";
+import { GiRoad } from "react-icons/gi";
 import { Layout } from "../components";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const LandDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [land, setLand] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchLand = async () => {
@@ -42,6 +44,28 @@ const LandDetails = () => {
     setCurrentImage(images[index]); // set the clicked image as current
   };
 
+  const handlePrevClick = () => {
+    if (land && land.images) {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === 0 ? land.images.length - 1 : prevIndex - 1
+      );
+    }
+  };
+
+  const handleNextClick = () => {
+    if (land && land.images) {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === land.images.length - 1 ? 0 : prevIndex + 1
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (land && land.images) {
+      setCurrentImage(land.images[currentImageIndex]);
+    }
+  }, [currentImageIndex]);
+
   return (
     <Layout>
       <div className="container mx-auto p-10 py-40">
@@ -55,15 +79,25 @@ const LandDetails = () => {
         </div>
         <div className="flex justify-between items-center gap-16 mx-auto bg-slate-50 rounded-lg shadow-xl p-8">
           <div className="max-w-md">
-            <div className="flex justify-center">
+            <div className="flex justify-center relative">
               {currentImage.length > 0 && (
                 <img
                   src={`https://surefinders-backend.onrender.com/public/images/${currentImage}`}
                   // src={`http://localhost:5175/public/images/${currentImage}`}
                   alt={title}
-                  className="w-full max-h-96 object-cover mb-4"
+                  className="w-full max-h-96 object-cover mb-4 transition-opacity duration-300 hover:opacity-90 cursor-pointer"
                 />
               )}
+              <FaChevronLeft
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 bg-indigo-100 m-2 p-2 rounded-full hover:text-indigo-500 hover:bg-gray-300 transition-colors duration-300"
+                onClick={handlePrevClick}
+                size={30}
+              />
+              <FaChevronRight
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 bg-indigo-100 m-2 p-2 rounded-full hover:text-indigo-500 hover:bg-gray-300 transition-colors duration-300"
+                onClick={handleNextClick}
+                size={30}
+              />
             </div>
             <div className="grid grid-cols-4 gap-4 mb-4">
               {land &&
@@ -74,7 +108,7 @@ const LandDetails = () => {
                     src={`https://surefinders-backend.onrender.com/public/images/${thumbnail}`}
                     // src={`http://localhost:5175/public/images/${thumbnail}`}
                     alt={`Preview ${index + 1}`}
-                    className="w-full h-16 object-cover cursor-pointer"
+                    className="w-full h-16 object-cover cursor-pointer transition-opacity duration-300 hover:opacity-90"
                     onClick={() => handleThumbnailClick(index)}
                   />
                 ))}

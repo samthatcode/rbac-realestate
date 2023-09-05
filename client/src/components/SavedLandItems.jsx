@@ -1,94 +1,60 @@
 import React, { useEffect, useState } from "react";
+import { FaHeart, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useSavedProperties } from "../contexts/SavedPropertiesContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
 import { FiMapPin } from "react-icons/fi";
 import { GiRoad } from "react-icons/gi";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import { useSearch } from "../contexts/SearchContext";
-import { FaHeart } from "react-icons/fa";
-import { useSavedProperties } from "../contexts/SavedPropertiesContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
-const settings = {
-  infinite: true,
-  dots: true,
-  arrows: true,
-  cssEase: "ease-in-out",
-  slidesToShow: 3,
-  slidesToScroll: 1,
-
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        infinite: true,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        infinite: true,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: 1,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-};
-
-const LandPage = () => {
-  const [lands, setLands] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const SavedLandItems = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [error, setError] = useState(null);
   const { savedProperties, toggleSavedProperty } = useSavedProperties();
-
-  const { searchQuery } = useSearch();
+  const [lands, setLands] = useState([]);
   const navigate = useNavigate();
+  const landsPerPage = 3;
 
-  const filteredLands = lands.filter((land) =>
-    land.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    const maxPage = Math.ceil(savedLands.length / landsPerPage) - 1;
+    if (currentPage < maxPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   useEffect(() => {
-    async function fetchLands() {
+    const fetchSavedLandsDetails = async () => {
       try {
         const response = await axios.get(
           "https://surefinders-backend.onrender.com/api/lands",
           // "/api/lands",
           {
+            params: { ids: savedProperties.join(",") },
             withCredentials: true,
           }
         );
-        // console.log(response.data);
         setLands(response.data.data);
       } catch (error) {
-        console.error("Failed to fetch lands:", error);
-      } finally {
-        setIsLoading(false);
+        console.error("Failed to fetch saved lands details:", error);
+        setError(error);
       }
-    }
+    };
 
-    fetchLands();
-  }, []);
+    if (savedProperties.length > 0) {
+      fetchSavedLandsDetails();
+    }
+  }, [savedProperties]);
+
+  const savedLands = lands.filter((land) => {
+    return savedProperties.includes(land._id);
+  });
 
   const handleHeartClick = (land) => {
     toggleSavedProperty(land._id);
@@ -99,39 +65,45 @@ const LandPage = () => {
     }
   };
 
+  if (error) {
+    return (
+      <div>
+        Error: <span className="text-red">{error.message}</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="container mx-auto py-20 px-8">
+    <>
       <div className="title_head mb-4">
         <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
-          Recent Land Listings
+          Recent Saved Land
         </h2>
-        <p className="text-center capitalize text-subTitle mb-10">
-          We provide full service at every step.
+        <p class="text-center capitalize text-subTitle mb-10">
+          Your saved Properties
         </p>
       </div>
-
-      <Slider
-        {...settings}
-        className=""
-        dots={true}
-        autoplay={true}
-        autoplaySpeed={4000}
-      >
-        {isLoading ? (
-          <div className="overlay">
-            <ColorRing
-              visible={true}
-              height="50"
-              width="50"
-              ariaLabel="blocks-loading"
-              wrapperStyle={{}}
-              wrapperClass="blocks-wrapper"
-              colors={["#3454d1", "#007bff"]}
-            />
+      <div className="my-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {savedLands.length > landsPerPage && (
+          <div className="col-span-full flex justify-end items-center gap-8">
+            <button
+              className="text-indigo-500 hover:text-indigo-700 bg-indigo-200 p-2 rounded px-4"
+              onClick={handlePrevPage}
+            >
+              <FaArrowLeft size={24} />
+            </button>
+            <button
+              className="text-indigo-500 hover:text-indigo-700 bg-indigo-200 p-2 rounded px-4"
+              onClick={handleNextPage}
+            >
+              <FaArrowRight size={24} />
+            </button>
           </div>
-        ) : filteredLands.length > 0 ? (
-          filteredLands.map((land) => (
-            <div key={land._id} className="slick-slide">
+        )}
+        {savedLands
+          .slice(currentPage * landsPerPage, (currentPage + 1) * landsPerPage)
+          .map((land) => (
+            <div key={land._id} className="">
               <div
                 className="relative rounded overflow-hidden hover:shadow-xl transition-all hover-card cursor-pointer"
                 onClick={() => {
@@ -144,8 +116,8 @@ const LandPage = () => {
                 <div className="image-container">
                   {land.images.length > 0 && (
                     <img
-                      // src={`http://localhost:5175/public/images/${land.images[0]}`}
                       src={`https://surefinders-backend.onrender.com/public/images/${land.images[0]}`}
+                      // src={`http://localhost:5175/public/images/${land.images[0]}`}
                       alt={land.title}
                       className="w-full max-h-40 object-cover image"
                     />
@@ -199,15 +171,10 @@ const LandPage = () => {
                 </div>
               </div>
             </div>
-          ))
-        ) : (
-          <div className="text-center text-lg text-gray-600 mt-4">
-            No lands match your search.
-          </div>
-        )}
-      </Slider>
-    </div>
+          ))}
+      </div>
+    </>
   );
 };
 
-export default LandPage;
+export default SavedLandItems;

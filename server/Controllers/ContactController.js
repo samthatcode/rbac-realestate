@@ -1,9 +1,9 @@
-const nodemailer = require('nodemailer'); 
+const nodemailer = require('nodemailer');
 
 // Create a transporter for sending emails (you need to set up your email service credentials)
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-  auth: { 
+  service: 'gmail',
+  auth: {
     type: 'OAuth2',
     pass: process.env.ADMIN_PASSWORD,
     user: process.env.ADMIN_EMAIL,
@@ -21,13 +21,14 @@ module.exports.contactFormHandler = async (req, res, next) => {
     const { name, email, subject, message, phone } = req.body;
 
     // Create the email content
-    const emailContent = `
+    const emailContent = `<div>
       <h2>Contact Form Submission</h2>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Phone:</strong> ${phone}</p>
       <p><strong>Subject:</strong> ${subject}</p>
       <p><strong>Message:</strong> ${message}</p>
+      </div>
     `;
 
     // Email configuration for sending the contact form submission to the admin

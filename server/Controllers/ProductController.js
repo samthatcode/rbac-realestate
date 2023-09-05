@@ -40,9 +40,9 @@ module.exports.createProduct = async (req, res, next) => {
         let imagePaths = images.map(file => {
             let relativePath = path.relative(dir, file.path);
             return relativePath.replace(/\\/g, '/');
-          });
-     
-            // console.log(imagePaths);
+        });
+
+        // console.log(imagePaths);
         let validatedCategoryId;
 
         if (Array.isArray(categoryId)) {
@@ -85,7 +85,10 @@ module.exports.createProduct = async (req, res, next) => {
 // Get all products
 module.exports.getProducts = async (req, res, next) => {
     try {
-        const products = await Product.find();
+        const productIds = req.query.ids ? req.query.ids.split(',') : [];
+        const products = productIds.length
+            ? await Product.find({ '_id': { $in: productIds } })
+            : await Product.find();
 
         res.status(200).json({
             data: products,
@@ -95,6 +98,7 @@ module.exports.getProducts = async (req, res, next) => {
         next(error);
     }
 };
+
 
 // Get a single product by ID
 module.exports.getProductById = async (req, res, next) => {
@@ -124,7 +128,7 @@ module.exports.updateProduct = async (req, res, next) => {
 
         // Get the path of each image file
         let newImagePaths = Array.isArray(newImages) ? newImages.map(file => path.relative(dir, file.path).replace(/\\/g, '/')) : [];
-  
+
 
         const { title,
             description,

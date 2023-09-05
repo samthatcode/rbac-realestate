@@ -1,6 +1,5 @@
 import React from "react";
 import Hero from "./Hero";
-import FeaturedProperties from "./FeaturedProperties";
 import ContactUs from "./ContactUs";
 import Layout from "./Layout";
 import { LandPage, ProductPage } from "../pages";
@@ -12,8 +11,7 @@ const Home = () => {
       <Layout>
         <Hero />
         <ProductPage />
-        <LandPage />
-        {/* <FeaturedProperties /> */}
+        <LandPage />      
         <Events />
         <ContactUs />     
       </Layout>  

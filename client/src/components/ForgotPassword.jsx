@@ -24,7 +24,10 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("https://surefinders-backend.onrender.com/api/forgot-password", { email }, { withCredentials: true });
+      const { data } = await axios.post(
+        "/api/forgot-password", 
+        // "https://surefinders-backend.onrender.com/api/forgot-password", 
+        { email }, { withCredentials: true });
       if (data.message) {
         setServerMessage(data.message);
         setShowModal(true); // Show the modal with server response message

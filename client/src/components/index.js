@@ -31,3 +31,5 @@ export { default as ResetPassword } from './ResetPassword';
 export { default as ContactUs } from './ContactUs';
 export { default as Layout } from './Layout';
 export { default as NotFoundPage } from './NotFoundPage';
+export { default as SavedProductItems } from './SavedProductItems';
+export { default as SavedLandItems } from './SavedLandItems';

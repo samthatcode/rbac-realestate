@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { AiOutlineEnvironment } from "react-icons/ai";
 import { FaBath, FaBed, FaDoorOpen, FaRuler } from "react-icons/fa";
 import { Layout } from "../components";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -15,6 +16,7 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -54,6 +56,28 @@ const ProductDetails = () => {
     setCurrentImage(images[index]); // set the clicked image as current
   };
 
+  const handlePrevClick = () => {
+    if (product && product.images) {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === 0 ? product.images.length - 1 : prevIndex - 1
+      );
+    }
+  };
+
+  const handleNextClick = () => {
+    if (product && product.images) {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === product.images.length - 1 ? 0 : prevIndex + 1
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (product && product.images) {
+      setCurrentImage(product.images[currentImageIndex]);
+    }
+  }, [currentImageIndex]);
+
   return (
     <Layout>
       <div className="container mx-auto p-10 py-40">
@@ -67,7 +91,7 @@ const ProductDetails = () => {
         </div>
         <div className="flex justify-between items-center mx-auto bg-slate-50 rounded-lg shadow-xl p-8">
           <div className="max-w-md">
-            <div className="flex justify-center">
+            <div className="flex justify-center relative">
               {currentImage && (
                 <img
                   src={`https://surefinders-backend.onrender.com/public/images/${currentImage}`}
@@ -76,6 +100,16 @@ const ProductDetails = () => {
                   className="w-full max-h-96 object-cover mb-4"
                 />
               )}
+              <FaChevronLeft
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 bg-indigo-100 m-2 p-2 rounded-full hover:text-indigo-500 hover:bg-gray-300 transition-colors duration-300"
+                onClick={handlePrevClick}
+                size={30}
+              />
+              <FaChevronRight
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 bg-indigo-100 m-2 p-2 rounded-full hover:text-indigo-500 hover:bg-gray-300 transition-colors duration-300"
+                onClick={handleNextClick}
+                size={30}
+              />
             </div>
             <div className="grid grid-cols-4 gap-4 mb-4">
               {product &&
@@ -86,7 +120,7 @@ const ProductDetails = () => {
                     src={`https://surefinders-backend.onrender.com/public/images/${thumbnail}`}
                     // src={`http://localhost:5175/public/images/${thumbnail}`}
                     alt={`Preview ${index + 1}`}
-                    className="w-full h-16 object-cover cursor-pointer"
+                    className="w-full h-16 object-cover cursor-pointer transition-opacity duration-300 hover:opacity-90"
                     onClick={() => handleThumbnailClick(index)}
                   />
                 ))}

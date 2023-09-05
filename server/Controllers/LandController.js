@@ -75,16 +75,19 @@ module.exports.createLand = async (req, res, next) => {
 // Get all lands
 module.exports.getLands = async (req, res, next) => {
     try {
-        const lands = await Land.find();
-
-        res.status(200).json({
-            data: lands,
-        });
+      const landIds = req.query.ids ? req.query.ids.split(',') : [];
+      const lands = landIds.length
+        ? await Land.find({ '_id': { $in: landIds } })
+        : await Land.find();
+  
+      res.status(200).json({
+        data: lands,
+      });
     } catch (error) {
-        console.error(error);
-        next(error);
+      console.error(error);
+      next(error);
     }
-};
+  };
 
 // Get a single land by ID
 module.exports.getLandById = async (req, res, next) => {
