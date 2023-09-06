@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -10,6 +10,8 @@ import { ColorRing } from "react-loader-spinner";
 const Login = () => {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
@@ -57,16 +59,21 @@ const Login = () => {
 
       if (success) {
         handleSuccess(message);
-        // Set the user in the context
         setUser(user);
         if (user.role === "admin") {
           setTimeout(() => {
             navigate("/admin/dashboard");
-          }, 2000); // Navigate to the 'AdminDashboard' component if the user is an admin
-        } else {
-          setTimeout(() => {
-            navigate("/user/dashboard");
           }, 2000);
+        } else {
+          if (location.state && location.state.from) {
+            // Navigate back to the page the user was trying to access
+            navigate(location.state.from);
+          } else {
+            // Navigate to the user's dashboard
+            setTimeout(() => {
+              navigate("/user/dashboard");
+            }, 2000);
+          }
         }
       } else {
         handleError(message);
@@ -134,11 +141,9 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className={
-                `w-full px-4 py-2 mt-4 mb-4 bg-primary hover:bg-blue text-white rounded-md font-medium ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
-                }`
-              }
+              className={`w-full px-4 py-2 mt-4 mb-4 bg-primary hover:bg-blue text-white rounded-md font-medium ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
               disabled={loading}
             >
               {loading ? (
@@ -161,7 +166,8 @@ const Login = () => {
               ) : (
                 "Log In"
               )}
-            </button><div className="flex items-center justify-between text-center gap-4">
+            </button>
+            <div className="flex items-center justify-between text-center gap-4">
               <span className="block ">
                 Don't have an account?{" "}
                 <Link to="/signup" className="text-primary hover:text-blue">

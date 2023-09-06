@@ -54,7 +54,7 @@ const Navbar = () => {
               <span>SureFinders</span>
             </Link>
 
-            {/* <Cart cartItems={cartItems} /> */}
+            <Cart cartItems={cartItems} />
           </div>
           {/* Desktop View */}
           <div className="hidden md:flex items-baseline justify-center space-x-4 ">

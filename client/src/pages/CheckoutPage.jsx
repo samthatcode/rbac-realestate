@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { UserContext } from "../contexts/UserContext";
 import { ColorRing } from "react-loader-spinner";
+import { Layout } from "../components";
 
 const CheckoutPage = () => {
   const [formData, setFormData] = useState({
@@ -97,147 +98,149 @@ const CheckoutPage = () => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Billing Address</h1>
-      <div className="w-full max-w-xl p-4 bg-white rounded-md shadow-xl">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="mb-4">
-              <label htmlFor="name" className="block">
-                Name
-              </label>
-              <input
-                className="w-full p-2 border rounded-md capitalize"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Your name"
-                required
-              />
+    <Layout>
+      <div className="flex flex-col items-center justify-center min-h-screen my-20">
+        <h1 className="text-2xl font-bold mb-4">Billing Address</h1>
+        <div className="w-full max-w-xl p-4 bg-white rounded-md shadow-xl">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-4">
+                <label htmlFor="name" className="block">
+                  Name
+                </label>
+                <input
+                  className="w-full p-2 border rounded-md capitalize"
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="email" className="block">
+                  Email
+                </label>
+                <input
+                  className="w-full p-2 border rounded-md "
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Your email"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="phone" className="block">
+                  Phone Number
+                </label>
+                <input
+                  className="w-full p-2 border rounded-md capitalize"
+                  type="number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Phone number"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="street" className="block">
+                  Street Address
+                </label>
+                <input
+                  className="w-full p-2 border rounded-md capitalize"
+                  type="text"
+                  name="street"
+                  value={formData.street}
+                  onChange={handleInputChange}
+                  placeholder="Street your address"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="city" className="block">
+                  City
+                </label>
+                <input
+                  className="w-full p-2 border rounded-md capitalize"
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleInputChange}
+                  placeholder="Enter your city"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="state" className="block">
+                  State
+                </label>
+                <input
+                  className="w-full p-2 border rounded-md capitalize"
+                  type="text"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleInputChange}
+                  placeholder="Enter your state"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="country" className="block">
+                  Country
+                </label>
+                <input
+                  className="w-full p-2 border rounded-md  capitalize"
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleInputChange}
+                  placeholder="Your country"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="postalCode" className="block">
+                  Postal Code
+                </label>
+                <input
+                  className="w-full p-2 border rounded-md "
+                  type="number"
+                  name="postalCode"
+                  value={formData.postalCode}
+                  onChange={handleInputChange}
+                  placeholder="Your postal address"
+                  required
+                />
+              </div>
             </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block">
-                Email
-              </label>
-              <input
-                className="w-full p-2 border rounded-md "
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Your email"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="phone" className="block">
-                Phone Number
-              </label>
-              <input
-                className="w-full p-2 border rounded-md capitalize"
-                type="number"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                placeholder="Phone number"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="street" className="block">
-                Street Address
-              </label>
-              <input
-                className="w-full p-2 border rounded-md capitalize"
-                type="text"
-                name="street"
-                value={formData.street}
-                onChange={handleInputChange}
-                placeholder="Street your address"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="city" className="block">
-                City
-              </label>
-              <input
-                className="w-full p-2 border rounded-md capitalize"
-                type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleInputChange}
-                placeholder="Enter your city"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="state" className="block">
-                State
-              </label>
-              <input
-                className="w-full p-2 border rounded-md capitalize"
-                type="text"
-                name="state"
-                value={formData.state}
-                onChange={handleInputChange}
-                placeholder="Enter your state"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="country" className="block">
-                Country
-              </label>
-              <input
-                className="w-full p-2 border rounded-md  capitalize"
-                type="text"
-                name="country"
-                value={formData.country}
-                onChange={handleInputChange}
-                placeholder="Your country"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="postalCode" className="block">
-                Postal Code
-              </label>
-              <input
-                className="w-full p-2 border rounded-md "
-                type="number"
-                name="postalCode"
-                value={formData.postalCode}
-                onChange={handleInputChange}
-                placeholder="Your postal address"
-                required
-              />
-            </div>
-          </div>
 
-          <input
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 hover:text-slate-100 bg-teal text-lg font-bold focus:ring-indigo-600 cursor-pointer"
-            type="submit"
-            value="- Checkout -"
-            disabled={loading}
-          />
-        </form>
-      </div>
-      {loading && (
-        <div className="overlay">
-          <ColorRing
-            visible={true}
-            height="50"
-            width="50"
-            ariaLabel="blocks-loading"
-            wrapperStyle={{}}
-            wrapperClass="blocks-wrapper"
-            colors={["#b8c480", "#B2A3B5", "#F4442E", "#51E5FF", "#429EA6"]}
-          />
+            <input
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 hover:text-slate-100 bg-teal text-lg font-bold focus:ring-indigo-600 cursor-pointer"
+              type="submit"
+              value="- Checkout -"
+              disabled={loading}
+            />
+          </form>
         </div>
-      )}
-    </div>
+        {loading && (
+          <div className="overlay">
+            <ColorRing
+              visible={true}
+              height="50"
+              width="50"
+              ariaLabel="blocks-loading"
+              wrapperStyle={{}}
+              wrapperClass="blocks-wrapper"
+              colors={["#b8c480", "#B2A3B5", "#F4442E", "#51E5FF", "#429EA6"]}
+            />
+          </div>
+        )}
+      </div>
+    </Layout>
   );
 };
 

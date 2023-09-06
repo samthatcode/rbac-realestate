@@ -10,44 +10,52 @@ export const CartProvider = ({ children }) => {
 
 
   useEffect(() => {
-    console.log("Updated cartItems:", cartItems);
+    // console.log("Updated cartItems:", cartItems);
     calculateTotalPrice();
     calculateDeliveryDate();
   }, [cartItems]);
 
-  const addToCart = (product) => {
-    console.log("Product object:", product);
-    console.log(product._id);
-    const existingProduct = cartItems.find(item => item.id === product._id);
+  const addToCart = (item, type) => {
+    const existingItem = cartItems.find((cartItem) => cartItem.id === item._id);
   
-    if (existingProduct) {
-      // update quantity of the existing product
-      updateQuantity(existingProduct.id, existingProduct.quantity + 1);
+    if (existingItem) {
+      // If item exists in the cart, update its quantity
+      setCartItems(
+        cartItems.map((cartItem) =>
+          cartItem.id === item._id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        )
+      );
     } else {
-      // add new product to the cart
-      setCartItems([...cartItems, { ...product, id: product._id, quantity: 1, price: product.price, title: product.title }]);
+      // If item does not exist in the cart, add it
+      setCartItems([
+        ...cartItems,
+        { ...item, id: item._id, quantity: 1, price: item.price, title: item.title, type },
+      ]);
     }
   };
+  
 
-  const removeFromCart = (productId) => {
-    setCartItems(cartItems.filter((item) => item.id !== productId));
-    console.log("Cart items after removal:", cartItems);
+  const removeFromCart = (itemId) => {
+    setCartItems(cartItems.filter((item) => item.id !== itemId));
+    // console.log("Cart items after removal:", cartItems);
   };
 
   const clearCart = () => {
     setCartItems([]);
   };
 
-  const updateQuantity = (productId, quantity) => {
+  const updateQuantity = (itemId, quantity) => {
     if (quantity < 1) {
       return;
     }
     setCartItems((prevCartItems) =>
       prevCartItems.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
+        item.id === itemId ? { ...item, quantity } : item
       )
     );
-    console.log("Cart items after quantity update:", cartItems);
+    // console.log("Cart items after quantity update:", cartItems);
   };
   
 

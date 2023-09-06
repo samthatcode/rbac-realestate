@@ -73,7 +73,7 @@ const Hero = () => {
                           <button className="text-sm uppercase">Search</button>
                         </div>
                       </div>
-                      <div className="flex justify-between items-center mx-80 mt-5 bg-gray-600 text-white p-3 rounded capitalize text-sm">
+                      <div className="flex justify-between items-center mx-80 mt-5 bg-white text-title p-3 rounded capitalize text-sm">
                         <div className="flex justify-center items-center">
                           <AiOutlineEnvironment className="text-gray-400 mr-2" />
                           land
@@ -101,13 +101,7 @@ const Hero = () => {
                 className="px-4 py-2 bg-cadetblue hover:bg-steelblue text-white rounded"
               >
                 Get Started as a Marketer
-              </Link>
-              <Link
-                to="/login"
-                className="px-4 py-2 bg-steelblue hover:bg-cadetblue text-white rounded"
-              >
-                Login
-              </Link>
+              </Link>           
             </div>
           </div>
         ))}

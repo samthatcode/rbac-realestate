@@ -62,9 +62,9 @@ const SavedProductItems = () => {
   const handleHeartClick = (product) => {
     toggleSavedProperty(product._id);
     if (savedProperties.includes(product._id)) {
-      toast.success("Saved", { autoClose: 1000, position: "top-right" });
+      toast.success("Saved", { position: "top-right", autoClose: 500 });
     } else {
-      toast.info("Unsaved", { autoClose: 1000, position: "top-right" });
+      toast.info("Unsaved", { position: "top-right", autoClose: 500 });
     }
   };
 

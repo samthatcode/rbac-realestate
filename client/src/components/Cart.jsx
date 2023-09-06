@@ -13,12 +13,13 @@ const Cart = () => {
     <div className="flex items-center ml-4 relative">
       <FaShoppingBasket
         onClick={() => navigate("/cart")}
-        className="text-2xl cursor-pointer"
+        className="text-2xl cursor-pointer text-gray-400"
       />
       {cartItemsCount > 0 && (
-        <span className="absolute -top-2 -right-2 px-1 text-xs font-semibold bg-red text-white rounded-full">
-          {cartItemsCount}
-        </span>
+       <span className="absolute -top-2 -right-2 px-1 text-xs font-semibold bg-red text-white rounded-full w-5 h-5 text-center flex items-center justify-center">
+       {cartItemsCount}
+     </span>
+     
       )}
     </div>
   );

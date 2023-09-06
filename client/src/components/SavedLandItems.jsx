@@ -33,8 +33,8 @@ const SavedLandItems = () => {
     const fetchSavedLandsDetails = async () => {
       try {
         const response = await axios.get(
-          "https://surefinders-backend.onrender.com/api/lands",
-          // "/api/lands",
+          // "https://surefinders-backend.onrender.com/api/lands",
+          "/api/lands",
           {
             params: { ids: savedProperties.join(",") },
             withCredentials: true,
@@ -59,9 +59,9 @@ const SavedLandItems = () => {
   const handleHeartClick = (land) => {
     toggleSavedProperty(land._id);
     if (savedProperties.includes(land._id)) {
-      toast.success("Saved", { autoClose: 1000, position: "top-right" });
+      toast.success("Saved", { position: "top-right", autoClose: 500 });
     } else {
-      toast.info("Unsaved", { autoClose: 1000, position: "top-right" });
+      toast.info("Unsaved", { position: "top-right", autoClose: 500 });
     }
   };
 

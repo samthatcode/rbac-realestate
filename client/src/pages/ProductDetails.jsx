@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../contexts/UserContext";
 import { CartContext } from "../contexts/CartContext";
 import { toast } from "react-toastify";
 import { AiOutlineEnvironment } from "react-icons/ai";
@@ -11,7 +10,6 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { user } = useContext(UserContext);
   const { addToCart } = useContext(CartContext);
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
@@ -77,6 +75,15 @@ const ProductDetails = () => {
       setCurrentImage(product.images[currentImageIndex]);
     }
   }, [currentImageIndex]);
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    toast("Product added to cart", {
+      position: "top-right",
+      autoClose: 500,
+    });
+    // console.log("Product added to cart:", product);
+  };
 
   return (
     <Layout>
@@ -183,6 +190,12 @@ const ProductDetails = () => {
               </p>
             </div>
           </div>
+          <button
+            onClick={handleAddToCart}
+            className="bg-primary hover:bg-blue text-white font-bold py-2 px-4 rounded"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </Layout>

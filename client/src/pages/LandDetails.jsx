@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { CartContext } from "../contexts/CartContext";
 import { toast } from "react-toastify";
 import { AiOutlineEnvironment } from "react-icons/ai";
 import { GiRoad } from "react-icons/gi";
@@ -10,6 +11,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const LandDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
   const [land, setLand] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -65,6 +67,15 @@ const LandDetails = () => {
       setCurrentImage(land.images[currentImageIndex]);
     }
   }, [currentImageIndex]);
+
+  const handleAddToCart = () => {
+    addToCart(land);
+    toast("Land added to cart", {
+      position: "top-right",
+      autoClose: 500,
+    });
+    // console.log("Product added to cart:", product);
+  };
 
   return (
     <Layout>
@@ -144,6 +155,12 @@ const LandDetails = () => {
               </p>
             </div>
           </div>
+          <button
+            onClick={handleAddToCart}
+            className="bg-primary hover:bg-blue text-white font-bold py-2 px-4 rounded"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </Layout>
