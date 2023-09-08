@@ -39,6 +39,15 @@ const Navbar = () => {
   const [isEventsOpen, setIsEventsOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
 
+  const handleScrollTo = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <nav className="bg-white text-dark top-0 fixed md:w-full w-full z-10 shadow-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,12 +55,16 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link
               to="/"
-              className="text-dark hover:text-gray-700 font-bold text-2xl flex items-center"
+              className="text-dark hover:text-gray-700 font-bold text-lg flex items-center"
             >
               <span className="text-primary mr-1 flex justify-center items-center z-10">
-              <FaRegBuilding size={30} />
+                <FaRegBuilding size={30} />
               </span>
-              <span>SureFinders</span>
+              <span className="text-title" style={{ lineHeight: "1" }}>
+                Sure
+                <br />
+                Finders
+              </span>
             </Link>
 
             <Cart cartItems={cartItems} />
@@ -65,14 +78,15 @@ const Navbar = () => {
               Home
             </Link>
             <div className="group inline-block">
-              <a href="" smooth="true" className="font-medium">
+              <a smooth="true" className="font-medium">
                 Events
               </a>
               <div className="hidden group-hover:block absolute bg-gray-500 rounded-md">
                 {/* Dropdown links for Events */}
                 <a
                   className="block text-white hover:bg-gray-600 p-2 rounded-md"
-                  href="#"
+                  href="#events"
+                  onClick={() => handleScrollTo("events")}
                 >
                   Upcoming
                 </a>
@@ -86,13 +100,15 @@ const Navbar = () => {
                 {/* Dropdown links for Shop */}
                 <a
                   className="block text-white hover:bg-gray-600 p-2 rounded-md"
-                  href="#"
+                  href="#lands"
+                  onClick={() => handleScrollTo("lands")}
                 >
                   Land
                 </a>
                 <a
                   className="block text-white hover:bg-gray-600 p-2 rounded-md"
-                  href="#"
+                  href="#homes"
+                  onClick={() => handleScrollTo("homes")}
                 >
                   Homes
                 </a>
@@ -105,9 +121,11 @@ const Navbar = () => {
               </div>
             </div>
             <a
-              href=""
+              href="#contact"
+              onClick={() => handleScrollTo("contact")}
               smooth="true"
               className="hover:bg-gray-200 py-2 px-4 rounded-md text-slate-950 font-medium"
+             
             >
               Contact
             </a>
@@ -203,7 +221,8 @@ const Navbar = () => {
               {/* Dropdown links for Events */}
               <a
                 className="block text-white hover:bg-gray-600 p-2 rounded-md"
-                href=""
+                href="#events"
+                onClick={() => handleScrollTo("events")}
               >
                 Upcoming
               </a>
@@ -221,13 +240,15 @@ const Navbar = () => {
               {/* Dropdown links for Shop */}
               <a
                 className="block text-white hover:bg-gray-600 p-2 rounded-md"
-                href=""
+                href="#lands"
+                onClick={() => handleScrollTo("lands")}
               >
                 Land
               </a>
               <a
                 className="block text-white hover:bg-gray-600 p-2 rounded-md"
-                href=""
+                href="#homes"
+                onClick={() => handleScrollTo("homes")}
               >
                 Homes
               </a>
@@ -240,7 +261,8 @@ const Navbar = () => {
             </div>
           )}
           <a
-            href="/"
+           href="#contact"
+           onClick={() => handleScrollTo("contact")}
             smooth="true"
             className="block px-3 py-2 rounded-md  font-medium hover:bg-gray-200 text-slate-950"
           >

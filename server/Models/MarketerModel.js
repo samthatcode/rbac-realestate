@@ -82,6 +82,10 @@ const MarketerSchema = new Schema({
         type: Boolean,
         default: false
     },
+    paymentMade: {
+        type: Boolean,
+        default: false
+    },
     token: {
         type: String
     },

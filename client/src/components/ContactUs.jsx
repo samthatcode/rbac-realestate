@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaSpinner } from "react-icons/fa";
 import {
   AiFillTwitterCircle,
   AiFillFacebook,
@@ -17,6 +17,7 @@ const ContactUs = () => {
     subject: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,19 +29,19 @@ const ContactUs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://surefinders-backend.onrender.com/api/contact",
         // "/api/contact",
         formData
       );
-      response.data;
-      console.log("Form submitted successfully!", response.data);
 
       // Show a success toast message
-      toast.success("Form submitted successfully!", {
-        autoClose: 2000, // Close after 2 seconds
+      toast.success("Message submitted successfully!", {
+        autoClose: 1000,
+        position: "top-right",
       });
 
       // Clear the form by resetting the formData state
@@ -52,15 +53,36 @@ const ContactUs = () => {
         message: "",
       });
     } catch (error) {
-      console.error("Form submission failed:", error);
+      console.error("Message submission failed:", error);
       toast.error("Form submission failed. Please try again.", {
-        autoClose: 5000, // Close after 5 seconds in case of an error
+        autoClose: 2000,
+        position: "top-left",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+    // Get all number input fields
+    const numberInputs = document.querySelectorAll('input[type="number"]');
+    // Add event listeners to number input fields
+    numberInputs.forEach((input) => {
+      input.addEventListener("keydown", (e) => {
+        // Allow only numbers, backspace, and delete key
+        if (
+          !(
+            (e.key >= "0" && e.key <= "9") ||
+            e.key === "Backspace" ||
+            e.key === "Delete"
+          )
+        ) {
+          e.preventDefault();
+        }
+      });
+    });
+
   return (
-    <div className="bg-slate-100 shadow-xl mx-2 rounded-md p-4 my-20">
+    <div className="bg-slate-100 shadow-xl mx-2 rounded-md p-4 my-20" id="contact">
       <div className="title_head mb-4">
         <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
           Contact Us
@@ -128,9 +150,9 @@ const ContactUs = () => {
                 <input
                   type="text"
                   id="name"
-                  className="w-full px-3 py-2 border rounded"
+                  name="name"
+                  className="w-full px-3 py-2 border rounded capitalize"
                   required
-                  placeholder="Your name"
                   value={formData.name}
                   onChange={handleInputChange}
                 />
@@ -142,9 +164,9 @@ const ContactUs = () => {
                 <input
                   type="number"
                   id="phone"
+                  name="phone"
                   className="w-full px-3 py-2 border rounded"
                   required
-                  placeholder="Phone number"
                   value={formData.phone}
                   onChange={handleInputChange}
                 />
@@ -158,9 +180,9 @@ const ContactUs = () => {
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   className="w-full px-3 py-2 border rounded"
                   required
-                  placeholder="Your email"
                   value={formData.email}
                   onChange={handleInputChange}
                 />
@@ -172,9 +194,9 @@ const ContactUs = () => {
                 <input
                   type="text"
                   id="subject"
-                  className="w-full px-3 py-2 border rounded"
+                  name="subject"
+                  className="w-full px-3 py-2 border rounded capitalize"
                   required
-                  placeholder="Subject"
                   value={formData.subject}
                   onChange={handleInputChange}
                 />
@@ -186,8 +208,9 @@ const ContactUs = () => {
               </label>
               <textarea
                 id="message"
+                name="message"
                 rows="4"
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-3 py-2 border rounded capitalize"
                 required
                 placeholder="Your message"
                 value={formData.message}
@@ -196,9 +219,19 @@ const ContactUs = () => {
             </div>
             <button
               type="submit"
-              className="bg-primary hover:bg-blue text-white px-7 py-2 rounded uppercase"
+              className="bg-primary hover:bg-blue text-white px-7 py-2 rounded capitalize relative flex items-center justify-center"
+              disabled={isSubmitting}
             >
-              Send a Message
+              {isSubmitting ? (
+                <>
+                  <span className="mr-2">
+                    <FaSpinner className="animate-spin" />
+                  </span>
+                  <span>Sending Messsage...</span>
+                </>
+              ) : (
+                "Send a Message"
+              )}
             </button>
           </form>
         </div>

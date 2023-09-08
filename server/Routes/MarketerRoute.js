@@ -15,7 +15,9 @@ const {
     generateReferralLink,
     trackReferral,
     deleteMarketer,
-    approveMarketer
+    approveMarketer,
+    marketerPayment,
+    sendPaymentEmail
 } = require('../Controllers/MarketerController');
 
 const {
@@ -49,6 +51,10 @@ router.put('/marketers/:marketerId', grantAccess('updateOwn', 'profile'), upload
 router.delete('/marketers/:marketerId', grantAccess('deleteAny', 'profile'), deleteMarketer);
 
 router.post("/marketers/:marketerId/approve", approveMarketer);
+
+router.post("/marketers/marketer-payment", marketerPayment);
+
+router.post("/marketers/send-payment-email", sendPaymentEmail);
 
 
 // Generate referral link for a marketer

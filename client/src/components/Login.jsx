@@ -3,9 +3,9 @@ import { UserContext } from "../contexts/UserContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import Layout from "./Layout";
-import { ColorRing } from "react-loader-spinner";
+
 
 const Login = () => {
   const { setUser } = useContext(UserContext);
@@ -31,12 +31,12 @@ const Login = () => {
   const handleError = (err) =>
     toast.error(err, {
       position: "top-left",
-      autoClose: 2000,
+      autoClose: 1000,
     });
   const handleSuccess = (msg) =>
     toast.success(msg, {
       position: "top-right",
-      autoClose: 2000,
+      autoClose: 1000,
     });
 
   const handleSubmit = async (e) => {
@@ -152,15 +152,7 @@ const Login = () => {
                     className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
                     style={{ zIndex: 9999 }}
                   >
-                    <ColorRing
-                      visible={true}
-                      height="50"
-                      width="50"
-                      ariaLabel="blocks-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="blocks-wrapper"
-                      colors={["#3454d1", "#007bff"]}
-                    />
+                   <FaSpinner className="animate-spin text-4xl text-primary" />
                   </div>
                 </div>
               ) : (

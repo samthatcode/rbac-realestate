@@ -105,7 +105,7 @@ const LandPage = () => {
 
   const handleAddToCart = async (land) => {
     setLoading(true);
-    await addToCart(land, 'land');
+    await addToCart(land, "land");
     toast("Land added to cart", {
       position: "top-right",
       autoClose: 500,
@@ -114,7 +114,7 @@ const LandPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-20 px-8">
+    <div className="container mx-auto py-20 px-8" id="lands">
       <div className="title_head mb-4">
         <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
           Recent Land Listings

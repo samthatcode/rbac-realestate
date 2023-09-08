@@ -1,30 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PaystackButton } from "react-paystack";
 import { toast } from "react-toastify";
-import { CartContext } from "../contexts/CartContext";
+import { MarketerContext } from "../../contexts/MarketerContext";
+import axios from "axios";
 
-const toastParams = {
-  position: "top-right",
-  autoClose: 1000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: false,
-  draggable: true,
-  progress: undefined,
-  theme: "light",
-};
-const notify = (val) => toast.success(`${val}`, toastParams);
-const warn = (val) => toast.error(`${val}`, toastParams);
-const inform = (val) => toast.info(`${val}`, toastParams);
-
-const PaystackCheckout = () => {
-  const { totalPrice, setPaymentReference } = useContext(CartContext);
+const MarketerPayment = () => {
+  const { setPaymentReference } = useContext(MarketerContext);
   const navigateTo = useNavigate();
+  const { marketerId } = useParams();
   const [paymentEmail, setPaymentEmail] = useState("");
-
-  const totalPriceNumber = parseFloat(totalPrice);
-  const [paymentAmount, setPaymentAmount] = useState(totalPriceNumber);
+  const [paymentAmount, setPaymentAmount] = useState(5000);
 
   const config = {
     reference: new Date().getTime().toString(),
@@ -37,7 +23,55 @@ const PaystackCheckout = () => {
     if (reference.status === "success") {
       // Save the payment reference to the context
       setPaymentReference(reference.reference);
-      navigateTo("/checkout");
+
+      toast.success("Payment successful", {
+        autoClose: 1000,
+        position: "top-right",
+      });
+
+      // console.log("Marketer:", marketerId);
+
+      // Make API request to send email
+      axios
+        .post(
+          // "/api/marketers/send-payment-email",
+          "https://surefinders-backend.onrender.com/api/marketers/send-payment-email",
+          {
+            email: paymentEmail,
+            amount: paymentAmount,
+            reference: reference.reference,
+          }
+        )
+        .then(() => {
+          // After the email has been sent, make another API request to update the paymentMade property
+
+          // console.log("Making API request to /api/marketers/marketer-payment");
+          axios
+            .post(
+              "https://surefinders-backend.onrender.com/api/marketers/marketer-payment",
+              // "/api/marketers/marketer-payment",
+              {
+                marketerId: marketerId,
+              }
+            )
+            .then(() => {
+              console.log("Navigating to /marketer/login");
+              navigateTo("/marketer/login");
+            })
+            .catch((error) => {
+              console.error(`Marketer not found: `, error);
+              toast.error("Marketer not found: " + error.message, {
+                autoClose: 1000,
+                position: "top-left",
+              });
+            });
+        })
+        .catch((error) => {
+          toast.error("Error sending payment email: " + error.message, {
+            autoClose: 1000,
+            position: "top-left",
+          });
+        });
     }
   };
 
@@ -57,10 +91,6 @@ const PaystackCheckout = () => {
     }
   };
 
-  useEffect(() => {
-    setPaymentAmount(parseFloat(totalPrice));
-  }, [totalPrice]);
-
   const componentProps = {
     ...config,
     text: (
@@ -75,7 +105,7 @@ const PaystackCheckout = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-4 bg-slate-100 rounded-md shadow-xl">
-        <h1 className="my-4 text-2xl font-bold mb-4">Checkout</h1>
+        <h1 className="my-4 text-2xl font-bold mb-4">Marketer</h1>
         <div className="mb-4">
           <label htmlFor="email" className="mb-2 text-lg text-teal">
             Email Address
@@ -101,7 +131,6 @@ const PaystackCheckout = () => {
             name="paymentAmount"
             value={paymentAmount}
             type="text"
-            onChange={handleInputChange}
             placeholder="Amount"
             readOnly
           />
@@ -112,4 +141,4 @@ const PaystackCheckout = () => {
   );
 };
 
-export default PaystackCheckout;
+export default MarketerPayment;

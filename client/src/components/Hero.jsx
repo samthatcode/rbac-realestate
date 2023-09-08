@@ -9,6 +9,7 @@ import {
   AiOutlineEnvironment,
 } from "react-icons/ai";
 import { useSearch } from "../contexts/SearchContext";
+import { FaWalking } from "react-icons/fa";
 
 <style jsx>
   {`
@@ -24,7 +25,6 @@ import { useSearch } from "../contexts/SearchContext";
 </style>;
 
 const Hero = () => {
-
   const { searchQuery, setSearchQuery } = useSearch();
 
   return (
@@ -82,7 +82,10 @@ const Hero = () => {
                           <AiOutlineHome className="text-gray-400 mr-2" />
                           housing
                         </div>
-                        <div className="">shortlet</div>
+                        <div className="flex justify-center items-center">
+                          <FaWalking className="text-gray-400 mr-2" />
+                          shortlet
+                        </div>
                       </div>
                     </>
                   )}
@@ -101,7 +104,7 @@ const Hero = () => {
                 className="px-4 py-2 bg-cadetblue hover:bg-steelblue text-white rounded"
               >
                 Get Started as a Marketer
-              </Link>           
+              </Link>
             </div>
           </div>
         ))}

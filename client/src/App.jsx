@@ -29,6 +29,7 @@ import {
   Referrals,
   MarketerForgotPassword,
   MarketerResetPassword,
+  MarketerPayment,
 } from "./components";
 import { UserProvider } from "./contexts/UserContext";
 import { CartProvider } from "./contexts/CartContext";
@@ -46,87 +47,99 @@ const App = () => {
           <CartProvider>
             <SearchProvider>
               <SavedPropertiesProvider>
-              <div>
-                <ToastContainer />
-                {/* <Navbar /> */}
-                <div className="content font-poppins">
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/cart" element={<CartListPage />} />
-                    <Route path="/checkout" element={<CheckoutPage />} />
-                    <Route
-                      path="/paystackcheckout"
-                      element={<PaystackCheckout />}
-                    />
-                    <Route path="/confirm" element={<ConfirmationPage />} />
-                    <Route path="/products" element={<ProductPage />} />
-                    <Route path="/lands" element={<LandPage />} />
-                    <Route path="/products/:id" element={<ProductDetails />} />
-                    <Route path="/lands/:id" element={<LandDetails />} />
-                    {/* Marketer */}
+                <div>
+                  <ToastContainer />
+                  {/* <Navbar /> */}
+                  <div className="content font-poppins">
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/signup" element={<Signup />} />
+                      <Route path="/cart" element={<CartListPage />} />
+                      <Route path="/checkout" element={<CheckoutPage />} />
+                      <Route
+                        path="/paystackcheckout"
+                        element={<PaystackCheckout />}
+                      />
+                      <Route path="/confirm" element={<ConfirmationPage />} />
+                      <Route path="/products" element={<ProductPage />} />
+                      <Route path="/lands" element={<LandPage />} />
+                      <Route
+                        path="/products/:id"
+                        element={<ProductDetails />}
+                      />
+                      <Route path="/lands/:id" element={<LandDetails />} />
+                      {/* Marketer */}
 
-                    <Route
-                      path="/marketerdashboard/:marketerId"
-                      element={
-                        <ProtectedRoute roles={["marketer"]}>
-                          <MarketerDashboard />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/marketer/signup"
-                      element={<MarketerRegister />}
-                    />
-                    <Route path="/marketer/login" element={<MarketerLogin />} />
-                    <Route
-                      path="/registration"
-                      element={<RegistrationForm />}
-                    />
-                    <Route
-                      path="/referrals/:referral"
-                      element={<Referrals />}
-                    />
-                    <Route
-                      path="/verify-marketer-email/:token"
-                      element={<MarketerEmailVerification />}
-                    />
-                    <Route
-                      path="/marketer-forgot-password"
-                      element={<MarketerForgotPassword />}
-                    />
-                    <Route
-                      path="/marketer-reset/:resetToken"
-                      element={<MarketerResetPassword />}
-                    />
-                    <Route path="/user/dashboard" element={<UserDashboard />} />
+                      <Route
+                        path="/marketerdashboard/:marketerId"
+                        element={
+                          <ProtectedRoute roles={["marketer"]}>
+                            <MarketerDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/marketer/signup"
+                        element={<MarketerRegister />}
+                      />
+                      <Route
+                        path="/marketer/login"
+                        element={<MarketerLogin />}
+                      />
+                     <Route path="/marketer/payment/:marketerId" element={<MarketerPayment />} />
 
-                    <Route
-                      path="/admin/dashboard"
-                      element={
-                        <ProtectedRoute roles={["admin"]}>
-                          <AdminDashboard />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/verify-user-email/:token"
-                      element={<UserEmailVerification />}
-                    />
-                    <Route
-                      path="/forgot-password"
-                      element={<ForgotPassword />}
-                    />
-                    <Route
-                      path="/reset/:resetToken"
-                      element={<ResetPassword />}
-                    />
+                      <Route
+                        path="/registration"
+                        element={<RegistrationForm />}
+                      />
+                      <Route
+                        path="/referrals/:referral"
+                        element={<Referrals />}
+                      />
+                      <Route
+                        path="/verify-marketer-email/:token/:marketerId"
+                        element={<MarketerEmailVerification />}
+                      />
 
-                    {/* <Route path="/verify-code" element={CodeVerification} /> */}
-                  </Routes>
+                      <Route
+                        path="/marketer-forgot-password"
+                        element={<MarketerForgotPassword />}
+                      />
+                      <Route
+                        path="/marketer-reset/:resetToken"
+                        element={<MarketerResetPassword />}
+                      />
+                      <Route
+                        path="/user/dashboard"
+                        element={<UserDashboard />}
+                      />
+
+                      <Route
+                        path="/admin/dashboard"
+                        element={
+                          <ProtectedRoute roles={["admin"]}>
+                            <AdminDashboard />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/verify-user-email/:token"
+                        element={<UserEmailVerification />}
+                      />
+                      <Route
+                        path="/forgot-password"
+                        element={<ForgotPassword />}
+                      />
+                      <Route
+                        path="/reset/:resetToken"
+                        element={<ResetPassword />}
+                      />
+
+                      {/* <Route path="/verify-code" element={CodeVerification} /> */}
+                    </Routes>
+                  </div>
                 </div>
-              </div>
               </SavedPropertiesProvider>
             </SearchProvider>
           </CartProvider>

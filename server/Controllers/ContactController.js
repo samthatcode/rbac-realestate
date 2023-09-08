@@ -5,8 +5,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     type: 'OAuth2',
-    pass: process.env.ADMIN_PASSWORD,
-    user: process.env.ADMIN_EMAIL,
+    user: process.env.EMAIL_VERIFY,
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     refreshToken: process.env.REFRESH_TOKEN,
@@ -21,20 +20,22 @@ module.exports.contactFormHandler = async (req, res, next) => {
     const { name, email, subject, message, phone } = req.body;
 
     // Create the email content
-    const emailContent = `<div>
-      <h2>Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone}</p>
-      <p><strong>Subject:</strong> ${subject}</p>
-      <p><strong>Message:</strong> ${message}</p>
-      </div>
-    `;
+    const emailContent =
+      `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+          <h2 style="font-size: 18px; margin-bottom: 10px;">Contact Form Submission</h2>
+          <p style="font-size: 16px;"><strong>Name:</strong> ${name}</p>
+          <p style="font-size: 16px;"><strong>Email:</strong> ${email}</p>
+          <p style="font-size: 16px;"><strong>Phone:</strong> ${phone}</p>
+          <p style="font-size: 16px;"><strong>Subject:</strong> ${subject}</p>
+          <p style="font-size: 16px;"><strong>Message:</strong> ${message}</p>
+        </div>`
+      ;
 
-    // Email configuration for sending the contact form submission to the admin
-    const adminEmail = process.env.ADMIN_VERIFY;  // Replace with your admin's email
+    // Email configuration for sending the contact form submission to the admin 
+    const adminEmail = process.env.ADMIN_EMAIL;  // Replace with your admin's email
+
     const adminMailOptions = {
-      from: process.env.ADMIN_EMAIL, // Replace with your sending email
+      from: email,
       to: adminEmail,
       subject: `New Contact Form Submission: ${subject}`,
       html: emailContent,

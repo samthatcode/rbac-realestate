@@ -32,6 +32,7 @@ module.exports.verifyUserEmail = async (req, res) => {
         await Token.findByIdAndRemove(verificationToken._id);
 
         // Redirect to the frontend route with the token as a parameter
+        // res.redirect(`http://localhost:5173/verify-user-email/${token}`);
         res.redirect(`https://surefinders-frontend.onrender.com/verify-user-email/${token}`);
     } catch (error) {
         console.error(error);
@@ -51,7 +52,7 @@ module.exports.verifyMarketerEmail = async (req, res) => {
             return res.status(400).json({ message: 'Invalid or expired verification token' });
         }
 
-        // Find the user associated with the verification token
+        // Find the marketer associated with the verification token
         const marketer = await Marketer.findById(verificationToken._marketerId);
 
         if (!marketer) {
@@ -68,12 +69,32 @@ module.exports.verifyMarketerEmail = async (req, res) => {
         await Token.findByIdAndRemove(verificationToken._id);
 
         // Redirect to the frontend route with the token as a parameter
-        res.redirect(`https://surefinders-frontend.onrender.com/verify-marketer-email/${token}`);
+       
+        // res.redirect(`http://localhost:5173/verify-marketer-email/${token}/${marketer._id}`);
+        res.redirect(`https://surefinders-frontend.onrender.com/verify-marketer-email/${token}/${marketer._id}`);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+module.exports.marketerDetails = async (req, res) => {
+    try {
+        const { marketerId } = req.params;
+        // console.log('Received marketerId: ', marketerId); 
+        const marketer = await Marketer.findById(marketerId);
+
+        if (!marketer) {
+            return res.status(400).json({ message: 'We were unable to find a marketer for this id' });
+        }
+
+        res.status(200).json({ success: true, marketer });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 
 module.exports.verifyCode = async (req, res) => {
     try {

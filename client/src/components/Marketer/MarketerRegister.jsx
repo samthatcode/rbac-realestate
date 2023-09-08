@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ModalSuccess from "../ModalSuccess";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -73,21 +73,21 @@ const Signup = () => {
     if (step === 1 && !isStepOneValid()) {
       toast.error("Please complete Step 1 before proceeding.", {
         position: "top-left",
-        autoClose: 2000,
+        autoClose: 500,
       });
       return;
     }
     if (step === 2 && !isStepTwoValid()) {
       toast.error("Please complete Step 2 before proceeding.", {
         position: "top-left",
-        autoClose: 2000,
+        autoClose: 500,
       });
       return;
     }
     if (step === 3 && !isStepThreeValid()) {
       toast.error("Please complete Step 3 before proceeding.", {
         position: "top-left",
-        autoClose: 2000,
+        autoClose: 500,
       });
       return;
     }
@@ -109,14 +109,15 @@ const Signup = () => {
     if (password !== confirmPassword) {
       toast.error("Passwords do not match.", {
         position: "top-left",
-        autoClose: 2000,
+        autoClose: 1000,
       });
       return;
     }
     setLoading(true);
     try {
-      const response = await axios({
+     await axios({
         method: "POST",
+        // url: "/api/marketers/signup",
         url: "https://surefinders-backend.onrender.com/api/marketers/signup",
         data: {
           email,
@@ -132,8 +133,10 @@ const Signup = () => {
         },
         withCredentials: true,
       });
-
-      // console.log(response.data);
+      toast.success("Signup successful!", {
+        autoClose: 1000, 
+        position: "top-right", 
+      });
       // After successful registration
       setShowModal(true);
       // Clear input fields after successful signup
@@ -142,7 +145,7 @@ const Signup = () => {
       console.error(error);
       toast.error("Signup failed. Please try again.", {
         position: "top-left",
-        autoClose: 2000,
+        autoClose: 1000,
       });
     }
     setLoading(false);
@@ -158,9 +161,9 @@ const Signup = () => {
 
   const getPasswordStrength = (password) => {
     const strength = {
-      0: { label: "Weak", color: "text-red-500" },
+      0: { label: "Weak", color: "text-red" },
       1: { label: "Medium", color: "text-yellow-500" },
-      2: { label: "Strong", color: "text-green-500" },
+      2: { label: "Strong", color: "text-green" },
     };
 
     let score = 0;
@@ -339,7 +342,7 @@ const Signup = () => {
                   id="discoverSource"
                   value={discoverySource}
                   onChange={(e) => setDiscoverySource(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md py-2 px-3 capitalize"
+                  className="w-full border border-gray-300 rounded-md py-2 px-3 capitalize bg-white"
                   required
                 >
                   <option value="">Select...</option>
@@ -446,14 +449,25 @@ const Signup = () => {
               {step === 3 && (
                 <button
                   type="submit"
-                  className={`px-4 py-2  bg-primary hover:bg-blue text-white rounded-md hover:bg-blue-600 font-medium ${
+                  className={`px-4 py-2  bg-primary hover:bg-blue text-white rounded-md  font-medium ${
                     loading || step < 3 || !isFormValid()
                       ? "opacity-50 cursor-not-allowed"
                       : ""
                   }`}
                   disabled={loading || step < 3 || !isFormValid()}
                 >
-                  {loading ? "Signing up..." : "Sign Up"}
+                  {loading ? (
+                    <div className="relative">
+                      <div
+                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+                        style={{ zIndex: 9999 }}
+                      >
+                        <FaSpinner className="animate-spin text-4xl text-primary" />
+                      </div>
+                    </div>
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
               )}
             </div>

@@ -3,8 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { UserContext } from "../contexts/UserContext";
-import { ColorRing } from "react-loader-spinner";
 import { Layout } from "../components";
+import { FaSpinner } from "react-icons/fa";
 
 const CheckoutPage = () => {
   const [formData, setFormData] = useState({
@@ -219,7 +219,7 @@ const CheckoutPage = () => {
             </div>
 
             <input
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 hover:text-slate-100 bg-teal text-lg font-bold focus:ring-indigo-600 cursor-pointer"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 hover:bg-blue bg-primary text-lg font-bold text-white cursor-pointer"
               type="submit"
               value="- Checkout -"
               disabled={loading}
@@ -228,15 +228,7 @@ const CheckoutPage = () => {
         </div>
         {loading && (
           <div className="overlay">
-            <ColorRing
-              visible={true}
-              height="50"
-              width="50"
-              ariaLabel="blocks-loading"
-              wrapperStyle={{}}
-              wrapperClass="blocks-wrapper"
-              colors={["#b8c480", "#B2A3B5", "#F4442E", "#51E5FF", "#429EA6"]}
-            />
+            <FaSpinner className="animate-spin text-4xl text-primary" />
           </div>
         )}
       </div>

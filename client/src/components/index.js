@@ -25,6 +25,7 @@ export { default as MarketerForgotPassword } from './Marketer/MarketerForgotPass
 export { default as MarketerResetPassword } from './Marketer/MarketerResetPassword';
 export { default as MarketerProfile } from './Marketer/MarketerProfile';
 export { default as MessageModal } from './Marketer/MessageModal';
+export { default as MarketerPayment } from './Marketer/MarketerPayment';
 export { default as ModalSuccess } from './ModalSuccess';
 export { default as ForgotPassword } from './ForgotPassword';
 export { default as ResetPassword } from './ResetPassword';

@@ -87,7 +87,8 @@ module.exports.createMarketer = async (req, res, next) => {
             role: "marketer",
             createdAt,
             referralLink: generatedRefferalLink,
-            referralCode: generatedReferralCode
+            referralCode: generatedReferralCode,
+            paymentMade: false
         });
         // console.log(marketer);
 
@@ -473,5 +474,43 @@ module.exports.approveMarketer = async (req, res, next) => {
         console.error("Error approving marketer:", error);
         res.status(500).json({ message: "Failed to approve marketer. Please try again later." });
         next(error);
+    }
+};
+
+module.exports.sendPaymentEmail = async (req, res) => {
+    const { email, amount, reference } = req.body;
+
+    // Send the email
+    transporter.sendMail({
+        from: process.env.EMAIL_VERIFY,
+        to: email,
+        subject: "Payment Confirmation to SureFinders",
+        html: `<div>
+                <p>Your payment of ${amount} to SureFinders as a Marketer was successful. Your payment reference: ${reference}</p>
+                </div>`
+    }, (error, info) => {
+        if (error) {
+            console.log('Error occurred while sending email:', error);
+            res.status(500).json({ error: 'Error occurred while sending email' });
+        } else {
+            console.log('Email sent successfully to ' + email + ' :', info.response);
+            res.status(200).json({ message: 'Email sent successfully to ' + email + ' successfully' });
+        }
+    });
+};
+
+module.exports.marketerPayment = async (req, res) => {
+    const { marketerId } = req.body;
+
+    try {
+        // Update the marketer
+        const marketer = await Marketer.findOneAndUpdate({ _id: marketerId }, {
+            paymentMade: true,            
+        }, { new: true });
+
+        res.status(200).json({ message: 'Payment updated successfully', marketer: marketer });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error occurred while updating payment' });
     }
 };

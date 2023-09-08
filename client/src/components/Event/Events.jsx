@@ -42,7 +42,7 @@ const Events = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-8 py-20">
+    <div className="container mx-auto px-8 py-20" id="events">
       <div className="title_head mb-4">
         <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
           Latest News
