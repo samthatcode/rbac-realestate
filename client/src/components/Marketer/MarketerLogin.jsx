@@ -59,9 +59,9 @@ const Login = () => {
         setMarketer(marketer);        
         // check if payment has been made
         if (marketer.paymentMade) {
-          navigate(`/marketerdashboard/${marketer._id}`);
+          navigate(`/marketer/dashboard/${marketer._id}`);
         } else {
-          navigate("/marketer/payment");
+          navigate(`/marketer/payment/${marketer._id}`);
         }
       } else {
         handleError(message);

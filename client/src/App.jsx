@@ -72,7 +72,7 @@ const App = () => {
                       {/* Marketer */}
 
                       <Route
-                        path="/marketerdashboard/:marketerId"
+                        path="/marketer/dashboard/:marketerId"
                         element={
                           <ProtectedRoute roles={["marketer"]}>
                             <MarketerDashboard />

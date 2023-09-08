@@ -35,8 +35,8 @@ const AdminDashboard = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        // "https://surefinders-backend.onrender.com/api/logout",
-        "/api/logout",
+        "https://surefinders-backend.onrender.com/api/logout",
+        // "/api/logout",
         {},
         {
           withCredentials: true, // Include credentials (cookies)

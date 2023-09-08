@@ -26,8 +26,11 @@ const ResetPassword = () => {
         { withCredentials: true }
       );
       // Check if the password reset was successful
-      if (response.status === 200) {
-        toast.success("Password has been reset successfully!");
+      if (response.status === 200) {       
+        toast.success("Password has been reset successfully!", {
+          position: "top-right",
+          autoClose: 1000,
+        });
         navigate("/login");
       } else {
         alert("Password reset failed");
@@ -80,18 +83,26 @@ const ResetPassword = () => {
             </button>
           </div>
         </div>
-
         <button
-          type="submit"
-          className={
-            `w-full px-4 py-2 mt-4 mb-4 text-white bg-primary rounded-md hover:bg-blue font-medium ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
-            }` // Disable button and show loading state
-          }
-          disabled={loading}
-        >
-          {loading ? "Resetting..." : "Reset Password"}
-        </button>
+            type="submit"
+            className={
+              `w-full px-7 py-2 capitalize relative flex items-center justify-center mt-4 mb-4 text-white bg-primary rounded-md hover:bg-blue font-medium ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }` // Disable button and show loading state
+            }
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="mr-2">
+                  <FaSpinner className="animate-spin" />
+                </span>
+                <span>Resetting...</span>
+              </>
+            ) : (
+              "Reset Password"
+            )}
+          </button>
       </form>
     </div>
   );
