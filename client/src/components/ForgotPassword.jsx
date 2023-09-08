@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import MessageModal from "./Marketer/MessageModal";
-
+import { FaSpinner } from "react-icons/fa";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [serverMessage, setServerMessage] = useState(""); // State for server response message
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -25,9 +25,11 @@ const ForgotPassword = () => {
 
     try {
       const { data } = await axios.post(
-        "/api/forgot-password", 
-        // "https://surefinders-backend.onrender.com/api/forgot-password", 
-        { email }, { withCredentials: true });
+        // "/api/forgot-password",
+        "https://surefinders-backend.onrender.com/api/forgot-password",
+        { email },
+        { withCredentials: true }
+      );
       if (data.message) {
         setServerMessage(data.message);
         setShowModal(true); // Show the modal with server response message
@@ -65,14 +67,24 @@ const ForgotPassword = () => {
           <button
             type="submit"
             className={
-              `w-full px-4 py-2 mt-4 mb-4 text-white bg-primary rounded-md hover:bg-blue font-medium ${
+              `w-full px-7 py-2 capitalize relative flex items-center justify-center mt-4 mb-4 text-white bg-primary rounded-md hover:bg-blue font-medium ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }` // Disable button and show loading state
             }
             disabled={loading}
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading ? (
+              <>
+                <span className="mr-2">
+                  <FaSpinner className="animate-spin" />
+                </span>
+                <span>Submitting...</span>
+              </>
+            ) : (
+              "Submit"
+            )}
           </button>
+
           <span className="block text-center">
             Remembered your password?{" "}
             <Link to="/login" className="text-blue">
