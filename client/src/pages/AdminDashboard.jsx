@@ -7,6 +7,7 @@ import {
   CategoryManagement,
   EventManagement,
   Footer,
+  InvestmentManagement,
   LandManagement,
   ProductManagement,
   RoleManagement,
@@ -14,6 +15,7 @@ import {
 } from "../components";
 import StyledTable from "./StyledTable";
 import axios from "axios";
+
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -88,11 +90,10 @@ const AdminDashboard = () => {
     const fetchInactiveMarketers = async () => {
       try {
         const response = await fetch(
-          "https://surefinders-backend.onrender.com/api/marketers",
-          // "/api/marketers",
+          // "https://surefinders-backend.onrender.com/api/marketers",
+          "/api/marketers",
           { withCredentials: true }
-        );
-        // console.log("Response status:", response.status);
+        );       
         const data = await response.json();
         // console.log(data);
 
@@ -120,16 +121,20 @@ const AdminDashboard = () => {
       const response = await fetch(
         `https://surefinders-backend.onrender.com/api/marketers/${marketerId}/approve`,
         // `/api/marketers/${marketerId}/approve`,
-        { withCredentials: true },
-        {
+        { withCredentials: true ,
           method: "POST",
         }
-      );
+      );      
+
+      // console.log("Response status:", response.status);
       const data = await response.json();
+      // console.log(data);
+
       if (data.success) {
         setInactiveMarketers(
           inactiveMarketers.filter((marketer) => marketer._id !== marketerId)
         );
+      
       }
     } catch (error) {
       console.error("Error approving marketer:", error);
@@ -176,6 +181,16 @@ const AdminDashboard = () => {
               }}
             >
               Manage Users
+            </Link>
+            <Link
+              to="/manageinvestments"
+              className={`block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4 active`}
+              onClick={(event) => {
+                event.preventDefault();
+                setCurrentView("manageinvestments");
+              }}
+            >
+              Manage Investments
             </Link>
             <Link
               to="/managecategories"
@@ -228,7 +243,7 @@ const AdminDashboard = () => {
           {currentView === "manageproducts" && <ProductManagement />}
           {currentView === "managelands" && <LandManagement />}
           {currentView === "manageusers" && <UserManagement />}
-          {/* {currentView === "manageroles" && <RoleManagement />} */}
+          {currentView === "manageinvestments" && <InvestmentManagement />}
           {currentView === "managecategories" && <CategoryManagement />}
           {currentView === "manage_event" && <EventManagement />}
 

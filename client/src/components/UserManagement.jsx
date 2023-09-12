@@ -138,143 +138,158 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 bg-slate-100">
-      <h2 className="text-2xl font-semibold my-4">User Management</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          createUser();
-        }}
-        className="mb-4 flex flex-wrap"
-      >
-        <input
-          required
-          type="text"
-          placeholder="First name"
-          value={newUser.firstName}
-          onChange={(e) =>
-            setNewUser({ ...newUser, firstName: e.target.value })
-          }
-          className="border p-2 mb-2 w-full md:w-auto rounded-md capitalize"
-        />
-        <input
-          required
-          type="text"
-          placeholder="Last name"
-          value={newUser.lastName}
-          onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
-          className="border p-2 mb-2 w-full md:w-auto rounded-md capitalize"
-        />
-        <input
-          required
-          type="email"
-          placeholder="Email"
-          value={newUser.email}
-          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-          className="border p-2 mb-2 w-full md:w-auto rounded-md"
-        />
-        <input
-          required
-          type="password"
-          placeholder="Password"
-          value={newUser.password}
-          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-          className="border p-2 mb-2 w-full md:w-auto rounded-md"
-        />
-        <button
-          type="submit"
-          className="bg-primary hover:bg-blue font-bold text-white p-2 rounded-md ml-auto"
-          disabled={isCreatingUser}
+    <div className="container mx-auto p-4 bg-white my-20">
+      <div className="rounded-lg bg-slate-50 p-10 shadow-xl">
+        <h2 className="text-2xl font-semibold ">User Management</h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            createUser();
+          }}
+          className="flex flex-col py-10"
         >
-          {isCreatingUser ? "Creating User..." : "Create User"}
-        </button>
-      </form>
+          <div className="flex items-center justify-between w-full md:w-auto gap-4 my-5">
+            <input
+              required
+              type="text"
+              placeholder="First name"
+              value={newUser.firstName}
+              onChange={(e) =>
+                setNewUser({ ...newUser, firstName: e.target.value })
+              }
+              className="border p-2 mb-2 w-full md:w-1/2 rounded-md capitalize"
+            />
+            <input
+              required
+              type="text"
+              placeholder="Last name"
+              value={newUser.lastName}
+              onChange={(e) =>
+                setNewUser({ ...newUser, lastName: e.target.value })
+              }
+              className="border p-2 mb-2 w-full md:w-1/2 rounded-md capitalize"
+            />
+          </div>
+          <div className="flex items-center justify-between w-full md:w-auto gap-4 my-5">
+            <input
+              required
+              type="email"
+              placeholder="Email"
+              value={newUser.email}
+              onChange={(e) =>
+                setNewUser({ ...newUser, email: e.target.value })
+              }
+              className="border p-2 mb-2 w-full md:w-1/2 rounded-md"
+            />
+            <input
+              required
+              type="password"
+              placeholder="Password"
+              value={newUser.password}
+              onChange={(e) =>
+                setNewUser({ ...newUser, password: e.target.value })
+              }
+              className="border p-2 mb-2 w-full md:w-1/2 rounded-md"
+            />
+          </div>
 
-      <table className="table-auto w-full mb-4">
-        <thead>
-          <tr className="text-teal">
-            <th className="border px-4 py-2">S/N</th>
-            <th className="border px-4 py-2">Name</th>
-            <th className="border px-4 py-2">Email</th>
-            <th className="border px-4 py-2">Roles</th>
-            <th className="border px-4 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={user._id}>
-              <td className="border px-4 py-2">{index + 1}</td>
-              <td className="border px-4 py-2">
-                {user.firstName} {user.lastName}
-              </td>
-              <td className="border px-4 py-2">{user.email}</td>
-              <td className="border px-4 py-2">{user.role}</td>
-              <td className="border px-4 py-2 flex justify-between">
-                <button
-                  onClick={() => openModal(user)}
-                  className="text-primary hover:text-blue font-bold bg-slate-100 px-2 py-1 rounded-md"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => deleteUser(user._id)}
-                  className="text-red font-bold bg-slate-100 px-2 py-1 rounded-md"
-                >
-                  Delete
-                </button>
-              </td>
+          <button
+            type="submit"
+            className="bg-primary hover:bg-blue font-bold text-white p-2 rounded-md ml-auto w-full"
+            disabled={isCreatingUser}
+          >
+            {isCreatingUser ? "Creating User..." : "Create User"}
+          </button>
+        </form>
+
+        <table className="table-auto w-full mb-4">
+          <thead>
+            <tr className="text-teal">
+              <th className="border px-4 py-2">S/N</th>
+              <th className="border px-4 py-2">Name</th>
+              <th className="border px-4 py-2">Email</th>
+              <th className="border px-4 py-2">Roles</th>
+              <th className="border px-4 py-2">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="flex flex-col mb-4">
-        <label htmlFor="user" className="font-medium mb-2">
-          Select User:
-        </label>
-        <select
-          id="user"
-          className="border border-gray-300 rounded-md py-2 px-3"
-          value={selectedUser}
-          onChange={(e) => setSelectedUser(e.target.value)}
-        >
-          <option value="">Select User</option>
-          {users.map((user, index) => (
-            <option key={user._id} value={user._id}>
-              {user.firstName} {user.lastName}
-            </option>
-          ))}
-        </select>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr key={user._id}>
+                <td className="border px-4 py-2">{index + 1}</td>
+                <td className="border px-4 py-2">
+                  {user.firstName} {user.lastName}
+                </td>
+                <td className="border px-4 py-2">{user.email}</td>
+                <td className="border px-4 py-2">{user.role}</td>
+                <td className="border px-4 py-2 flex justify-between">
+                  <button
+                    onClick={() => openModal(user)}
+                    className="text-primary hover:text-blue font-bold bg-slate-100 px-2 py-1 rounded-md"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteUser(user._id)}
+                    className="text-red font-bold bg-slate-100 px-2 py-1 rounded-md"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      <div className="flex flex-col mb-4">
-        <label htmlFor="role" className="font-medium mb-2">
-          Select Role:
-        </label>
-        <select
-          id="role"
-          className="border border-gray-300 rounded-md py-2 px-3"
-          value={selectedRole}
-          onChange={(e) => setSelectedRole(e.target.value)}
+      <div className="my-20 rounded-lg bg-slate-50 p-10 shadow-xl">
+        <h2 className="text-2xl font-semibold my-4">Roles Management</h2>
+        <div className="flex flex-col mb-4">
+          <label htmlFor="user" className="font-medium mb-2">
+            Select User:
+          </label>
+          <select
+            id="user"
+            className="border border-gray-300 rounded-md py-2 px-3 bg-white"
+            value={selectedUser}
+            onChange={(e) => setSelectedUser(e.target.value)}
+          >
+            <option value="">Select User</option>
+            {users.map((user, index) => (
+              <option key={user._id} value={user._id}>
+                {user.firstName} {user.lastName}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col mb-4">
+          <label htmlFor="role" className="font-medium mb-2">
+            Select Role:
+          </label>
+          <select
+            id="role"
+            className="border border-gray-300 rounded-md py-2 px-3 bg-white"
+            value={selectedRole}
+            onChange={(e) => setSelectedRole(e.target.value)}
+          >
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="marketer">Marketer</option>
+            <option value="user">User</option>
+            {/* Add other roles here */}
+          </select>
+        </div>
+
+        <button
+          className={`p-2 py-2 px-4 rounded-md ${
+            loading ? "bg-gray-500" : "bg-green"
+          } text-white cursor-pointer`}
+          onClick={assignRole}
+          disabled={!selectedUser || !selectedRole || loading}
         >
-          <option value="">Select Role</option>
-          <option value="admin">Admin</option>
-          <option value="marketer">Marketer</option>
-          <option value="user">User</option>
-          {/* Add other roles here */}
-        </select>
+          {loading ? "Assigning Role..." : "Assign Role"}
+        </button>
       </div>
-
-      <button
-        className={`p-2 py-2 px-4 rounded-md ${
-          loading ? "bg-gray-500" : "bg-green"
-        } text-white`}
-        onClick={assignRole}
-        disabled={!selectedUser || !selectedRole || loading}
-      >
-        {loading ? "Assigning Role..." : "Assign Role"}
-      </button>
-
       {isModalOpen && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">

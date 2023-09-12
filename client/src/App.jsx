@@ -13,6 +13,8 @@ import {
   PaystackCheckout,
   LandDetails,
   LandPage,
+  InvestmentPage,
+  InvestmentDetails,
 } from "./pages";
 import {
   Navbar,
@@ -30,6 +32,7 @@ import {
   MarketerForgotPassword,
   MarketerResetPassword,
   MarketerPayment,
+  EventDetails,
 } from "./components";
 import { UserProvider } from "./contexts/UserContext";
 import { CartProvider } from "./contexts/CartContext";
@@ -64,11 +67,17 @@ const App = () => {
                       <Route path="/confirm" element={<ConfirmationPage />} />
                       <Route path="/products" element={<ProductPage />} />
                       <Route path="/lands" element={<LandPage />} />
+                      <Route path="/investments" element={<InvestmentPage />} />
                       <Route
                         path="/products/:id"
                         element={<ProductDetails />}
                       />
                       <Route path="/lands/:id" element={<LandDetails />} />
+                      <Route path="/investments/:id" element={<InvestmentDetails />} />
+                      <Route
+                        path="/events/:id"
+                        element={<EventDetails />}
+                      />
                       {/* Marketer */}
 
                       <Route

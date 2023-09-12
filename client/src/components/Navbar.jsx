@@ -57,8 +57,15 @@ const Navbar = () => {
               to="/"
               className="text-dark hover:text-gray-700 font-bold text-lg flex items-center"
             >
-              <span className="text-primary mr-1 flex justify-center items-center z-10">
+              {/* <span className="text-primary mr-1 flex justify-center items-center z-10">
                 <FaRegBuilding size={30} />
+              </span> */}
+              <span className="mr-1 flex justify-center items-center z-10">
+                <img
+                  src="https://pbs.twimg.com/profile_images/1604859709210624000/i2dzGLJS_400x400.jpg"
+                  alt="Logo"
+                  className="bg-inherit h-12"
+                />
               </span>
               <span className="text-title" style={{ lineHeight: "1" }}>
                 Sure
@@ -114,7 +121,8 @@ const Navbar = () => {
                 </a>
                 <a
                   className="block text-white hover:bg-gray-600 p-2 rounded-md"
-                  href="#"
+                  href="#investments"
+                  onClick={() => handleScrollTo("investments")}
                 >
                   Investment
                 </a>
@@ -125,7 +133,6 @@ const Navbar = () => {
               onClick={() => handleScrollTo("contact")}
               smooth="true"
               className="hover:bg-gray-200 py-2 px-4 rounded-md text-slate-950 font-medium"
-             
             >
               Contact
             </a>
@@ -254,15 +261,16 @@ const Navbar = () => {
               </a>
               <a
                 className="block text-white hover:bg-gray-600 p-2 rounded-md"
-                href=""
+                href="#investments"
+                onClick={() => handleScrollTo("investments")}
               >
                 Investments
               </a>
             </div>
           )}
           <a
-           href="#contact"
-           onClick={() => handleScrollTo("contact")}
+            href="#contact"
+            onClick={() => handleScrollTo("contact")}
             smooth="true"
             className="block px-3 py-2 rounded-md  font-medium hover:bg-gray-200 text-slate-950"
           >

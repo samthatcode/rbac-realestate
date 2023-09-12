@@ -1,17 +1,39 @@
 const Investment = require('../Models/InvestmentModel');
+const { dir } = require('../server');
+const path = require('path');
+
+
 
 // Create a new investment or investment opportunity
-exports.createInvestment = async (req, res, next) => {
+module.exports.createInvestment = async (req, res, next) => {
     try {
-        const { propertyId, investmentAmount, title, description, property, terms } = req.body;
+        const {
+            title,
+            description,
+            investmentAmount,
+            location,
+            terms,
+        } = req.body;
+
+        let images = req.files; // Get the uploaded images from req.files
+
+        // Get the path of each image file
+        let imagePaths = images.map(file => {
+            let relativePath = path.relative(dir, file.path);
+            return relativePath.replace(/\\/g, '/');
+        });
 
         let investment;
 
-        if (propertyId && investmentAmount) {
-            investment = await Investment.create({ property: propertyId, investmentAmount });
-        } else {
-            investment = await Investment.create({ title, description, property, terms });
-        }
+        // Create the investment with all the provided fields
+        investment = await Investment.create({
+            title,
+            description,
+            investmentAmount,
+            location,
+            terms,
+            images: imagePaths,
+        });
 
         res.status(201).json({
             message: 'Investment created successfully',
@@ -24,8 +46,9 @@ exports.createInvestment = async (req, res, next) => {
     }
 };
 
+
 // Get all investments
-exports.getInvestments = async (req, res, next) => {
+module.exports.getInvestments = async (req, res, next) => {
     try {
         const investments = await Investment.find();
 
@@ -39,7 +62,7 @@ exports.getInvestments = async (req, res, next) => {
 };
 
 // Get a single investment by ID
-exports.getInvestmentById = async (req, res, next) => {
+module.exports.getInvestmentById = async (req, res, next) => {
     try {
         const investmentId = req.params.investmentId;
         const investment = await Investment.findById(investmentId);
@@ -57,29 +80,43 @@ exports.getInvestmentById = async (req, res, next) => {
     }
 };
 
-
 // Update an investment
-exports.updateInvestment = async (req, res, next) => {
+module.exports.updateInvestment = async (req, res, next) => {
     try {
         const investmentId = req.params.investmentId;
-        const { title, description, property, terms, propertyId, investmentAmount } = req.body;
 
-        const updatedInvestment = await Investment.findByIdAndUpdate(
-            investmentId,
-            {
-                title,
-                description,
-                property,
-                terms,
-                property: propertyId,
-                investmentAmount,
-            },
-            { new: true } // Return the updated investment
-        );
+        let newImages = req.files; // Get the uploaded images from req.files
 
-        if (!updatedInvestment) {
+        // Get the path of each image file
+        let newImagePaths = Array.isArray(newImages) ? newImages.map(file => path.relative(dir, file.path).replace(/\\/g, '/')) : [];
+
+        const { title, description, terms, investmentAmount, location } = req.body;
+
+        // Fetch the existing investment
+        const investment = await Investment.findById(investmentId);
+
+        if (!investment) {
             return res.status(404).json({ error: 'Investment not found' });
         }
+
+        // Get the current images of the investment
+        let currentImages = investment.images;
+
+        // Append the new images to the existing ones
+        let updatedImages = currentImages.concat(newImagePaths);
+
+        investment.images = updatedImages; // Update the paths of the uploaded images
+        investment.markModified('images'); // Tell Mongoose that the images field has been updated
+
+        // Update other fields
+        investment.title = title;
+        investment.description = description;
+        investment.terms = terms;
+        investment.investmentAmount = investmentAmount;
+        investment.location = location;
+
+        // Save the investment
+        const updatedInvestment = await investment.save();
 
         res.status(200).json({
             message: 'Investment updated successfully',
@@ -88,13 +125,14 @@ exports.updateInvestment = async (req, res, next) => {
         });
     } catch (error) {
         console.error(error);
+        res.status(500).json({ error: error.message });
         next(error);
     }
 };
 
 
 // Delete an investment
-exports.deleteInvestment = async (req, res, next) => {
+module.exports.deleteInvestment = async (req, res, next) => {
     try {
         const investmentId = req.params.investmentId;
 

@@ -95,10 +95,10 @@ const Events = () => {
               </div>
               <div className="py-3 mt-2 border-t flex justify-between items-center">
                 <div class="text-primary flex justify-center items-center">
-                  <FaRegBuilding size={20} />
+                  <FaRegBuilding size={15} />
                 </div>
 
-                <Link to="">
+                <Link to={`/events/${event._id}`}>
                   <button className="px-4 py-2 text-white bg-primary hover:bg-blue">
                     Read More
                   </button>

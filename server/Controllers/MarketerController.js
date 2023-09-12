@@ -87,8 +87,7 @@ module.exports.createMarketer = async (req, res, next) => {
             role: "marketer",
             createdAt,
             referralLink: generatedRefferalLink,
-            referralCode: generatedReferralCode,
-            paymentMade: false
+            referralCode: generatedReferralCode,        
         });
         // console.log(marketer);
 

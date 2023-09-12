@@ -11,9 +11,9 @@ const StyledTable = ({ data, approveMarketer }) => {
 
   const handleApproveClick = (marketerId) => {
     approveMarketer(marketerId);
-    toast.success("Marketer Approved successfully", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 2000, // 2 seconds
+    toast.success("Marketer Approved!", {
+      autoClose: 1000,
+      position: "top-right",
     });
   };
 

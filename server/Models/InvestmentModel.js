@@ -1,16 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const InvestmentSchema = new Schema({
-    property: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Property',
-        required: true
-    },
-    investmentAmount: {
-        type: Number,
-        required: true
-    },
+const InvestmentSchema = new Schema({  
     title: {
         type: String,
         required: true
@@ -19,10 +10,17 @@ const InvestmentSchema = new Schema({
         type: String,
         required: true
     },
-    property: {
-        type: Schema.Types.ObjectId,
-        ref: 'Property',
+    location: {
+        type: String,
+        required: true,
+    },
+    investmentAmount: {
+        type: Number,
         required: true
+    },
+    images: {
+        type: [String],
+        required: true,
     },
     terms: {
         type: String,

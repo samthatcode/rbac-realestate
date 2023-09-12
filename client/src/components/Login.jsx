@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import Layout from "./Layout";
 
-
 const Login = () => {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -33,11 +32,20 @@ const Login = () => {
       position: "top-left",
       autoClose: 1000,
     });
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "top-right",
-      autoClose: 1000,
-    });
+
+  const handleSuccess = (msg, userRole) => {
+    if (userRole === "admin") {
+      toast.success("Welcome Admin!", {
+        autoClose: 1000,
+        position: "top-right",
+      });
+    } else {
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 1000,
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,7 +66,7 @@ const Login = () => {
       const { success, message, data: user } = data;
 
       if (success) {
-        handleSuccess(message);
+        handleSuccess(message, user.role);
         setUser(user);
         if (user.role === "admin") {
           setTimeout(() => {
@@ -152,7 +160,7 @@ const Login = () => {
                     className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
                     style={{ zIndex: 9999 }}
                   >
-                   <FaSpinner className="animate-spin text-4xl text-primary" />
+                    <FaSpinner className="animate-spin text-4xl text-primary" />
                   </div>
                 </div>
               ) : (

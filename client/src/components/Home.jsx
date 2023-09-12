@@ -2,7 +2,7 @@ import React from "react";
 import Hero from "./Hero";
 import ContactUs from "./ContactUs";
 import Layout from "./Layout";
-import { LandPage, ProductPage } from "../pages";
+import { InvestmentPage, LandPage, ProductPage } from "../pages";
 import Events from "./Event/Events";
 
 const Home = () => {
@@ -12,6 +12,7 @@ const Home = () => {
         <Hero />
         <ProductPage />
         <LandPage />      
+        <InvestmentPage />
         <Events />
         <ContactUs />     
       </Layout>  

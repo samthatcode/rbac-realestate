@@ -306,7 +306,7 @@ const ProductManagement = () => {
   };
 
   const handleFileChange = (e) => {
-    console.log(e.target.files);
+    // console.log(e.target.files);
     // Get the selected files from the event
     const selectedFiles = e.target.files;
     // Convert the FileList to an array of { file, name } objects
@@ -557,8 +557,8 @@ const ProductManagement = () => {
                   {currentPage * ITEMS_PER_PAGE + index + 1}
                 </td>
                 <td className="border px-4 py-2 capitalize">{product.title}</td>
-                <td className="border px-4 py-2 text-green-500 font-semibold ">
-                  &#x20A6;{product.price}
+                <td className="border px-4 py-2 text-green font-semibold ">
+                  &#x20A6;{product.price?.toLocaleString()}
                 </td>
                 <td className="border px-4 py-2 capitalize">
                   {product.description}

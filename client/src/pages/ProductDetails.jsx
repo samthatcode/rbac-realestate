@@ -141,7 +141,7 @@ const ProductDetails = () => {
               {description}
             </p>
             <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-4">
-              <AiOutlineEnvironment className="text-gray-400 mr-1" />
+              <AiOutlineEnvironment className="text-primary font-semibold mr-1" />
               {location}
             </p>
             <div className="flex">
@@ -149,7 +149,7 @@ const ProductDetails = () => {
                 <div className="flex-col">
                   <p>Baths</p>
                   <div className="flex justify-center items-center">
-                    <span className="mr-1">
+                    <span className="mr-1 text-primary font-semibold">
                       <FaBath />
                     </span>
                     <p>{numberOfBaths}</p>
@@ -158,7 +158,7 @@ const ProductDetails = () => {
                 <div className="flex-col">
                   <p>Beds</p>
                   <div className="flex justify-center items-center">
-                    <span className="mr-1">
+                    <span className="mr-1 text-primary font-semibold">
                       <FaBed />
                     </span>
                     <p>{numberOfBeds}</p>
@@ -167,7 +167,7 @@ const ProductDetails = () => {
                 <div className="flex-col">
                   <p>Rooms</p>
                   <div className="flex justify-center items-center">
-                    <span className="mr-1">
+                    <span className="mr-1 text-primary font-semibold">
                       <FaDoorOpen />
                     </span>
                     <p>{numberOfRooms}</p>
@@ -176,7 +176,7 @@ const ProductDetails = () => {
                 <div className="flex-col">
                   <p>Area</p>
                   <div className="flex justify-center items-center">
-                    <span className="mr-1">
+                    <span className="mr-1 text-primary font-semibold">
                       <FaRuler />
                     </span>
                     <p>{squareFootage} Sq Ft</p>
@@ -185,8 +185,8 @@ const ProductDetails = () => {
               </div>
             </div>
             <div className="flex justify-between items-center">
-              <p className="text-lg text-title font-bold border-t mt-2">
-                &#x20A6;{price}
+              <p className="text-lg text-red font-bold border-t mt-2">
+                &#x20A6;{price?.toLocaleString()}
               </p>
             </div>
           </div>

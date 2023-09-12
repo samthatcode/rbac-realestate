@@ -48,8 +48,8 @@ const CreateEventForm = () => {
 
     try {
       const response = await axios.post(
-        // "https://surefinders-backend.onrender.com/api/events",
-        "/api/events",
+        "https://surefinders-backend.onrender.com/api/events",
+        // "/api/events",
         formData,
         {
           headers: {

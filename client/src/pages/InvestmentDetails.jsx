@@ -1,88 +1,77 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { CartContext } from "../contexts/CartContext";
 import { toast } from "react-toastify";
 import { AiOutlineEnvironment } from "react-icons/ai";
-import { GiRoad } from "react-icons/gi";
 import { Layout } from "../components";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const LandDetails = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { addToCart } = useContext(CartContext);
-  const [land, setLand] = useState([]);
+const InvestmentDetails = () => {
+  const { id } = useParams(); 
+  const [investment, setInvestment] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    const fetchLand = async () => {
+    const fetchInvestments = async () => {
       try {
         const response = await axios.get(
-          `https://surefinders-backend.onrender.com/api/lands/${id}`,
-          // `/api/lands/${id}`,
+          `https://surefinders-backend.onrender.com/api/investments/${id}`,
+          // `/api/investments/${id}`,
           {
             withCredentials: true,
           }
         );
-        setLand(response.data.data);
+        setInvestment(response.data.data);
+        // console.log(response.data)
         setCurrentImage(response.data.data.images[0]); // set the first image as current
       } catch (error) {
-        console.error("Failed to fetch land:", error);
+        console.error("Failed to fetch investments:", error);
       }
     };
 
-    fetchLand();
+    fetchInvestments();
   }, [id]);
 
-  if (!land) {
+  if (!investment) {
     return <p>Loading...</p>;
   }
 
-  const { title, description, price, acreage, location, images } = land;
+  const { title, description, investmentAmount, terms, location, images } = investment;
 
   const handleThumbnailClick = (index) => {
     setCurrentImage(images[index]); // set the clicked image as current
   };
 
   const handlePrevClick = () => {
-    if (land && land.images) {
+    if (investment && investment.images) {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === 0 ? land.images.length - 1 : prevIndex - 1
+        prevIndex === 0 ? investment.images.length - 1 : prevIndex - 1
       );
     }
   };
 
   const handleNextClick = () => {
-    if (land && land.images) {
+    if (investment && investment.images) {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === land.images.length - 1 ? 0 : prevIndex + 1
+        prevIndex === investment.images.length - 1 ? 0 : prevIndex + 1
       );
     }
   };
 
   useEffect(() => {
-    if (land && land.images) {
-      setCurrentImage(land.images[currentImageIndex]);
+    if (investment && investment.images) {
+      setCurrentImage(investment.images[currentImageIndex]);
     }
   }, [currentImageIndex]);
 
-  const handleAddToCart = () => {
-    addToCart(land);
-    toast("Land added to cart", {
-      position: "top-right",
-      autoClose: 500,
-    });
-    // console.log("Product added to cart:", product);
-  };
-
+ 
   return (
     <Layout>
       <div className="container mx-auto p-10 py-40">
         <div className="title_head mb-4">
           <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
-            Land Details
+          Investment Details
           </h2>
           <p className="text-center capitalize text-subTitle">
             We provide full service at every step.
@@ -111,9 +100,9 @@ const LandDetails = () => {
               />
             </div>
             <div className="grid grid-cols-4 gap-4 mb-4">
-              {land &&
-                land.images &&
-                land.images.map((thumbnail, index) => (
+              {investment &&
+                investment.images &&
+                investment.images.map((thumbnail, index) => (
                   <img
                     key={index}
                     src={`https://surefinders-backend.onrender.com/public/images/${thumbnail}`}
@@ -129,7 +118,7 @@ const LandDetails = () => {
             <span className="text-sm font-medium capitalize text-indigo-500 bg-indigo-100 p-1 py-1 px-2 last:mr-0 mr-1 mb-4">
               {title}
             </span>
-            <p className="text-title text-lg capitalize break-words font-bold mb-2">
+            <p className="text-title text-lg capitalize break-words font-bold my-2">
               {description}
             </p>
             <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-4">
@@ -139,32 +128,23 @@ const LandDetails = () => {
             <div className="flex">
               <div className="flex flex-row gap-4 text-sm text-zinc-500 mr-4">
                 <div className="flex-col">
-                  <p>Acreage</p>
-                  <div className="flex justify-center items-center">
-                    <span className="mr-1 text-primary font-semibold">
-                      <GiRoad />
-                    </span>
-                    <p>{acreage} Acres</p>
+                  <p  className="mb-2 font-bold">Terms</p>
+                  <div className="flex justify-center items-center">                  
+                    <p>{terms}</p>
                   </div>
                 </div>
               </div>
             </div>
             <div className="flex justify-between items-center">
               <p className="text-lg text-red font-bold border-t mt-2">
-                &#x20A6;{price?.toLocaleString()}
+                &#x20A6;{investmentAmount?.toLocaleString()}
               </p>
             </div>
-          </div>
-          <button
-            onClick={handleAddToCart}
-            className="bg-primary hover:bg-blue text-white font-bold py-2 px-4 rounded"
-          >
-            Add to Cart
-          </button>
+          </div>        
         </div>
       </div>
     </Layout>
   );
 };
 
-export default LandDetails;
+export default InvestmentDetails;

@@ -38,8 +38,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (loading) return; // Prevent multiple clicks while loading
-    setLoading(true); // Start loading state
+    if (loading) return;
+    setLoading(true);
 
     try {
       const { data } = await axios.post(
@@ -56,7 +56,7 @@ const Login = () => {
 
       if (success) {
         handleSuccess(message);
-        setMarketer(marketer);        
+        setMarketer(marketer);
         // check if payment has been made
         if (marketer.paymentMade) {
           navigate(`/marketer/dashboard/${marketer._id}`);
@@ -66,7 +66,6 @@ const Login = () => {
       } else {
         handleError(message);
       }
-      
     } catch (error) {
       console.log(error);
     } finally {

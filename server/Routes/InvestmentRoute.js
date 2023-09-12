@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { upload } = require('../server');
 
 const {
     verifyTokenAndUser,
@@ -17,42 +18,42 @@ const {
 
 router.post(
     '/investments',
-    verifyTokenAndUser,
-    allowIfLoggedin,
-    allowIfAdmin,
-    grantAccess('createAny', 'investment'),
-    createInvestment
+    // verifyTokenAndUser,
+    // allowIfLoggedin,
+    // allowIfAdmin,
+    // grantAccess('createAny', 'investment'),
+    upload.array('images'), createInvestment
 );
 
 router.get(
     '/investments',
-    verifyTokenAndUser,
-    allowIfLoggedin,
-    grantAccess('readAny', 'investment'),
+    // verifyTokenAndUser,
+    // allowIfLoggedin,
+    // grantAccess('readAny', 'investment'),
     getInvestments
 );
 
 router.get(
     '/investments/:investmentId',
-    verifyTokenAndUser,
-    allowIfLoggedin,
-    grantAccess('readAny', 'investment'),
+    // verifyTokenAndUser,
+    // allowIfLoggedin,
+    // grantAccess('readAny', 'investment'),
     getInvestmentById
 );
 
 router.put(
     '/investments/:investmentId',
-    verifyTokenAndUser,
-    allowIfLoggedin,
-    grantAccess('updateAny', 'investment'),
-    updateInvestment
+    // verifyTokenAndUser,
+    // allowIfLoggedin,
+    // grantAccess('updateAny', 'investment'),
+    upload.array('images'), updateInvestment
 );
 
 router.delete(
     '/investments/:investmentId',
-    verifyTokenAndUser,
-    allowIfLoggedin,
-    grantAccess('deleteAny', 'investment'),
+    // verifyTokenAndUser,
+    // allowIfLoggedin,
+    // grantAccess('deleteAny', 'investment'),
     deleteInvestment
 );
 

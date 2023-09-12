@@ -55,7 +55,7 @@ const MarketerPayment = () => {
               }
             )
             .then(() => {
-              console.log("Navigating to /marketer/login");
+              // console.log("Navigating to /marketer/login");
               navigateTo("/marketer/login");
             })
             .catch((error) => {

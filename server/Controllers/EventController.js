@@ -56,6 +56,28 @@ module.exports.getEvents = async (req, res, next) => {
   }
 };
 
+
+// Get a single event by id
+module.exports.getEventById = async (req, res, next) => {
+  const eventId = req.params.id; // Assuming your route has a parameter named "id"
+
+  try {
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    res.status(200).json({
+      data: event,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+
 // Register for an event
 module.exports.registerForEvent = async (req, res, next) => {
   try {

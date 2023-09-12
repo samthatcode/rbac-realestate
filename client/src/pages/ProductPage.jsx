@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
 import { AiOutlineEnvironment } from "react-icons/ai";
-import { FaBath, FaBed, FaDoorOpen, FaRuler } from "react-icons/fa";
+import { FaBath, FaBed, FaDoorOpen, FaRuler, FaSpinner } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -96,18 +95,20 @@ const ProductPage = () => {
     fetchProducts();
   }, []);
 
-  const handleHeartClick = (product) => {
-    toggleSavedProperty(product._id);
-    if (savedProperties.includes(product._id)) {
+  const handleHeartClick = (product) => {product
+    const isCurrentlySaved = savedProperties.includes(product._id);
+    toggleSavedProperty(product._id);  
+    if (!isCurrentlySaved) {
       toast.success("Saved", { position: "top-right", autoClose: 500 });
     } else {
       toast.info("Unsaved", { position: "top-right", autoClose: 500 });
     }
   };
+  
 
   const handleAddToCart = async (product) => {
     setLoading(true);
-    await addToCart(product, 'product');
+    await addToCart(product, "product");
     toast("Product added to cart", {
       position: "top-right",
       autoClose: 500,
@@ -135,15 +136,9 @@ const ProductPage = () => {
       >
         {isLoading ? (
           <div className="overlay">
-            <ColorRing
-              visible={true}
-              height="50"
-              width="50"
-              ariaLabel="blocks-loading"
-              wrapperStyle={{}}
-              wrapperClass="blocks-wrapper"
-              colors={["#3454d1", "#007bff"]}
-            />
+            <div className="flex items-center justify-center h-screen">
+              <FaSpinner className="animate-spin text-4xl text-primary" />
+            </div>
           </div>
         ) : filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
@@ -168,7 +163,7 @@ const ProductPage = () => {
                   )}
                 </div>
                 <span
-                  className={`absolute top-2 right-2 text-sm font-medium capitalize  bg-gray-500 p-1 py-1 px-2 last:mr-0 mr-1 cursor-pointer ${
+                  className={`absolute top-2 right-2 text-sm font-medium capitalize p-1 py-1 px-2 last:mr-0 mr-1 cursor-pointer ${
                     savedProperties.includes(product._id)
                       ? "text-red"
                       : "text-gray-200"
@@ -192,7 +187,7 @@ const ProductPage = () => {
                       : product.description}
                   </p>
                   <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-3">
-                    <AiOutlineEnvironment className="text-gray-400 mr-1" />
+                    <AiOutlineEnvironment className="text-primary font-semibold mr-1" />
                     {product.location}
                   </p>
                   <div className="flex">
@@ -200,7 +195,7 @@ const ProductPage = () => {
                       <div className="flex-col">
                         <p className="mb-2">Baths</p>
                         <div className="flex justify-center items-center">
-                          <span className="mr-1">
+                          <span className="mr-1 text-primary font-semibold">
                             <FaBath />
                           </span>
                           <p>{product.numberOfBaths}</p>
@@ -209,7 +204,7 @@ const ProductPage = () => {
                       <div className="flex-col">
                         <p className="mb-2">Beds</p>
                         <div className="flex justify-center items-center">
-                          <span className="mr-1">
+                          <span className="mr-1 text-primary font-semibold">
                             <FaBed />
                           </span>
                           <p>{product.numberOfBeds}</p>
@@ -218,7 +213,7 @@ const ProductPage = () => {
                       <div className="flex-col">
                         <p className="mb-2">Rooms</p>
                         <div className="flex justify-center items-center">
-                          <span className="mr-1">
+                          <span className="mr-1 text-primary font-semibold">
                             <FaDoorOpen />
                           </span>
                           <p>{product.numberOfRooms}</p>
@@ -227,7 +222,7 @@ const ProductPage = () => {
                       <div className="flex-col">
                         <p className="mb-2">Area</p>
                         <div className="flex justify-center items-center">
-                          <span className="mr-1">
+                          <span className="mr-1 text-primary font-semibold">
                             <FaRuler />
                           </span>
                           <p>{product.squareFootage} Sq Ft</p>
@@ -236,8 +231,8 @@ const ProductPage = () => {
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <p className="text-lg text-title font-bold border-t mt-2">
-                      &#x20A6;{product.price}
+                    <p className="text-lg text-red font-bold border-t mt-2">
+                      &#x20A6;{product.price?.toLocaleString()}
                     </p>
                   </div>
                 </div>

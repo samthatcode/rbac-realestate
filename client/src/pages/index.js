@@ -11,3 +11,5 @@ export { default as CartListPage } from './CartListPage';
 export { default as CheckoutPage } from './CheckoutPage'; 
 export { default as PaystackCheckout } from './PaystackCheckout';
 export { default as ConfirmationPage } from './ConfirmationPage';
+export { default as InvestmentPage } from './InvestmentPage';
+export { default as InvestmentDetails } from './InvestmentDetails';

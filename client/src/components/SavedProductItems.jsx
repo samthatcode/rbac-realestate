@@ -60,8 +60,10 @@ const SavedProductItems = () => {
   });
 
   const handleHeartClick = (product) => {
+    product;
+    const isCurrentlySaved = savedProperties.includes(product._id);
     toggleSavedProperty(product._id);
-    if (savedProperties.includes(product._id)) {
+    if (!isCurrentlySaved) {
       toast.success("Saved", { position: "top-right", autoClose: 500 });
     } else {
       toast.info("Unsaved", { position: "top-right", autoClose: 500 });
@@ -86,9 +88,9 @@ const SavedProductItems = () => {
           Your saved Properties
         </p>
       </div>
-    
+
       <div className="my-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {savedProducts.length > productsPerPage && (
+        {savedProducts.length > productsPerPage && (
           <div className="col-span-full flex justify-end items-center gap-8">
             <button
               className="text-indigo-500 hover:text-indigo-700 bg-indigo-200 p-2 rounded px-4"
@@ -110,13 +112,13 @@ const SavedProductItems = () => {
             (currentPage + 1) * productsPerPage
           )
           .map((product) => (
-            <div key={product._id} className="">              
+            <div key={product._id} className="">
               <div
                 className="relative rounded overflow-hidden hover:shadow-xl transition-all hover-card cursor-pointer"
                 onClick={() => {
                   // Check if the click target is not the heart icon
                   if (!event.target.classList.contains("heart-icon")) {
-                    navigate(`/products/${product._id}`); 
+                    navigate(`/products/${product._id}`);
                   }
                 }}
               >
@@ -131,7 +133,7 @@ const SavedProductItems = () => {
                   )}
                 </div>
                 <span
-                  className={`absolute top-2 right-2 text-sm font-medium capitalize  bg-gray-500 p-1 py-1 px-2 last:mr-0 mr-1 cursor-pointer ${
+                  className={`absolute top-2 right-2 text-sm font-medium capitalize p-1 py-1 px-2 last:mr-0 mr-1 cursor-pointer ${
                     savedProperties.includes(product._id)
                       ? "text-red"
                       : "text-gray-200"
@@ -154,7 +156,7 @@ const SavedProductItems = () => {
                       : product.description}
                   </p>
                   <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-3">
-                    <AiOutlineEnvironment className="text-gray-400 mr-1" />
+                    <AiOutlineEnvironment className="text-primary font-semibold mr-1" />
                     {product.location}
                   </p>
                   <div className="flex">
@@ -162,7 +164,7 @@ const SavedProductItems = () => {
                       <div className="flex-col">
                         <p className="mb-2">Baths</p>
                         <div className="flex justify-center items-center">
-                          <span className="mr-1">
+                          <span className="mr-1 text-primary font-semibold">
                             <FaBath />
                           </span>
                           <p>{product.numberOfBaths}</p>
@@ -171,7 +173,7 @@ const SavedProductItems = () => {
                       <div className="flex-col">
                         <p className="mb-2">Beds</p>
                         <div className="flex justify-center items-center">
-                          <span className="mr-1">
+                          <span className="mr-1 text-primary font-semibold">
                             <FaBed />
                           </span>
                           <p>{product.numberOfBeds}</p>
@@ -180,7 +182,7 @@ const SavedProductItems = () => {
                       <div className="flex-col">
                         <p className="mb-2">Rooms</p>
                         <div className="flex justify-center items-center">
-                          <span className="mr-1">
+                          <span className="mr-1 text-primary font-semibold">
                             <FaDoorOpen />
                           </span>
                           <p>{product.numberOfRooms}</p>
@@ -189,7 +191,7 @@ const SavedProductItems = () => {
                       <div className="flex-col">
                         <p className="mb-2">Area</p>
                         <div className="flex justify-center items-center">
-                          <span className="mr-1">
+                          <span className="mr-1 text-primary font-semibold">
                             <FaRuler />
                           </span>
                           <p>{product.squareFootage} Sq Ft</p>
@@ -198,14 +200,14 @@ const SavedProductItems = () => {
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <p className="text-lg text-title font-bold border-t mt-2">
-                      &#x20A6;{product.price}
+                    <p className="text-lg text-red font-bold border-t mt-2">
+                      &#x20A6;{product.price?.toLocaleString()}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-          ))}       
+          ))}
       </div>
     </>
   );

@@ -4,7 +4,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ProductPage from "./ProductPage";
 import LandPage from "./LandPage";
-import { Events, SavedLandItems, SavedProductItems } from "../components";
+import {
+  Events,
+  SavedInvestmentItems,
+  SavedLandItems,
+  SavedProductItems,
+} from "../components";
+import InvestmentPage from "./InvestmentPage";
 
 const UserDashboard = () => {
   const { user, setUser } = useContext(UserContext);
@@ -75,22 +81,28 @@ const UserDashboard = () => {
       <div className=" p-4 bg-white rounded shadow mt-20">
         <p className="mb-4 capitalize">
           Welcome,{" "}
-          <span className="text-indigo-500 bg-indigo-100 rounded-lg p-1 text-lg font-semibold py-1 px-2 last:mr-0 mr-1">
+          <span className="text-indigo-500 bg-indigo-100 rounded-lg p-1 text-base font-semibold py-1 px-2 last:mr-0 mr-1">
             {user && `${user.firstName} ${user.lastName}`}!
           </span>
         </p>
         <h2 className="text-2xl text-center bg-blue hover:bg-primary p-5 text-white font-bold mb-2">
           Wishlists
         </h2>
-
-        <SavedProductItems />
-
-        <SavedLandItems />
+        <div className=" p-4 bg-white rounded-xl shadow-xl mt-20">
+          <SavedProductItems />
+        </div>
+        <div className=" p-4 bg-white rounded-xl shadow-xl mt-20">
+          {" "}
+          <SavedLandItems />
+        </div>
+        <div className=" p-4 bg-white rounded-xl shadow-xl mt-20">
+          {" "}
+          <SavedInvestmentItems />
+        </div>
       </div>
 
       <div className="mt-4 p-4 bg-white rounded shadow">
-        <h2 className="text-xl font-bold mb-2">Account Settings</h2>
-        {/* Provide options to update profile, change password, or log out */}
+        <h2 className="text-xl font-bold mb-2">Account Settings</h2>       
         {user && (
           <>
             <span className="text-indigo-500 bg-indigo-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
@@ -127,6 +139,7 @@ const UserDashboard = () => {
             </h2>
             <ProductPage />
             <LandPage />
+            <InvestmentPage />
           </div>
 
           <Events />

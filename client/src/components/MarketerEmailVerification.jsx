@@ -35,7 +35,7 @@ const MarketerEmailVerification = () => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-50 bg-opacity-75"> 
     <div className="bg-white p-6 rounded-lg shadow-lg">
-      <div className="text-lg leading-6 font-medium text-title">
+      <div className="text-lg text-center leading-6 font-medium text-title">
         Your email has been successfully verified. You will be redirected to the login page shortly.
       </div>
     </div>
@@ -44,3 +44,6 @@ const MarketerEmailVerification = () => {
 };
 
 export default MarketerEmailVerification;
+
+
+// https://pbs.twimg.com/profile_images/1604859709210624000/i2dzGLJS_400x400.jpg
