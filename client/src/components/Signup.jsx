@@ -120,6 +120,7 @@ const Signup = () => {
     try {
       await axios({
         method: "POST",
+        // url: "/api/signup",
         url: "https://surefinders-backend.onrender.com/api/signup",
         data: {
           email,

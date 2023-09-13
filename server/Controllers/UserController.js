@@ -132,7 +132,7 @@ module.exports.Signup = async (req, res, next) => {
 
     // Save the verification token
     await verificationToken.save();
-    console.log(verificationToken);
+    // console.log(verificationToken);
 
 
     // Send the verification email
@@ -155,7 +155,7 @@ module.exports.Signup = async (req, res, next) => {
     });
 
     const token = createSecretToken(user._id);
-    console.log("Generated Token:", token); // Log the generated token
+    // console.log("Generated Token:", token); // Log the generated token
 
     res.cookie("token", token, {
       httpOnly: true,

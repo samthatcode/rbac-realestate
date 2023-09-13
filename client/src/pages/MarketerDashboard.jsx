@@ -111,18 +111,7 @@ const MarketerDashboard = () => {
             <button onClick={() => setIsDrawerOpen(false)}>
               <span className="text-4xl">&times;</span>
             </button>
-            <Link
-              to="/registration"
-              className="block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4"
-            >
-              Registration Form
-            </Link>
-            <Link
-              to={`/referrals/${referralId}`}
-              className="block py-2 px-4 rounded bg-primary hover:bg-blue text-white transition-colors font-medium mb-4"
-            >
-              Referrals
-            </Link>
+            {/* Links */}
           </nav>
         </Drawer>
 
@@ -146,7 +135,7 @@ const MarketerDashboard = () => {
             )}
             <p className="capitalize ">
               Welcome{" "}
-              <span className="capitalize text-orange-500 bg-orange-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
+              <span className="capitalize text-indigo-500 bg-indigo-100 rounded-lg p-1 text-xs font-semibold py-1 px-2 last:mr-0 mr-1">
                 {marketer.firstName}
               </span>
             </p>

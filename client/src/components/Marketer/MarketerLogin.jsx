@@ -28,7 +28,7 @@ const Login = () => {
   const handleError = (err) =>
     toast.error(err, {
       position: "top-left",
-      autoClose: 2000,
+      autoClose: 1000,
     });
   const handleSuccess = (msg) =>
     toast.success(msg, {

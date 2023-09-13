@@ -10,6 +10,7 @@ const {
     createMarketer,
     getMarketer,
     getMarketers,
+    getMarketerByReferralLink,
     updateMarketer,
     getMarketerDashboard,
     generateReferralLink,
@@ -44,6 +45,9 @@ router.get('/marketers', getMarketers);
 
 // Get marketer information
 router.get('/marketers/:marketerId', getMarketer);
+
+router.get('/marketers/referral/:referralLink', getMarketerByReferralLink);
+
 
 // Update marketer details
 router.put('/marketers/:marketerId', grantAccess('updateOwn', 'profile'), upload.single('profilePicture'), updateMarketer);

@@ -257,6 +257,23 @@ module.exports.getMarketer = async (req, res, next) => {
     }
 };
 
+module.exports.getMarketerByReferralLink = async (req, res, next) => {
+    try {
+        const referralLink = req.params.referralLink;
+        const marketer = await Marketer.findOne({ referralLink: referralLink });
+
+        if (!marketer) {
+            return res.status(404).json({ error: 'Marketer not found' });
+        }
+
+        res.status(200).json({ data: marketer });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
+
 // Update Marketer
 module.exports.getMarketers = async (req, res, next) => {
     const page = req.query.page || 1;
