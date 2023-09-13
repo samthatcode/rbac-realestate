@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FiMapPin } from "react-icons/fi";
@@ -9,7 +9,6 @@ import Slider from "react-slick";
 import { useSearch } from "../contexts/SearchContext";
 import { FaHeart, FaSpinner } from "react-icons/fa";
 import { useSavedProperties } from "../contexts/SavedPropertiesContext";
-import { CartContext } from "../contexts/CartContext";
 import { toast } from "react-toastify";
 
 const settings = {
@@ -60,8 +59,6 @@ const settings = {
 const LandPage = () => {
   const [lands, setLands] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const { addToCart } = useContext(CartContext);
   const { savedProperties, toggleSavedProperty } = useSavedProperties();
 
   const { searchQuery } = useSearch();
@@ -95,23 +92,12 @@ const LandPage = () => {
 
   const handleHeartClick = (land) => {
     const isCurrentlySaved = savedProperties.includes(land._id);
-    toggleSavedProperty(land._id);  
+    toggleSavedProperty(land._id);
     if (!isCurrentlySaved) {
       toast.success("Saved", { position: "top-right", autoClose: 500 });
     } else {
       toast.info("Unsaved", { position: "top-right", autoClose: 500 });
     }
-  };
-  
-
-  const handleAddToCart = async (land) => {
-    setLoading(true);
-    await addToCart(land, "land");
-    toast("Land added to cart", {
-      position: "top-right",
-      autoClose: 500,
-    });
-    setLoading(false);
   };
 
   return (
@@ -207,17 +193,6 @@ const LandPage = () => {
                   </div>
                 </div>
               </div>
-              <button
-                onClick={() => handleAddToCart(land)}
-                className={
-                  `w-full px-4 py-2 mt-4 mb-4 text-white bg-primary rounded-md hover:bg-blue font-medium ${
-                    loading ? "opacity-50 cursor-not-allowed" : ""
-                  }` // Disable button and show loading state
-                }
-                disabled={loading} // Disable button
-              >
-                {loading ? "Adding..." : "Add to Cart"}
-              </button>
             </div>
           ))
         ) : (

@@ -4,7 +4,6 @@ import Modal from "react-modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 Modal.setAppElement("#root");
 const modalStyles = {
   content: {
@@ -31,6 +30,7 @@ const ProductManagement = () => {
     numberOfBaths: "",
     images: [],
     categoryId: "",
+    propertyType: "",
   });
   const [editingProduct, setEditingProduct] = useState("");
   const [categories, setCategories] = useState([]);
@@ -55,6 +55,7 @@ const ProductManagement = () => {
         numberOfBaths: "",
         images: [],
         categoryId: "",
+        propertyType: "",
       });
       setIsFormSubmitted(false);
     }
@@ -100,31 +101,46 @@ const ProductManagement = () => {
     return products.slice(startIndex, endIndex);
   };
 
+  const propertyTypeOptions = [
+    "Terrace",
+    "Semi-Detached",
+    "Apartment",
+    "Condo",
+    "Single Family Home",
+    // Add more property types as needed
+  ];
+
   // Handle input changes
   const handleInputChange = (e) => {
-    // Inside handleInputChange function
-    if (e.target.name === "image" || e.target.name === "images") {
+    if (e.target.name === "propertyType") {
+      const selectedPropertyType = e.target.value;
+      setFormData({
+        ...formData,
+        propertyType: selectedPropertyType,
+      });
+    } else if (e.target.name === "image" || e.target.name === "images") {
+      // Handle file input fields here
       const selectedFiles = Array.from(e.target.files);
-      setFiles(selectedFiles); // Update selected files in the state
+      setFiles(selectedFiles);
       setFormData({
         ...formData,
         [e.target.name]: selectedFiles,
-        [`${e.target.name}Name`]: selectedFiles.map((file) => file.name), // Store file names
+        [`${e.target.name}Name`]: selectedFiles.map((file) => file.name),
       });
     } else if (e.target.name === "imageUrl") {
       setFormData({
         ...formData,
         image: e.target.value,
-        imageName: "imageUrl", // store the file name
+        imageName: "imageUrl",
       });
     } else if (e.target.name === "categoryId") {
       const selectedCategoryId = e.target.value;
-      // console.log("Selected Category ID:", selectedCategoryId);
       setFormData({
         ...formData,
         categoryId: selectedCategoryId,
       });
     } else {
+      // Handle other input fields here
       setFormData({
         ...formData,
         [e.target.name]: e.target.value,
@@ -138,7 +154,7 @@ const ProductManagement = () => {
     try {
       // Create a new FormData object
       const formDataToSend = new FormData();
-      // console.log("formData images:", formData["images"]); 
+      // console.log("formData images:", formData["images"]);
       // Inside createProduct function
       for (const key in formData) {
         if (key === "images") {
@@ -152,7 +168,7 @@ const ProductManagement = () => {
         }
       }
 
-      // console.log("image after loop:", formDataToSend.getAll("images")); 
+      // console.log("image after loop:", formDataToSend.getAll("images"));
       // Make the API request to send the form data to the server
       for (let pair of formDataToSend.entries()) {
         console.log(pair[0] + ", " + pair[1]);
@@ -180,6 +196,7 @@ const ProductManagement = () => {
         numberOfBaths: "",
         images: [],
         categoryId: "",
+        propertyType: "",
       });
     } catch (error) {
       console.error(error);
@@ -235,6 +252,7 @@ const ProductManagement = () => {
         numberOfBaths: "",
         images: [],
         categoryId: "",
+        propertyType: "",
       });
     } catch (error) {
       console.error("Failed to update product:", error);
@@ -271,6 +289,7 @@ const ProductManagement = () => {
       numberOfBeds,
       numberOfBaths,
       categoryId,
+      propertyType,
     } = product;
     // Create a new object with the extracted properties and set it as the form data
     setFormData({
@@ -283,7 +302,8 @@ const ProductManagement = () => {
       numberOfBeds,
       numberOfBaths,
       categoryId,
-      images: [], 
+      propertyType,
+      images: [],
     });
     setEditingProduct(product);
     setModalIsOpen(true);
@@ -301,6 +321,7 @@ const ProductManagement = () => {
       numberOfBaths: "",
       images: [],
       categoryId: "",
+      propertyType: "",
     });
     setModalIsOpen(false);
   };
@@ -414,6 +435,28 @@ const ProductManagement = () => {
               className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
             />
           </div>
+          <div className="mb-4">
+            <label
+              htmlFor="propertyType"
+              className="block font-medium mb-1 text-gray-700"
+            >
+              Property Type
+            </label>
+            <select
+              id="propertyType"
+              name="propertyType"
+              onChange={handleInputChange}
+              className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 bg-white"
+            >
+              <option>Select a property type</option>
+              {propertyTypeOptions.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="mb-4">
             <label
               htmlFor="numberOfRooms"
@@ -723,6 +766,34 @@ const ProductManagement = () => {
             </div>
             <div className="mb-4">
               <label
+                htmlFor="propertyType"
+                className="block font-medium mb-1 text-gray-700"
+              >
+                Property Type
+              </label>
+              <select
+                id="propertyType"
+                name="propertyType"
+                value={formData.propertyType}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    propertyType: e.target.value,
+                  })
+                }
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 bg-white"
+              >
+                <option>Select a property type</option>
+                {propertyTypeOptions.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-4">
+              <label
                 htmlFor="numberOfRooms"
                 className="block font-medium mb-1 text-gray-700"
               >
@@ -839,7 +910,7 @@ const ProductManagement = () => {
                 name="categoryId"
                 value={formData.categoryId}
                 onChange={handleInputChange}
-                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 bg-white"
               >
                 {categories.map((categoryId) => (
                   <option key={categoryId._id} value={categoryId._id}>

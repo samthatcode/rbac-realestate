@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   Footer,
   MarketerProfile,
-  Referrals,
-  RegistrationForm,
+  Referrals, 
 } from "../components";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import axios from "axios";
 import { MarketerContext } from "../contexts/MarketerContext";

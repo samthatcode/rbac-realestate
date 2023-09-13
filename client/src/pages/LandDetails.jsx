@@ -1,17 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { CartContext } from "../contexts/CartContext";
-import { toast } from "react-toastify";
 import { AiOutlineEnvironment } from "react-icons/ai";
 import { GiRoad } from "react-icons/gi";
 import { Layout } from "../components";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const LandDetails = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { addToCart } = useContext(CartContext);
+  const { id } = useParams();  
   const [land, setLand] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -27,7 +23,7 @@ const LandDetails = () => {
           }
         );
         setLand(response.data.data);
-        setCurrentImage(response.data.data.images[0]); // set the first image as current
+        setCurrentImage(response.data.data.images[0]); 
       } catch (error) {
         console.error("Failed to fetch land:", error);
       }
@@ -68,14 +64,6 @@ const LandDetails = () => {
     }
   }, [currentImageIndex]);
 
-  const handleAddToCart = () => {
-    addToCart(land);
-    toast("Land added to cart", {
-      position: "top-right",
-      autoClose: 500,
-    });
-    // console.log("Product added to cart:", product);
-  };
 
   return (
     <Layout>
@@ -96,7 +84,7 @@ const LandDetails = () => {
                   src={`https://surefinders-backend.onrender.com/public/images/${currentImage}`}
                   // src={`http://localhost:5175/public/images/${currentImage}`}
                   alt={title}
-                  className="w-full max-h-96 object-cover mb-4 transition-opacity duration-300 hover:opacity-90 cursor-pointer"
+                  className="w-full object-cover mb-4 transition-opacity duration-300 hover:opacity-90 cursor-pointer"
                 />
               )}
               <FaChevronLeft
@@ -155,12 +143,6 @@ const LandDetails = () => {
               </p>
             </div>
           </div>
-          <button
-            onClick={handleAddToCart}
-            className="bg-primary hover:bg-blue text-white font-bold py-2 px-4 rounded"
-          >
-            Add to Cart
-          </button>
         </div>
       </div>
     </Layout>

@@ -7,10 +7,6 @@ import {
   MarketerDashboard,
   ProductPage,
   ProductDetails,
-  CartListPage,
-  CheckoutPage,
-  ConfirmationPage,
-  PaystackCheckout,
   LandDetails,
   LandPage,
   InvestmentPage,
@@ -58,13 +54,6 @@ const App = () => {
                       <Route path="/" element={<Home />} />
                       <Route path="/login" element={<Login />} />
                       <Route path="/signup" element={<Signup />} />
-                      <Route path="/cart" element={<CartListPage />} />
-                      <Route path="/checkout" element={<CheckoutPage />} />
-                      <Route
-                        path="/paystackcheckout"
-                        element={<PaystackCheckout />}
-                      />
-                      <Route path="/confirm" element={<ConfirmationPage />} />
                       <Route path="/products" element={<ProductPage />} />
                       <Route path="/lands" element={<LandPage />} />
                       <Route path="/investments" element={<InvestmentPage />} />
@@ -73,11 +62,11 @@ const App = () => {
                         element={<ProductDetails />}
                       />
                       <Route path="/lands/:id" element={<LandDetails />} />
-                      <Route path="/investments/:id" element={<InvestmentDetails />} />
                       <Route
-                        path="/events/:id"
-                        element={<EventDetails />}
+                        path="/investments/:id"
+                        element={<InvestmentDetails />}
                       />
+                      <Route path="/events/:id" element={<EventDetails />} />
                       {/* Marketer */}
 
                       <Route
@@ -96,7 +85,10 @@ const App = () => {
                         path="/marketer/login"
                         element={<MarketerLogin />}
                       />
-                     <Route path="/marketer/payment/:marketerId" element={<MarketerPayment />} />
+                      <Route
+                        path="/marketer/payment/:marketerId"
+                        element={<MarketerPayment />}
+                      />
 
                       <Route
                         path="/registration"

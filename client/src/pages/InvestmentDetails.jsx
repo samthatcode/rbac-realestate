@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { AiOutlineEnvironment } from "react-icons/ai";
 import { Layout } from "../components";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FiClock, FiWatch } from "react-icons/fi";
 
 const InvestmentDetails = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [investment, setInvestment] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -37,7 +37,16 @@ const InvestmentDetails = () => {
     return <p>Loading...</p>;
   }
 
-  const { title, description, investmentAmount, terms, location, images } = investment;
+  const {
+    title,
+    description,
+    investmentAmount,
+    terms,
+    location,
+    images,
+    maturityPeriod,
+    roiPercentage,
+  } = investment;
 
   const handleThumbnailClick = (index) => {
     setCurrentImage(images[index]); // set the clicked image as current
@@ -65,13 +74,12 @@ const InvestmentDetails = () => {
     }
   }, [currentImageIndex]);
 
- 
   return (
     <Layout>
       <div className="container mx-auto p-10 py-40">
         <div className="title_head mb-4">
           <h2 className="md:text-2xl text-xl font-bold text-center text-title capitalize">
-          Investment Details
+            Investment Details
           </h2>
           <p className="text-center capitalize text-subTitle">
             We provide full service at every step.
@@ -125,11 +133,38 @@ const InvestmentDetails = () => {
               <AiOutlineEnvironment className="text-primary font-semibold mr-1" />
               {location}
             </p>
+            <div className="flex my-4">
+              <div className="flex flex-row gap-4 text-sm text-zinc-500 mr-4">
+                <div className="flex-col">
+                  <p className="mb-2">Roi Percentage</p>
+                  <div className="flex justify-start items-center">
+                    <span className="text-primary mr-1 font-semibold">
+                      <FiWatch />
+                    </span>
+                    <p>
+                      {roiPercentage} <span className="text-red">%</span>{" "}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex-col">
+                  <p className="mb-2">Maturity Period</p>
+                  <div className="flex justify-start items-center">
+                    <span className="mr-1 text-primary font-semibold">
+                      <FiClock />
+                    </span>
+                    <span className="text-slate-500">
+                      {maturityPeriod}{" "}
+                      <span className="text-[12px]">years</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="flex">
               <div className="flex flex-row gap-4 text-sm text-zinc-500 mr-4">
                 <div className="flex-col">
-                  <p  className="mb-2 font-bold">Terms</p>
-                  <div className="flex justify-center items-center">                  
+                  <p className="mb-2 font-bold">Terms</p>
+                  <div className="flex justify-center items-center">
                     <p>{terms}</p>
                   </div>
                 </div>
@@ -140,7 +175,7 @@ const InvestmentDetails = () => {
                 &#x20A6;{investmentAmount?.toLocaleString()}
               </p>
             </div>
-          </div>        
+          </div>
         </div>
       </div>
     </Layout>

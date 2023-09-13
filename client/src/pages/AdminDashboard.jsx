@@ -9,8 +9,7 @@ import {
   Footer,
   InvestmentManagement,
   LandManagement,
-  ProductManagement,
-  RoleManagement,
+  ProductManagement, 
   UserManagement,
 } from "../components";
 import StyledTable from "./StyledTable";
@@ -90,8 +89,8 @@ const AdminDashboard = () => {
     const fetchInactiveMarketers = async () => {
       try {
         const response = await fetch(
-          // "https://surefinders-backend.onrender.com/api/marketers",
-          "/api/marketers",
+          "https://surefinders-backend.onrender.com/api/marketers",
+          // "/api/marketers",
           { withCredentials: true }
         );       
         const data = await response.json();

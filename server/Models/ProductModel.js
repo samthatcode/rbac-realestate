@@ -36,6 +36,11 @@ const ProductSchema = new Schema({
         type: Number,
         required: true,
     },
+    propertyType: {
+        type: String,
+        required: true,
+        enum: ['Terrace', 'Semi-Detached', 'Apartment', 'Condo', 'Single Family Home'],
+    },       
     images: {
         type: [String], // Array of image URLs
         required: true,

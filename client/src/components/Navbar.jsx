@@ -1,16 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../contexts/UserContext";
-import { CartContext } from "../contexts/CartContext";
-
 import { Link, useNavigate } from "react-router-dom";
-import Cart from "./Cart";
-import { FaRegBuilding } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const { cartItems, clearCart } = useContext(CartContext);
 
   const handleLogout = async () => {
     try {
@@ -24,7 +19,6 @@ const Navbar = () => {
       );
       if (response.data.message === "Logged out successfully") {
         setUser(null);
-        clearCart();
         navigate("/");
         // console.log("User Logged Out");
       }
@@ -57,9 +51,6 @@ const Navbar = () => {
               to="/"
               className="text-dark hover:text-gray-700 font-bold text-lg flex items-center"
             >
-              {/* <span className="text-primary mr-1 flex justify-center items-center z-10">
-                <FaRegBuilding size={30} />
-              </span> */}
               <span className="mr-1 flex justify-center items-center z-10">
                 <img
                   src="https://pbs.twimg.com/profile_images/1604859709210624000/i2dzGLJS_400x400.jpg"
@@ -73,8 +64,6 @@ const Navbar = () => {
                 Finders
               </span>
             </Link>
-
-            <Cart cartItems={cartItems} />
           </div>
           {/* Desktop View */}
           <div className="hidden md:flex items-baseline justify-center space-x-4 ">

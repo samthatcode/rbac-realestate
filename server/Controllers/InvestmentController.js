@@ -13,6 +13,8 @@ module.exports.createInvestment = async (req, res, next) => {
             investmentAmount,
             location,
             terms,
+            roiPercentage, 
+            maturityPeriod, 
         } = req.body;
 
         let images = req.files; // Get the uploaded images from req.files
@@ -32,6 +34,8 @@ module.exports.createInvestment = async (req, res, next) => {
             investmentAmount,
             location,
             terms,
+            roiPercentage, 
+            maturityPeriod,
             images: imagePaths,
         });
 
@@ -90,7 +94,7 @@ module.exports.updateInvestment = async (req, res, next) => {
         // Get the path of each image file
         let newImagePaths = Array.isArray(newImages) ? newImages.map(file => path.relative(dir, file.path).replace(/\\/g, '/')) : [];
 
-        const { title, description, terms, investmentAmount, location } = req.body;
+        const { title, description, terms, investmentAmount, location, roiPercentage, maturityPeriod } = req.body;
 
         // Fetch the existing investment
         const investment = await Investment.findById(investmentId);
@@ -114,6 +118,8 @@ module.exports.updateInvestment = async (req, res, next) => {
         investment.terms = terms;
         investment.investmentAmount = investmentAmount;
         investment.location = location;
+        investment.roiPercentage = roiPercentage; 
+        investment.maturityPeriod = maturityPeriod;
 
         // Save the investment
         const updatedInvestment = await investment.save();

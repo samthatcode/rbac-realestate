@@ -26,6 +26,8 @@ const InvestmentManagement = () => {
     terms: "",
     images: [],
     location: "",
+    roiPercentage: "",
+    maturityPeriod: "",
   });
   const [editingInvestment, setEditingInvestment] = useState("");
   const [isCreatingInvestment, setIsCreatingInvestment] = useState(false);
@@ -45,6 +47,8 @@ const InvestmentManagement = () => {
         terms: "",
         images: [],
         location: "",
+        roiPercentage: "",
+        maturityPeriod: "",
       });
       setIsFormSubmitted(false);
     }
@@ -130,6 +134,8 @@ const InvestmentManagement = () => {
         terms: "",
         images: [],
         location: "",
+        roiPercentage: "",
+        maturityPeriod: "",
       });
     } catch (error) {
       console.error(error);
@@ -183,6 +189,8 @@ const InvestmentManagement = () => {
         terms: "",
         images: [],
         location: "",
+        roiPercentage: "",
+        maturityPeriod: "",
       });
     } catch (error) {
       console.error("Failed to update investment:", error);
@@ -212,8 +220,15 @@ const InvestmentManagement = () => {
 
   const openModal = (investment) => {
     // Extract the properties needed for the form data
-    const { investmentAmount, title, description, terms, location } =
-      investment;
+    const {
+      investmentAmount,
+      title,
+      description,
+      terms,
+      location,
+      roiPercentage,
+      maturityPeriod,
+    } = investment;
 
     // Create a new object with the extracted properties and set it as the form data
     setFormData({
@@ -223,6 +238,8 @@ const InvestmentManagement = () => {
       terms,
       location,
       images: [], // Assuming you want to clear existing images when editing
+      roiPercentage,
+      maturityPeriod
     });
 
     setEditingInvestment(investment);
@@ -237,6 +254,8 @@ const InvestmentManagement = () => {
       terms: "",
       location: "",
       images: [],
+      roiPercentage: "",
+      maturityPeriod: "",
     });
     setEditingInvestment("");
     setModalIsOpen(false);
@@ -352,6 +371,42 @@ const InvestmentManagement = () => {
                 className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
               />
             </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="roiPercentage"
+                className="block font-medium mb-1 text-gray-700"
+              >
+                ROI Percentage:
+              </label>
+              <input
+                placeholder="ROI Percentage"
+                type="number"
+                name="roiPercentage"
+                id="roiPercentage"
+                value={formData.roiPercentage}
+                onChange={handleInputChange}
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="maturityPeriod"
+                className="block font-medium mb-1 text-gray-700"
+              >
+                Maturity Period:
+              </label>
+              <input
+                placeholder="Maturity Period"
+                type="text"
+                name="maturityPeriod"
+                id="maturityPeriod"
+                value={formData.maturityPeriod}
+                onChange={handleInputChange}
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
+              />
+            </div>
+
             <div className="mb-4">
               <label
                 htmlFor="terms"
@@ -594,6 +649,53 @@ const InvestmentManagement = () => {
                 className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2 capitalize"
               />
             </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="roiPercentage"
+                className="block font-medium mb-1 text-gray-700"
+              >
+                ROI Percentage:
+              </label>
+              <input
+                placeholder="ROI Percentage"
+                type="number"
+                name="roiPercentage"
+                id="roiPercentage"
+                value={formData.roiPercentage}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    roiPercentage: e.target.value,
+                  })
+                }
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="maturityPeriod"
+                className="block font-medium mb-1 text-gray-700"
+              >
+                Maturity Period:
+              </label>
+              <input
+                placeholder="Maturity Period"
+                type="text" // Kept as text input
+                name="maturityPeriod"
+                id="maturityPeriod"
+                value={formData.maturityPeriod}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    maturityPeriod: e.target.value,
+                  })
+                }
+                className="w-full border-gray-300 rounded-md sm:text-sm px-3 py-2"
+              />
+            </div>
+
             <div className="mb-4">
               <label
                 htmlFor="terms"

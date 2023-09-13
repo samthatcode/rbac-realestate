@@ -1,6 +1,5 @@
 // created for clean export
 export { default as Navbar } from './Navbar';
-export { default as Cart } from './Cart';
 export { default as Home } from './Home';
 export { default as Hero } from './Hero';
 export { default as Login } from './Login';
@@ -10,7 +9,6 @@ export { default as UserManagement } from './UserManagement';
 export { default as ProductManagement } from './ProductManagement';
 export { default as LandManagement } from './LandManagement';
 export { default as CategoryManagement } from './CategoryManagement';
-export { default as RoleManagement } from './RoleManagement';
 export { default as InvestmentManagement } from './InvestmentManagement';
 export { default as UserEmailVerification } from './UserEmailVerification';
 export { default as MarketerEmailVerification } from './MarketerEmailVerification';

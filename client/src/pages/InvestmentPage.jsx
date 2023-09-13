@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FiMapPin } from "react-icons/fi";
+import { FiMapPin, FiClock, FiWatch } from "react-icons/fi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -173,6 +173,35 @@ const InvestmentPage = () => {
                     {investment.location}
                   </p>
                   <div className="flex">
+                    <div className="flex flex-row gap-4 text-sm text-zinc-500 mr-4">
+                      <div className="flex-col">
+                        <p className="mb-2">Roi Percentage</p>
+                        <div className="flex justify-start items-center">
+                          <span className="text-primary mr-1 font-semibold">
+                            <FiWatch />
+                          </span>
+                          <p>
+                            {investment.roiPercentage}{" "}
+                            <span className="text-red">%</span>{" "}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex-col">
+                        <p className="mb-2">Maturity Period</p>
+                        <div className="flex justify-start items-center">
+                          <span className="mr-1 text-primary font-semibold">
+                            <FiClock />
+                          </span>
+                          <span className="text-slate-500">
+                            {investment.maturityPeriod}{" "}
+                            <span className="text-[12px]">years</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex my-2">
                     <div className="flex flex-row gap-4 text-sm text-zinc-500 mr-4">
                       <div className="flex-col">
                         <p className="font-bold">Terms</p>

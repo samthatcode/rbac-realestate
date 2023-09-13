@@ -32,6 +32,7 @@ module.exports.createProduct = async (req, res, next) => {
             squareFootage,
             numberOfBeds,
             numberOfBaths,
+            propertyType,
             categoryId } = req.body;
 
         let images = req.files; // Get the uploaded images from req.files
@@ -66,6 +67,7 @@ module.exports.createProduct = async (req, res, next) => {
             squareFootage,
             numberOfBeds,
             numberOfBaths,
+            propertyType,
             images: imagePaths, // Save the paths of the uploaded images
             categoryId: validatedCategoryId,
         });
@@ -138,6 +140,7 @@ module.exports.updateProduct = async (req, res, next) => {
             squareFootage,
             numberOfBeds,
             numberOfBaths,
+            propertyType,
             categoryId } = req.body;
 
         // Check if categoryId exists
@@ -173,6 +176,7 @@ module.exports.updateProduct = async (req, res, next) => {
         product.squareFootage = squareFootage;
         product.numberOfBeds = numberOfBeds;
         product.numberOfBaths = numberOfBaths;
+        product.propertyType = propertyType;
         product.categoryId = validatedCategoryId;
 
         // Save the product

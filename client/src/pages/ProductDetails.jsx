@@ -1,17 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { CartContext } from "../contexts/CartContext";
-import { toast } from "react-toastify";
 import { AiOutlineEnvironment } from "react-icons/ai";
-import { FaBath, FaBed, FaDoorOpen, FaRuler } from "react-icons/fa";
+import { FaBath, FaBed, FaDoorOpen, FaHome, FaRuler } from "react-icons/fa";
 import { Layout } from "../components";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { addToCart } = useContext(CartContext);
-  const navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -48,6 +44,7 @@ const ProductDetails = () => {
     squareFootage,
     location,
     images,
+    propertyType,
   } = product;
 
   const handleThumbnailClick = (index) => {
@@ -76,15 +73,6 @@ const ProductDetails = () => {
     }
   }, [currentImageIndex]);
 
-  const handleAddToCart = () => {
-    addToCart(product);
-    toast("Product added to cart", {
-      position: "top-right",
-      autoClose: 500,
-    });
-    // console.log("Product added to cart:", product);
-  };
-
   return (
     <Layout>
       <div className="container mx-auto p-10 py-40">
@@ -96,7 +84,7 @@ const ProductDetails = () => {
             We provide full service at every step.
           </p>
         </div>
-        <div className="flex justify-between items-center mx-auto bg-slate-50 rounded-lg shadow-xl p-8">
+        <div className="flex justify-between items-center gap-7 mx-auto bg-slate-50 rounded-lg shadow-xl p-8">
           <div className="max-w-md">
             <div className="flex justify-center relative">
               {currentImage && (
@@ -104,7 +92,7 @@ const ProductDetails = () => {
                   src={`https://surefinders-backend.onrender.com/public/images/${currentImage}`}
                   // src={`http://localhost:5175/public/images/${currentImage}`}
                   alt={title}
-                  className="w-full max-h-96 object-cover mb-4"
+                  className="w-full object-cover mb-4 transition-opacity duration-300 hover:opacity-90 cursor-pointer"
                 />
               )}
               <FaChevronLeft
@@ -134,15 +122,19 @@ const ProductDetails = () => {
             </div>
           </div>
           <div className="">
-            <span className="text-sm font-medium capitalize text-indigo-500 bg-indigo-100 p-1 py-1 px-2 last:mr-0 mr-1 mb-4">
+            <span className="text-sm font-medium capitalize text-indigo-500 bg-indigo-100 p-1 py-1 px-2 last:mr-0 mr-1 my-2">
               {title}
             </span>
-            <p className="text-title text-lg capitalize break-words font-bold mb-2">
+            <p className="text-title text-base my-4 capitalize break-words font-bold mb-2">
               {description}
             </p>
             <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-4">
               <AiOutlineEnvironment className="text-primary font-semibold mr-1" />
               {location}
+            </p>
+            <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-3">
+              <FaHome className="text-primary font-semibold mr-1" />
+              {propertyType}
             </p>
             <div className="flex">
               <div className="flex flex-row gap-4 text-sm text-zinc-500 mr-4">
@@ -190,12 +182,6 @@ const ProductDetails = () => {
               </p>
             </div>
           </div>
-          <button
-            onClick={handleAddToCart}
-            className="bg-primary hover:bg-blue text-white font-bold py-2 px-4 rounded"
-          >
-            Add to Cart
-          </button>
         </div>
       </div>
     </Layout>

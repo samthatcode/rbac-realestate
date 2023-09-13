@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
@@ -9,7 +9,6 @@ import Layout from "./Layout";
 const Login = () => {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [inputValue, setInputValue] = useState({
     email: "",
@@ -73,15 +72,10 @@ const Login = () => {
             navigate("/admin/dashboard");
           }, 2000);
         } else {
-          if (location.state && location.state.from) {
-            // Navigate back to the page the user was trying to access
-            navigate(location.state.from);
-          } else {
-            // Navigate to the user's dashboard
-            setTimeout(() => {
-              navigate("/user/dashboard");
-            }, 2000);
-          }
+          // Navigate to the user's dashboard
+          setTimeout(() => {
+            navigate("/user/dashboard");
+          }, 2000);
         }
       } else {
         handleError(message);

@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AiOutlineEnvironment } from "react-icons/ai";
-import { FaBath, FaBed, FaDoorOpen, FaRuler, FaSpinner } from "react-icons/fa";
+import { FaBath, FaBed, FaDoorOpen, FaHome, FaRuler, FaSpinner } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useSearch } from "../contexts/SearchContext";
 import { FaHeart } from "react-icons/fa";
 import { useSavedProperties } from "../contexts/SavedPropertiesContext";
-import { CartContext } from "../contexts/CartContext";
 import { toast } from "react-toastify";
 
 const settings = {
@@ -60,8 +59,6 @@ const settings = {
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const { addToCart } = useContext(CartContext);
   const { savedProperties, toggleSavedProperty, setShowSavedProducts } =
     useSavedProperties();
 
@@ -105,16 +102,6 @@ const ProductPage = () => {
     }
   };
   
-
-  const handleAddToCart = async (product) => {
-    setLoading(true);
-    await addToCart(product, "product");
-    toast("Product added to cart", {
-      position: "top-right",
-      autoClose: 500,
-    });
-    setLoading(false);
-  };
 
   return (
     <div className="container mx-auto py-20 px-8" id="homes">
@@ -190,6 +177,11 @@ const ProductPage = () => {
                     <AiOutlineEnvironment className="text-primary font-semibold mr-1" />
                     {product.location}
                   </p>
+                  <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-3">
+                    
+                    <FaHome className="text-primary font-semibold mr-1" /> 
+                    {product.propertyType}
+                  </p>
                   <div className="flex">
                     <div className="flex flex-row gap-4 text-sm text-zinc-500 mr-4">
                       <div className="flex-col">
@@ -237,17 +229,7 @@ const ProductPage = () => {
                   </div>
                 </div>
               </div>
-              <button
-                onClick={() => handleAddToCart(product)}
-                className={
-                  `w-full px-4 py-2 mt-4 mb-4 text-white bg-primary rounded-md hover:bg-blue font-medium ${
-                    loading ? "opacity-50 cursor-not-allowed" : ""
-                  }` // Disable button and show loading state
-                }
-                disabled={loading} // Disable button
-              >
-                {loading ? "Adding..." : "Add to Cart"}
-              </button>
+              
             </div>
           ))
         ) : (
