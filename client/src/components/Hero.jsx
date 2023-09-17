@@ -11,19 +11,6 @@ import {
 import { useSearch } from "../contexts/SearchContext";
 import { FaWalking } from "react-icons/fa";
 
-<style jsx>
-  {`
-    @media (max-width: 768px) {
-      .inset-y-0 {
-        left: 1/3 !important;
-      }
-      .right-3 {
-        right: 1/3 !important;
-      }
-    }
-  `}
-</style>;
-
 const Hero = () => {
   const { searchQuery, setSearchQuery } = useSearch();
 
@@ -92,16 +79,16 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between items-center gap-7 mt-80 z-20">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-2 mt-2 md:mt-80 z-20">
               <Link
                 to="/signup"
-                className="px-5 py-2 bg-primary hover:bg-blue text-white rounded"
+                className="px-5 py-2 bg-primary hover:bg-blue text-white rounded mt-2 md:mt-0"
               >
                 Get Started
               </Link>
               <Link
                 to="/marketer/signup"
-                className="px-4 py-2 bg-cadetblue hover:bg-steelblue text-white rounded"
+                className="px-4 py-2 bg-cadetblue hover:bg-steelblue text-white rounded mt-2 md:mt-0"
               >
                 Get Started as a Marketer
               </Link>

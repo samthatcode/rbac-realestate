@@ -10,6 +10,7 @@ import { useSearch } from "../contexts/SearchContext";
 import { FaHeart, FaSpinner } from "react-icons/fa";
 import { useSavedProperties } from "../contexts/SavedPropertiesContext";
 import { toast } from "react-toastify";
+import Categories from "./Categories";
 
 const settings = {
   infinite: true,
@@ -56,7 +57,7 @@ const settings = {
   ],
 };
 
-const LandPage = () => {
+const LandPage = ({ categoryId, handleLandCategorySelect }) => {
   const [lands, setLands] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { savedProperties, toggleSavedProperty } = useSavedProperties();
@@ -64,22 +65,20 @@ const LandPage = () => {
   const { searchQuery } = useSearch();
   const navigate = useNavigate();
 
-  const filteredLands = lands.filter((land) =>
-    land.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   useEffect(() => {
     async function fetchLands() {
       try {
-        const response = await axios.get(
-          "https://surefinders-backend.onrender.com/api/lands",
-          // "/api/lands",
-          {
-            withCredentials: true,
-          }
-        );
-        // console.log(response.data);
+        const url = categoryId
+          // ? `/api/lands/category/${categoryId}`
+          // : "/api/lands";
+
+        ? `https://surefinders-backend.onrender.com/api/lands/category/${categoryId}`
+        : "https://surefinders-backend.onrender.com/api/lands";
+
+        const response = await axios.get(url, { withCredentials: true });
+
         setLands(response.data.data);
+        // console.log(response.data);
       } catch (error) {
         console.error("Failed to fetch lands:", error);
       } finally {
@@ -88,7 +87,19 @@ const LandPage = () => {
     }
 
     fetchLands();
-  }, []);
+  }, [categoryId]);
+
+  const filteredLands = lands.filter((land) => {
+    const valuesToSearchBy = [
+      land?.title,
+      land?.description,
+      land?.location,
+      land?.price?.toString(),
+    ];
+    return valuesToSearchBy.some((value) =>
+      value.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const handleHeartClick = (land) => {
     const isCurrentlySaved = savedProperties.includes(land._id);
@@ -110,6 +121,7 @@ const LandPage = () => {
           We provide full service at every step.
         </p>
       </div>
+      <Categories onSelect={handleLandCategorySelect} />
 
       <Slider
         {...settings}

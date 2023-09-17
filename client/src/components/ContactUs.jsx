@@ -39,7 +39,7 @@ const ContactUs = () => {
       );
 
       // Show a success toast message
-      toast.success("Message submitted successfully!", {
+      toast.success("Message sent successfully!", {
         autoClose: 1000,
         position: "top-right",
       });
@@ -93,7 +93,7 @@ const ContactUs = () => {
       </div>
 
       <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 p-8">
+        <div className="w-full md:w-1/2">
           <div>
             <h2 className="text-xl font-semibold mb-4 text-title">
               Our Offices
@@ -139,7 +139,7 @@ const ContactUs = () => {
             </a>
           </div>
         </div>
-        <div className="w-full md:w-1/2 p-8">
+        <div className="w-full md:w-1/2 my-4">
           <h2 className="text-xl font-semibold mb-4 text-title">Enquiries</h2>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-2 mb-4">

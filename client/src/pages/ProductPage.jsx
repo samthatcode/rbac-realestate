@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AiOutlineEnvironment } from "react-icons/ai";
-import { FaBath, FaBed, FaDoorOpen, FaHome, FaRuler, FaSpinner } from "react-icons/fa";
+import {
+  FaBath,
+  FaBed,
+  FaDoorOpen,
+  FaHome,
+  FaRuler,
+  FaSpinner,
+} from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -10,6 +17,7 @@ import { useSearch } from "../contexts/SearchContext";
 import { FaHeart } from "react-icons/fa";
 import { useSavedProperties } from "../contexts/SavedPropertiesContext";
 import { toast } from "react-toastify";
+import Categories from "./Categories";
 
 const settings = {
   infinite: true,
@@ -56,7 +64,7 @@ const settings = {
   ],
 };
 
-const ProductPage = () => {
+const ProductPage = ({ categoryId, handleProductCategorySelect }) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { savedProperties, toggleSavedProperty, setShowSavedProducts } =
@@ -65,23 +73,20 @@ const ProductPage = () => {
   const { searchQuery } = useSearch();
   const navigate = useNavigate();
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get(
-          "https://surefinders-backend.onrender.com/api/products",
-          // "/api/products",
-          {
-            withCredentials: true,
-          }
-        );
+        const url = categoryId
+          // ? `/api/products/category/${categoryId}`
+          // : "/api/products";
 
-        // console.log(response.data);
+        ? `https://surefinders-backend.onrender.com/api/products/category/${categoryId}`
+        : "https://surefinders-backend.onrender.com/api/products";
+
+        const response = await axios.get(url, { withCredentials: true });
+
         setProducts(response.data.data);
+        // console.log(response.data);
       } catch (error) {
         console.error("Failed to fetch products:", error);
       } finally {
@@ -90,18 +95,37 @@ const ProductPage = () => {
     }
 
     fetchProducts();
-  }, []);
+  }, [categoryId]);
 
-  const handleHeartClick = (product) => {product
+  {
+    /*const filteredProducts = products.filter((product) =>
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      */
+  }
+
+  const filteredProducts = products.filter((product) => {
+    const valuesToSearchBy = [
+      product?.title,
+      product?.description,
+      product?.location,
+      product?.price?.toString(),
+    ];
+    return valuesToSearchBy.some((value) =>
+      value.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
+  const handleHeartClick = (product) => {
+    product;
     const isCurrentlySaved = savedProperties.includes(product._id);
-    toggleSavedProperty(product._id);  
+    toggleSavedProperty(product._id);
     if (!isCurrentlySaved) {
       toast.success("Saved", { position: "top-right", autoClose: 500 });
     } else {
       toast.info("Unsaved", { position: "top-right", autoClose: 500 });
     }
   };
-  
 
   return (
     <div className="container mx-auto py-20 px-8" id="homes">
@@ -113,7 +137,7 @@ const ProductPage = () => {
           We provide full service at every step.
         </p>
       </div>
-
+      <Categories onSelect={handleProductCategorySelect} />
       <Slider
         {...settings}
         className=""
@@ -178,8 +202,7 @@ const ProductPage = () => {
                     {product.location}
                   </p>
                   <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-3">
-                    
-                    <FaHome className="text-primary font-semibold mr-1" /> 
+                    <FaHome className="text-primary font-semibold mr-1" />
                     {product.propertyType}
                   </p>
                   <div className="flex">
@@ -229,12 +252,11 @@ const ProductPage = () => {
                   </div>
                 </div>
               </div>
-              
             </div>
           ))
         ) : (
           <div className="text-center text-lg text-gray-600 mt-4">
-            No lands match your search.
+            No Property match your search.
           </div>
         )}
       </Slider>

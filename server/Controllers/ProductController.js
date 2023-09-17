@@ -101,6 +101,20 @@ module.exports.getProducts = async (req, res, next) => {
     }
 };
 
+module.exports.getProductsByCategory = async (req, res, next) => {
+    try {
+        const categoryId = req.params.categoryId;
+        const products = await Product.find({ categoryId: categoryId });
+        res.status(200).json({
+            data: products,
+        });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
+
 
 // Get a single product by ID
 module.exports.getProductById = async (req, res, next) => {

@@ -63,10 +63,6 @@ const InvestmentPage = () => {
   const { searchQuery } = useSearch();
   const navigate = useNavigate();
 
-  const filteredInvestments = investments.filter((investment) =>
-    investment.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   useEffect(() => {
     async function fetchInvestments() {
       try {
@@ -88,6 +84,19 @@ const InvestmentPage = () => {
 
     fetchInvestments();
   }, []);
+
+  const filteredInvestments = investments.filter((investment) => {
+    let valuesToSearchBy = [
+      investment?.title,
+      investment?.description,
+      investment?.location,
+      investment?.price?.toString(),
+    ];
+    valuesToSearchBy = valuesToSearchBy.filter((value) => value !== undefined);
+    return valuesToSearchBy.some((value) =>
+      value.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const handleHeartClick = (investment) => {
     const isCurrentlySaved = savedProperties.includes(investment._id);

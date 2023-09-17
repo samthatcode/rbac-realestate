@@ -65,6 +65,19 @@ module.exports.getInvestments = async (req, res, next) => {
     }
 };
 
+module.exports.getInvestmentsByCategory = async (req, res, next) => {
+    try {
+        const categoryId = req.params.categoryId;
+        const investments = await Investment.find({ categoryId: categoryId });
+        res.status(200).json({
+            data: investments,
+        });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
 // Get a single investment by ID
 module.exports.getInvestmentById = async (req, res, next) => {
     try {

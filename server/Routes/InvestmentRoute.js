@@ -12,6 +12,7 @@ const { grantAccess } = require('../Controllers/UserController');
 const {
     createInvestment,
     getInvestments,
+    getInvestmentsByCategory,
     getInvestmentById,
     updateInvestment,
     deleteInvestment, } = require('../Controllers/InvestmentController');
@@ -32,6 +33,8 @@ router.get(
     // grantAccess('readAny', 'investment'),
     getInvestments
 );
+
+router.get('/investments/category/:categoryId', getInvestmentsByCategory);
 
 router.get(
     '/investments/:investmentId',

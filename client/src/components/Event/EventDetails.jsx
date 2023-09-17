@@ -49,18 +49,18 @@ const EventDetails = () => {
             Event Details
           </h2>
         </div>
-        <div className="flex border-gray-300 rounded overflow-hidden hover:shadow-lg transition-all hover-card my-10 h-fit">
+        <div className="md:flex border-gray-300 rounded overflow-hidden hover:shadow-lg transition-all hover-card my-10 h-fit">
           <div className="image-container">
             <img
               src={`https://surefinders-backend.onrender.com/public/images/${eventImage}`}
               // src={`http://localhost:5175/public/images/${eventImage}`}
               alt={name}
-              className="w-full h-full object-cover image"
+              className="max-w-lg h-full object-cover image"
             />
           </div>
 
           <div className="hover-card-content p-4 block border flex-grow">
-            <span className="flex justify-center items-center text-sm font-medium capitalize text-indigo-500 bg-indigo-100 p-1 py-1 px-2 last:mr-0 mr-1 mb-2">
+            <span className="text-sm font-medium capitalize text-indigo-500 bg-indigo-100 p-1 py-1 px-2 last:mr-0 mr-1 mb-2">
               {name}
             </span>
             <p className=" text-title text-base capitalize break-words font-semibold my-4">
