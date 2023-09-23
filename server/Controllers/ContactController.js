@@ -1,25 +1,25 @@
 const nodemailer = require('nodemailer');
-const { google } = require('googleapis'); 
+// const { google } = require('googleapis'); 
 
-const oauth2Client = new google.auth.OAuth2(
-  process.env.CLIENT_ID,
-  process.env.CLIENT_SECRET,
-);
+// const oauth2Client = new google.auth.OAuth2(
+//   process.env.CLIENT_ID,
+//   process.env.CLIENT_SECRET,
+// );
 
-oauth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
+// oauth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN }); 
 
-const newAccessToken = oauth2Client.getAccessToken();
+// const newAccessToken = oauth2Client.getAccessToken(); 
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        type: 'OAuth2',
-        user: process.env.EMAIL_VERIFY,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: process.env.REFRESH_TOKEN,
-        accessToken: newAccessToken
-    }
+  service: 'gmail',
+  auth: {
+    type: 'OAuth2',
+    user: process.env.EMAIL_VERIFY,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN,
+    accessToken: process.env.ACCESS_TOKEN
+  },
 });
 
 // Your contact form handler
