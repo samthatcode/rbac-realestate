@@ -166,12 +166,12 @@ const ProductDetails = () => {
                   </div>
                 </div>
                 <div className="flex-col">
-                  <p>Area</p>
+                  <p>Area (Sq.Ft)</p>
                   <div className="flex justify-center items-center">
                     <span className="mr-1 text-primary font-semibold">
                       <FaRuler />
                     </span>
-                    <p>{squareFootage} Sq Ft</p>
+                    <p>{squareFootage}</p>
                   </div>
                 </div>
               </div>
