@@ -235,7 +235,7 @@ const ProductPage = ({ categoryId, handleProductCategorySelect }) => {
                         </div>
                       </div>
                       <div className="flex-col">
-                        <p className="mb-2">Area (Sq.Ft)</p>
+                        <p className="mb-2">Area</p>
                         <div className="flex justify-center items-center">
                           <span className="mr-1 text-primary font-semibold">
                             <FaRuler />
