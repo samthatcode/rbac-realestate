@@ -193,8 +193,8 @@ const ProductPage = ({ categoryId, handleProductCategorySelect }) => {
                     {product.title}
                   </span>
                   <p className="text-title text-lg capitalize break-words font-bold my-2">
-                    {product.description.length > 15
-                      ? `${product.description.substring(0, 15)}...`
+                    {product.description.length > 20
+                      ? `${product.description.substring(0, 20)}...`
                       : product.description}
                   </p>
                   <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-3">

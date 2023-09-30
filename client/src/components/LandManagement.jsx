@@ -143,7 +143,10 @@ const LandManagement = () => {
         { withCredentials: true }
       );
       const createdLand = response.data.data;
-      toast.success("Land created successfully");
+      toast.success("Land created successfully!", {
+        autoClose: 1000,
+        position: "top-right",
+      });
       setLands([...lands, createdLand]);
       setFiles([]);
       setFormData({

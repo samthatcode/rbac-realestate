@@ -170,9 +170,9 @@ const ProductManagement = () => {
 
       // console.log("image after loop:", formDataToSend.getAll("images"));
       // Make the API request to send the form data to the server
-      for (let pair of formDataToSend.entries()) {
-        console.log(pair[0] + ", " + pair[1]);
-      }
+      // for (let pair of formDataToSend.entries()) {
+      //   console.log(pair[0] + ", " + pair[1]);
+      // }
 
       const response = await axios.post(
         // "/api/products",
@@ -181,7 +181,10 @@ const ProductManagement = () => {
         { withCredentials: true }
       );
       const createdProduct = response.data.data;
-      toast.success("Product created successfully");
+      toast.success("Product created successfully!", {
+        autoClose: 1000,
+        position: "top-right",
+      });
       setProducts([...products, createdProduct]);
       setFiles([]);
       // Reset the form

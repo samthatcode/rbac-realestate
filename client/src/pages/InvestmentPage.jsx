@@ -173,8 +173,8 @@ const InvestmentPage = () => {
                     {investment.title}
                   </span>
                   <p className="text-title text-lg capitalize break-words font-bold my-2">
-                    {investment.description.length > 15
-                      ? `${investment.description.substring(0, 15)}...`
+                    {investment.description.length > 20
+                      ? `${investment.description.substring(0, 20)}...`
                       : investment.description}
                   </p>
                   <p className="text-[14px] text-slate-500 capitalize flex justify-start items-center mb-3">
@@ -211,13 +211,13 @@ const InvestmentPage = () => {
                   </div>
 
                   <div className="flex my-2">
-                    <div className="flex flex-row gap-4 text-sm text-zinc-500 mr-4">
+                    <div className="flex flex-row gap-4 text-sm text-zinc-500">
                       <div className="flex-col">
                         <p className="font-bold">Terms</p>
                         <div className="flex justify-center items-center">
                           <p>
-                            {investment.terms.length > 15
-                              ? `${investment.terms.substring(0, 15)}...`
+                            {investment.terms.length > 35
+                              ? `${investment.terms.substring(0, 35)}...`
                               : investment.terms}
                           </p>
                         </div>
